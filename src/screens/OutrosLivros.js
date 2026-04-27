@@ -1,12 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-
-import Curiosidades from './src/screens/Curiosidades';
-import OutrosLivros from './src/screens/OutrosLivros';
-
-export default function App() {
-    return (
+export default function OutrosLivros() {
+  return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
