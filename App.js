@@ -1,10 +1,9 @@
 import React from 'react';
-import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, Platform } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
@@ -20,7 +19,7 @@ import LivroDestaque from './src/screens/LivroDestaqueScreen.js';
 import Vocabulario from './src/screens/VocabularioScreen.js';
 import VideoAula from './src/screens/VideoaulasScreen.js';
 import DicasVestibular from './src/screens/DicasVestibularScreen.js';
-import MenuScreen, { TelaMenu } from './src/screens/MenuScreen.js';
+import { TelaMenu } from './src/screens/MenuScreen.js';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -28,11 +27,10 @@ const Stack = createStackNavigator();
 const screenOptionsHeader = ({ navigation }) => ({
     headerStyle: {
         backgroundColor: '#C2E799',
-        width: '100%',
         height: 70,
         elevation: 0,
-        shadowOpacity: 0,
         borderBottomWidth: 0,
+        boxShadow: 'none',
     },
     headerTintColor: '#000',
     headerTitle: () => (
@@ -162,8 +160,9 @@ export default function App() {
                     initialRouteName='Início'
                     screenOptions={{
                         headerShown: false,
+                        swipeEnabled: Platform.OS !== 'web',
                         drawerStyle: {
-                            width: '100%',
+                            width: Platform.OS === 'web' ? 360 : '100%',
                         },
                     }}
                     drawerContent={(props) => <TelaMenu {...props}></TelaMenu>}>

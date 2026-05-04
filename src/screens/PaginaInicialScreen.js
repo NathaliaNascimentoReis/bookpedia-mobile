@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions, Platform } from 'react-native';
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
@@ -7,8 +7,11 @@ export default function PaginaInicial() {
 
     return (
         <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+            style={styles.scrollView}
+            contentContainerStyle={styles.container}
+            showsVerticalScrollIndicator
+            nestedScrollEnabled
+            bounces={false}>
             <View style={styles.titulos}>
                 <Text style={styles.titulo}>Já explorou a literatura hoje?</Text>
 
@@ -17,6 +20,30 @@ export default function PaginaInicial() {
                 </View>
             </View>
             <View style={styles.intro}>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
                 <Text style={styles.introTexto}>
                     Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -39,10 +66,25 @@ export default function PaginaInicial() {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#E7F0DB',
+        ...(Platform.OS === 'web'
+            ? {
+                  height: '100%',
+                  overflowY: 'auto',
+              }
+            : null),
+    },
     container: {
         alignItems: 'center',
-        flexGrow: 1,
         justifyContent: 'flex-start',
+        paddingBottom: 32,
+        ...(Platform.OS === 'web'
+            ? {
+                  minHeight: '100%',
+              }
+            : null),
     },
     titulos: {
         alignItems: 'center',

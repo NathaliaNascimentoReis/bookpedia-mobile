@@ -1,141 +1,145 @@
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-export function TelaMenu(props) {
+const mainItems = [
+    {
+        label: 'Livro Destaque',
+        route: 'LivroDestaque',
+        icon: () => <FontAwesome name='bookmark' size={22} color='#1E1E1E' />,
+    },
+];
+
+const relatedItems = [
+    {
+        label: 'Enredo',
+        route: 'Enredo',
+        icon: () => <FontAwesome5 name='book-open' size={18} color='#1E1E1E' />,
+    },
+    {
+        label: 'Autor',
+        route: 'Autor',
+        icon: () => <FontAwesome5 name='user-alt' size={18} color='#1E1E1E' />,
+    },
+    {
+        label: 'Personagens',
+        route: 'Personagens',
+        icon: () => <FontAwesome name='users' size={18} color='#1E1E1E' />,
+    },
+    {
+        label: 'Simulado',
+        route: 'Simulado',
+        icon: () => <FontAwesome name='check-square' size={18} color='#1E1E1E' />,
+    },
+    {
+        label: 'Videoaulas',
+        route: 'VideoAula',
+        icon: () => <FontAwesome name='video-camera' size={18} color='#1E1E1E' />,
+    },
+    {
+        label: 'Vocabulário',
+        route: 'Vocabulario',
+        icon: () => <FontAwesome5 name='list-alt' size={18} color='#1E1E1E' />,
+    },
+    {
+        label: 'Curiosidades',
+        route: 'Curiosidades',
+        icon: () => <FontAwesome5 name='lightbulb' size={18} color='#1E1E1E' />,
+    },
+];
+
+const secondaryItems = [
+    {
+        label: 'Dicas de Vestibular',
+        route: 'DicasVestibular',
+        icon: () => <FontAwesome5 name='graduation-cap' size={22} color='#1E1E1E' />,
+    },
+    {
+        label: 'Biblioteca',
+        route: 'Biblioteca',
+        icon: () => <FontAwesome name='book' size={22} color='#1E1E1E' />,
+    },
+    {
+        label: 'Sobre',
+        route: 'Sobre',
+        icon: () => <FontAwesome6 name='circle-info' size={22} color='#1E1E1E' />,
+    },
+];
+
+function MenuButton({ icon, label, onPress, compact = false }) {
+    const Icon = icon;
+
     return (
-        <DrawerContentScrollView {...props} style={styles.container}>
-            <TouchableOpacity
-                style={styles.botaoFechar}
-                onPress={() => props.navigation.closeDrawer()}>
-                <Text style={{ fontWeight: 'bold', fontSize: 23 }}>X</Text>
-            </TouchableOpacity>
+        <TouchableOpacity
+            style={[styles.menuButton, compact && styles.menuButtonCompact]}
+            onPress={onPress}
+            activeOpacity={0.85}>
+            <View style={styles.iconWrap}>
+                <Icon />
+            </View>
+            <Text style={[styles.menuLabel, compact && styles.menuLabelCompact]}>{label}</Text>
+        </TouchableOpacity>
+    );
+}
 
-            <View style={styles.section}>
-                <DrawerItem
-                    label="Livro Destaque"
-                    labelStyle={{ fontSize: 18, fontWeight: 500, marginLeft: 10, color: '#000' }}
-                    icon={() => (
-                        <FontAwesome
-                            name="bookmark"
-                            size={24}
-                            color="black"
-                            style={{ marginTop: 2 }}
+export function TelaMenu(props) {
+    const navigateTo = (route) => {
+        props.navigation.navigate(route);
+        props.navigation.closeDrawer();
+    };
+
+    return (
+        <DrawerContentScrollView
+            {...props}
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}>
+            <View style={styles.header}>
+                <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => props.navigation.closeDrawer()}
+                    activeOpacity={0.85}>
+                    <FontAwesome6 name='xmark' size={20} color='#1E1E1E' />
+                </TouchableOpacity>
+
+                <Text style={styles.menuTitle}>Explorar o BookPedia</Text>
+                <Text style={styles.menuSubtitle}>Escolha uma seção para continuar</Text>
+            </View>
+
+            <View style={styles.sectionCard}>
+                {mainItems.map((item) => (
+                    <MenuButton
+                        key={item.route}
+                        icon={item.icon}
+                        label={item.label}
+                        onPress={() => navigateTo(item.route)}
+                    />
+                ))}
+
+                <View style={styles.subSection}>
+                    <Text style={styles.subSectionTitle}>Capítulos e conteúdos</Text>
+                    {relatedItems.map((item) => (
+                        <MenuButton
+                            key={item.route}
+                            icon={item.icon}
+                            label={item.label}
+                            compact
+                            onPress={() => navigateTo(item.route)}
                         />
-                    )}
-                    onPress={() => props.navigation.navigate('LivroDestaque')}></DrawerItem>
-
-                <View style={styles.ramoContainer}>
-                    <View style={styles.linhaVestical}></View>
-
-                    <View style={styles.subItems}>
-                        <View style={styles.subItemsContainer}>
-                            <View style={styles.tracinho}></View>
-                            <DrawerItem
-                                label="Enredo"
-                                labelStyle={{ fontWeight: 500, fontSize: 16, color: '#000' }}
-                                icon={() => (
-                                    <FontAwesome5 name="book-open" size={24} color="black" />
-                                )}
-                                onPress={() => props.navigation.navigate('Enredo')}></DrawerItem>
-                        </View>
-
-                        <View style={styles.subItemsContainer}>
-                            <View style={styles.tracinho}></View>
-                            <DrawerItem
-                                label="Autor"
-                                labelStyle={{ fontWeight: 500, fontSize: 16, color: '#000' }}
-                                icon={() => (
-                                    <FontAwesome5 name="user-alt" size={24} color="black" />
-                                )}
-                                onPress={() => props.navigation.navigate('Autor')}></DrawerItem>
-                        </View>
-
-                        <View style={styles.subItemsContainer}>
-                            <View style={styles.tracinho}></View>
-                            <DrawerItem
-                                label="Personagens"
-                                labelStyle={{ fontWeight: 500, fontSize: 16, color: '#000' }}
-                                icon={() => <FontAwesome name="users" size={24} color="black" />}
-                                onPress={() =>
-                                    props.navigation.navigate('Personagens')
-                                }></DrawerItem>
-                        </View>
-
-                        <View style={styles.subItemsContainer}>
-                            <View style={styles.tracinho}></View>
-                            <DrawerItem
-                                label="Simulado"
-                                labelStyle={{ fontWeight: 500, fontSize: 16, color: '#000' }}
-                                icon={() => (
-                                    <FontAwesome name="check-square" size={24} color="black" />
-                                )}
-                                onPress={() => props.navigation.navigate('Simulado')}></DrawerItem>
-                        </View>
-
-                        <View style={styles.subItemsContainer}>
-                            <View style={styles.tracinho}></View>
-                            <DrawerItem
-                                label="Videoaulas"
-                                labelStyle={{ fontWeight: 500, fontSize: 16, color: '#000' }}
-                                icon={() => (
-                                    <FontAwesome name="video-camera" size={24} color="black" />
-                                )}
-                                onPress={() => props.navigation.navigate('VideoAula')}></DrawerItem>
-                        </View>
-                        <View style={styles.subItemsContainer}>
-                            <View style={styles.tracinho}></View>
-                            <DrawerItem
-                                label="Vocabulario"
-                                labelStyle={{ fontWeight: 500, fontSize: 16, color: '#000' }}
-                                icon={() => (
-                                    <FontAwesome5 name="list-alt" size={24} color="black" />
-                                )}
-                                onPress={() =>
-                                    props.navigation.navigate('Vocabulario')
-                                }></DrawerItem>
-                        </View>
-
-                        <View style={styles.subItemsContainer}>
-                            <View style={styles.tracinho}></View>
-                            <DrawerItem
-                                label="Curiosidades"
-                                labelStyle={{ fontWeight: 500, fontSize: 16, color: '#000' }}
-                                icon={() => (
-                                    <FontAwesome5 name="lightbulb" size={24} color="black" />
-                                )}
-                                onPress={() =>
-                                    props.navigation.navigate('Curiosidades')
-                                }></DrawerItem>
-                        </View>
-                    </View>
+                    ))}
                 </View>
             </View>
 
-            <View style={styles.itemRow}>
-                <DrawerItem
-                    label="Dicas de Vestibular"
-                    labelStyle={{ fontWeight: 500, fontSize: 18, color: '#000' }}
-                    icon={() => <FontAwesome5 name="graduation-cap" size={24} color="black" />}
-                    onPress={() => props.navigation.navigate('DicasVestibular')}></DrawerItem>
-            </View>
-
-            <View style={styles.itemRow}>
-                <DrawerItem
-                    label="Biblioteca"
-                    labelStyle={{ fontWeight: 500, fontSize: 18, color: '#000' }}
-                    icon={() => <FontAwesome name="book" size={24} color="black" />}
-                    onPress={() => props.navigation.navigate('Biblioteca')}></DrawerItem>
-            </View>
-
-            <View style={styles.itemRow}>
-                <DrawerItem
-                    label="Sobre"
-                    labelStyle={{ fontWeight: 500, fontSize: 18, color: '#000' }}
-                    icon={() => <FontAwesome6 name="circle-info" size={24} color="black" />}
-                    onPress={() => props.navigation.navigate('Sobre')}></DrawerItem>
+            <View style={styles.sectionCard}>
+                {secondaryItems.map((item) => (
+                    <MenuButton
+                        key={item.route}
+                        icon={item.icon}
+                        label={item.label}
+                        onPress={() => navigateTo(item.route)}
+                    />
+                ))}
             </View>
         </DrawerContentScrollView>
     );
@@ -145,40 +149,80 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#E7F0DB',
     },
-    botaoFechar: {
-        marginLeft: 10,
-        marginTop: 10,
-        marginBottom: 20,
+    contentContainer: {
+        padding: 20,
+        gap: 18,
     },
-    section: {
-        paddingHorizontal: 15,
+    header: {
+        backgroundColor: '#CFE7AF',
+        borderRadius: 24,
+        padding: 20,
+        gap: 8,
     },
-    itemRow: {
+    closeButton: {
+        alignSelf: 'flex-start',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F5F0E5',
+    },
+    menuTitle: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: '#1E1E1E',
+    },
+    menuSubtitle: {
+        fontSize: 15,
+        color: '#46513A',
+    },
+    sectionCard: {
+        backgroundColor: '#F7F3E8',
+        borderRadius: 24,
+        padding: 14,
+        gap: 10,
+    },
+    subSection: {
+        marginTop: 4,
+        paddingTop: 8,
+        gap: 8,
+    },
+    subSectionTitle: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#5C664F',
+        textTransform: 'uppercase',
+        letterSpacing: 0.6,
+        paddingHorizontal: 8,
+    },
+    menuButton: {
+        minHeight: 58,
+        borderRadius: 18,
+        paddingHorizontal: 14,
+        paddingVertical: 12,
         flexDirection: 'row',
         alignItems: 'center',
+        gap: 12,
+        backgroundColor: '#E9DFC9',
     },
-    ramoContainer: {
-        flexDirection: 'row',
-        marginLeft: 35,
-        marginBottom: 15,
+    menuButtonCompact: {
+        minHeight: 50,
+        backgroundColor: '#EFE7D7',
     },
-    linhaVestical: {
-        width: 1,
-        backgroundColor: '#000000',
+    iconWrap: {
+        width: 34,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    subItems: {
+    menuLabel: {
         flex: 1,
-        marginLeft: 0,
-        gap: 25,
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#1E1E1E',
     },
-    subItemsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 30,
-    },
-    tracinho: {
-        width: 15,
-        height: 1,
-        backgroundColor: '#000',
+    menuLabelCompact: {
+        fontSize: 16,
+        fontWeight: '500',
     },
 });
