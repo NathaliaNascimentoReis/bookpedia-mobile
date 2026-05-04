@@ -1,21 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions, Platform } from 'react-native';
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
 
     return (
-        <View style={{ flex: 1 }}>
-            <StatusBar style="auto" />
-            <ScrollView
-                style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-                contentContainerStyle={styles.container}>
-                <View style={styles.titulos}>
-                    <Text style={styles.titulo}>Já explorou a literatura hoje?</Text>
-                    <View style={styles.subtitulo}>
-                        <Text style={styles.subtituloTexto}>O BookPedia pode te ajudar nisso!</Text>
-                    </View>
-                </View>
+        <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.container}
+            showsVerticalScrollIndicator
+            nestedScrollEnabled
+            bounces={false}>
+            <View style={styles.titulos}>
+                <Text style={styles.titulo}>Já explorou a literatura hoje?</Text>
 
                 <View style={styles.intro}>
                     <Text style={styles.introTexto}>
@@ -24,6 +21,39 @@ export default function PaginaInicial() {
                         favorita e expanda seu universo literário.
                     </Text>
                 </View>
+            </View>
+            <View style={styles.intro}>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+                <Text style={styles.introTexto}>
+                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </Text>
+            </View>
 
                 <View style={styles.livroDestaque}>
                     <Text style={styles.tituloLivro}>O Guarani, de José de Alencar</Text>
@@ -41,11 +71,25 @@ export default function PaginaInicial() {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#E7F0DB',
+        ...(Platform.OS === 'web'
+            ? {
+                  height: '100%',
+                  overflowY: 'auto',
+              }
+            : null),
+    },
     container: {
         alignItems: 'center',
         justifyContent: 'flex-start',
-        flexGrow: 1,
-        paddingBottom: 40,
+        paddingBottom: 32,
+        ...(Platform.OS === 'web'
+            ? {
+                  minHeight: '100%',
+              }
+            : null),
     },
     titulos: {
         alignItems: 'center',

@@ -1,10 +1,9 @@
 import React from 'react';
-import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, Platform, useWindowDimensions } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
@@ -20,7 +19,7 @@ import LivroDestaque from './src/screens/LivroDestaqueScreen.js';
 import Vocabulario from './src/screens/VocabularioScreen.js';
 import VideoAula from './src/screens/VideoaulasScreen.js';
 import DicasVestibular from './src/screens/DicasVestibularScreen.js';
-import MenuScreen, { TelaMenu } from './src/screens/MenuScreen.js';
+import { TelaMenu } from './src/screens/MenuScreen.js';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -28,16 +27,15 @@ const Stack = createStackNavigator();
 const screenOptionsHeader = ({ navigation }) => ({
     headerStyle: {
         backgroundColor: '#C2E799',
-        width: '100%',
         height: 70,
         elevation: 0,
-        shadowOpacity: 0,
         borderBottomWidth: 0,
+        boxShadow: 'none',
     },
     headerTintColor: '#000',
     headerTitle: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Início')}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>BookPedia</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Início')} activeOpacity={0.85}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#1E1E1E' }}>BookPedia</Text>
         </TouchableOpacity>
     ),
     headerTitleAlign: 'center',
@@ -46,13 +44,13 @@ const screenOptionsHeader = ({ navigation }) => ({
     },
     headerLeft: () => (
         <TouchableOpacity
-            style={{ marginLeft: 15 }}
+            style={{ marginLeft: 15, width: 40, alignItems: 'center' }}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
             <FontAwesome6 name='bars' size={24} color='black' />
         </TouchableOpacity>
     ),
     headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 15 }}>
+        <TouchableOpacity style={{ marginRight: 15, width: 40, alignItems: 'center' }}>
             <FontAwesome5 name='language' size={30} color='black' />
         </TouchableOpacity>
     ),
@@ -155,6 +153,9 @@ function VocabularioStack() {
 }
 
 export default function App() {
+    const { width } = useWindowDimensions();
+    const drawerWidth = Platform.OS === 'web' ? Math.min(380, width * 0.88) : '100%';
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
@@ -162,8 +163,9 @@ export default function App() {
                     initialRouteName='Início'
                     screenOptions={{
                         headerShown: false,
+                        swipeEnabled: Platform.OS !== 'web',
                         drawerStyle: {
-                            width: '100%',
+                            width: drawerWidth,
                         },
                     }}
                     drawerContent={(props) => <TelaMenu {...props}></TelaMenu>}>
