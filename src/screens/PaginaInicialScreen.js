@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions, Platfor
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
-    const size = width > 600 ? 2 : 1;
 
     return (
         <ScrollView
@@ -15,8 +14,12 @@ export default function PaginaInicial() {
             <View style={styles.titulos}>
                 <Text style={styles.titulo}>Já explorou a literatura hoje?</Text>
 
-                <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>O BookPedia pode te ajudar nisso!</Text>
+                <View style={styles.intro}>
+                    <Text style={styles.introTexto}>
+                        Bem-vindo ao BookPedia! Aqui você descobre, explora e mergulha nos melhores
+                        títulos da literatura brasileira e mundial. Encontre sua próxima leitura
+                        favorita e expanda seu universo literário.
+                    </Text>
                 </View>
             </View>
             <View style={styles.intro}>
@@ -52,16 +55,18 @@ export default function PaginaInicial() {
                 </Text>
             </View>
 
-            <View style={styles.livroDestaque}>
-                <Text style={styles.tituloLivro}>O Guarani, de José de Alencar</Text>
-                <Image
-                    source={{
-                        uri: 'https://s5.static.brasilescola.uol.com.br/be/2023/07/indigena-guarani.jpg',
-                    }}
-                    style={[styles.imagemLivroDestaque, { width: width - 50 }]}></Image>
-            </View>
-            <StatusBar style='auto' />
-        </ScrollView>
+                <View style={styles.livroDestaque}>
+                    <Text style={styles.tituloLivro}>O Guarani, de José de Alencar</Text>
+                    <Image
+                        source={{
+                            uri: 'https://s5.static.brasilescola.uol.com.br/be/2023/07/indigena-guarani.jpg',
+                        }}
+                        style={[styles.imagemLivroDestaque, { width: width - 50 }]}
+                        resizeMode="cover"
+                    />
+                </View>
+            </ScrollView>
+        </View>
     );
 }
 
@@ -93,12 +98,12 @@ const styles = StyleSheet.create({
         gap: 5,
     },
     titulo: {
-        color: '#000',
+        color: '#453E34',
         fontSize: 20,
         fontWeight: '500',
     },
     subtitulo: {
-        backgroundColor: '#daccb3',
+        backgroundColor: '#E0D5C4',
         padding: 10,
         paddingHorizontal: 20,
         borderRadius: 15,
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     subtituloTexto: {
-        color: '#000000',
+        color: '#453E34',
         fontSize: 18,
         fontWeight: '500',
         textAlign: 'center',
@@ -133,6 +138,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 20,
         textAlign: 'center',
+        color: '#453E34',
     },
     imagemLivroDestaque: {
         height: 500,
