@@ -48,12 +48,12 @@ const screenOptionsHeader = ({ navigation }) => ({
         <TouchableOpacity
             style={{ marginLeft: 15 }}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-            <FontAwesome6 name="bars" size={24} color="black" />
+            <FontAwesome6 name='bars' size={24} color='black' />
         </TouchableOpacity>
     ),
     headerRight: () => (
         <TouchableOpacity style={{ marginRight: 15 }}>
-            <FontAwesome5 name="language" size={24} color="black" />
+            <FontAwesome5 name='language' size={30} color='black' />
         </TouchableOpacity>
     ),
 });
@@ -61,7 +61,7 @@ const screenOptionsHeader = ({ navigation }) => ({
 function InitialStack({ navigation }) {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="Home" component={PaginaInicial}></Stack.Screen>
+            <Stack.Screen name='Home' component={PaginaInicial}></Stack.Screen>
         </Stack.Navigator>
     );
 }
@@ -69,7 +69,7 @@ function InitialStack({ navigation }) {
 function CuriosidadesStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="CuriosidadesScreen" component={Curiosidades} />
+            <Stack.Screen name='CuriosidadesScreen' component={Curiosidades} />
         </Stack.Navigator>
     );
 }
@@ -77,7 +77,7 @@ function CuriosidadesStack() {
 function SobreStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="SobreScreen" component={Sobre} />
+            <Stack.Screen name='SobreScreen' component={Sobre} />
         </Stack.Navigator>
     );
 }
@@ -85,7 +85,7 @@ function SobreStack() {
 function SimuladoStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="SimuladoScreen" component={Simulado} />
+            <Stack.Screen name='SimuladoScreen' component={Simulado} />
         </Stack.Navigator>
     );
 }
@@ -93,7 +93,7 @@ function SimuladoStack() {
 function EnredoStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="EnredoScreen" component={Enredo} />
+            <Stack.Screen name='EnredoScreen' component={Enredo} />
         </Stack.Navigator>
     );
 }
@@ -101,7 +101,7 @@ function EnredoStack() {
 function VideoAulaStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="VideoAulaScreen" component={VideoAula} />
+            <Stack.Screen name='VideoAulaScreen' component={VideoAula} />
         </Stack.Navigator>
     );
 }
@@ -109,7 +109,7 @@ function VideoAulaStack() {
 function DicasVestibularStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="DicasVestibularScreen" component={DicasVestibular} />
+            <Stack.Screen name='DicasVestibularScreen' component={DicasVestibular} />
         </Stack.Navigator>
     );
 }
@@ -117,7 +117,7 @@ function DicasVestibularStack() {
 function LivroDestaqueStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="LivroDestaqueScreen" component={LivroDestaque} />
+            <Stack.Screen name='LivroDestaqueScreen' component={LivroDestaque} />
         </Stack.Navigator>
     );
 }
@@ -125,7 +125,7 @@ function LivroDestaqueStack() {
 function AutorStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="AutorScreen" component={Autor} />
+            <Stack.Screen name='AutorScreen' component={Autor} />
         </Stack.Navigator>
     );
 }
@@ -133,7 +133,7 @@ function AutorStack() {
 function PersonagensStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="PersonagensScreen" component={Personagens} />
+            <Stack.Screen name='PersonagensScreen' component={Personagens} />
         </Stack.Navigator>
     );
 }
@@ -141,7 +141,7 @@ function PersonagensStack() {
 function BibliotecaStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="BibliotecaScreen" component={Biblioteca} />
+            <Stack.Screen name='BibliotecaScreen' component={Biblioteca} />
         </Stack.Navigator>
     );
 }
@@ -149,7 +149,7 @@ function BibliotecaStack() {
 function VocabularioStack() {
     return (
         <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name="VocabularioScreen" component={Vocabulario} />
+            <Stack.Screen name='VocabularioScreen' component={Vocabulario} />
         </Stack.Navigator>
     );
 }
@@ -159,7 +159,7 @@ export default function App() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
                 <Drawer.Navigator
-                    initialRouteName="Início"
+                    initialRouteName='Início'
                     screenOptions={{
                         headerShown: false,
                         drawerStyle: {
@@ -167,23 +167,23 @@ export default function App() {
                         },
                     }}
                     drawerContent={(props) => <TelaMenu {...props}></TelaMenu>}>
-                    <Drawer.Screen name="Início" component={InitialStack}></Drawer.Screen>
+                    <Drawer.Screen name='Início' component={InitialStack}></Drawer.Screen>
                     <Drawer.Screen
-                        name="Curiosidades"
+                        name='Curiosidades'
                         component={CuriosidadesStack}></Drawer.Screen>
-                    <Drawer.Screen name="Biblioteca" component={BibliotecaStack}></Drawer.Screen>
-                    <Drawer.Screen name="Sobre" component={SobreStack}></Drawer.Screen>
-                    <Drawer.Screen name="Vocabulario" component={VocabularioStack}></Drawer.Screen>
-                    <Drawer.Screen name="Autor" component={AutorStack}></Drawer.Screen>
-                    <Drawer.Screen name="Personagens" component={PersonagensStack}></Drawer.Screen>
+                    <Drawer.Screen name='Biblioteca' component={BibliotecaStack}></Drawer.Screen>
+                    <Drawer.Screen name='Sobre' component={SobreStack}></Drawer.Screen>
+                    <Drawer.Screen name='Vocabulario' component={VocabularioStack}></Drawer.Screen>
+                    <Drawer.Screen name='Autor' component={AutorStack}></Drawer.Screen>
+                    <Drawer.Screen name='Personagens' component={PersonagensStack}></Drawer.Screen>
                     <Drawer.Screen
-                        name="LivroDestaque"
+                        name='LivroDestaque'
                         component={LivroDestaqueStack}></Drawer.Screen>
-                    <Drawer.Screen name="Simulado" component={SimuladoStack}></Drawer.Screen>
-                    <Drawer.Screen name="VideoAula" component={VideoAulaStack}></Drawer.Screen>
-                    <Drawer.Screen name="Enredo" component={EnredoStack}></Drawer.Screen>
+                    <Drawer.Screen name='Simulado' component={SimuladoStack}></Drawer.Screen>
+                    <Drawer.Screen name='VideoAula' component={VideoAulaStack}></Drawer.Screen>
+                    <Drawer.Screen name='Enredo' component={EnredoStack}></Drawer.Screen>
                     <Drawer.Screen
-                        name="DicasVestibular"
+                        name='DicasVestibular'
                         component={DicasVestibularStack}></Drawer.Screen>
                 </Drawer.Navigator>
             </NavigationContainer>
