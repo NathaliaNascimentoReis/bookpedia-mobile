@@ -3,7 +3,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { TouchableOpacity, Text, Platform } from 'react-native';
+import { TouchableOpacity, Text, Platform, useWindowDimensions } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
@@ -34,8 +34,8 @@ const screenOptionsHeader = ({ navigation }) => ({
     },
     headerTintColor: '#000',
     headerTitle: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Início')}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>BookPedia</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Início')} activeOpacity={0.85}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#1E1E1E' }}>BookPedia</Text>
         </TouchableOpacity>
     ),
     headerTitleAlign: 'center',
@@ -44,13 +44,13 @@ const screenOptionsHeader = ({ navigation }) => ({
     },
     headerLeft: () => (
         <TouchableOpacity
-            style={{ marginLeft: 15 }}
+            style={{ marginLeft: 15, width: 40, alignItems: 'center' }}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
             <FontAwesome6 name='bars' size={24} color='black' />
         </TouchableOpacity>
     ),
     headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 15 }}>
+        <TouchableOpacity style={{ marginRight: 15, width: 40, alignItems: 'center' }}>
             <FontAwesome5 name='language' size={30} color='black' />
         </TouchableOpacity>
     ),
@@ -153,6 +153,9 @@ function VocabularioStack() {
 }
 
 export default function App() {
+    const { width } = useWindowDimensions();
+    const drawerWidth = Platform.OS === 'web' ? Math.min(380, width * 0.88) : '100%';
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
@@ -162,7 +165,7 @@ export default function App() {
                         headerShown: false,
                         swipeEnabled: Platform.OS !== 'web',
                         drawerStyle: {
-                            width: Platform.OS === 'web' ? 360 : '100%',
+                            width: drawerWidth,
                         },
                     }}
                     drawerContent={(props) => <TelaMenu {...props}></TelaMenu>}>
