@@ -32,19 +32,26 @@ export default function PaginaInicial() {
                 </View>
             </View>
 
-            <View style={styles.historiaSection}>
-                <View style={styles.historiaSecao}>
-                    <View style={styles.tituloHistoriaDiv}>
-                        <Text style={styles.tituloTextoDiv}>José de Alencar</Text>
+            <View style={styles.autorSection}>
+                <View style={styles.autorSecao}>
+                    <View style={styles.autorDiv}>
+                        <Text style={styles.autorNome}>José de Alencar</Text>
+                        <Text style={styles.epocaAutor}>(1829-1877)</Text>
                     </View>
-                    <View style={styles.textoDiv}>
-                        <Text style={styles.textOParagrafoDiv}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat.
-                        </Text>
-                    </View>
+                    <View style={styles.autorFoto}></View>
+                </View>
+            </View>
+
+            <View style={styles.descricaoSection}>
+                <View style={styles.descricaoDiv}>
+                    <Text style={styles.tituloDescricao}>Descrição do autor</Text>
+                </View>
+                <View style={styles.descricaoCampo}>
+                    <Text>
+                        "Lorem Ipsum" est exemplar textus typographicus typographicus. "Lorem Ipsum"
+                        iam ab annis 1500 fuit, cum typographus ignotus seriem typorum confudit ut
+                        librum exemplarium typorum crearet.
+                    </Text>
                 </View>
             </View>
 
@@ -57,8 +64,6 @@ export default function PaginaInicial() {
                     </View>
                 </View>
             </TouchableOpacity>
-
-            <View style={styles.livroDestaque}></View>
             <StatusBar style="auto" />
         </ScrollView>
     );
@@ -81,7 +86,7 @@ const styles = StyleSheet.create({
     titulo: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#000000',
+        color: '#453E34',
     },
     linha: {
         width: 300,
@@ -107,30 +112,59 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         textAlign: 'center',
     },
-    historiaSection: {
+    autorSection: {
         margin: 20,
         gap: 10,
+        width: 320,
     },
-    tituloHistoriaDiv: {
+    autorDiv: {
+        padding: 10,
         backgroundColor: '#9DBC8A',
         padding: 10,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    tituloTextoDiv: {
+    autorNome: {
+        fontWeight: 'bold',
         fontSize: 20,
-        fontWeight: 500,
+        color: '#2B431E',
     },
-    textoDiv: {
+    epocaAutor: {
+        color: '#59734A',
+        fontWeight: 500,
+        fontSize: 18,
+    },
+    autorFoto: {
+        height: 50,
+        backgroundColor: '#D5EBBA',
+    },
+    descricaoSection: {
+        margin: 20,
+        width: 320,
+    },
+    descricaoDiv: {
+        backgroundColor: '#9DBC8A',
+        padding: 10,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    tituloDescricao: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: '#2B431E',
+    },
+    descricaoCampo: {
+        padding: 10,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
-        backgroundColor: '#D4EBB9',
-    },
-    textOParagrafoDiv: {
-        padding: 10,
-        fontSize: 17,
-        color: '#2B431E',
-        fontWeight: 500,
+        backgroundColor: '#D5EBBA',
+        height: 200,
     },
     divButton: {
         alignItems: 'center',
