@@ -55,18 +55,17 @@ export default function PaginaInicial() {
                 </Text>
             </View>
 
-                <View style={styles.livroDestaque}>
-                    <Text style={styles.tituloLivro}>O Guarani, de José de Alencar</Text>
-                    <Image
-                        source={{
-                            uri: 'https://s5.static.brasilescola.uol.com.br/be/2023/07/indigena-guarani.jpg',
-                        }}
-                        style={[styles.imagemLivroDestaque, { width: width - 50 }]}
-                        resizeMode="cover"
-                    />
-                </View>
-            </ScrollView>
-        </View>
+            <View style={styles.livroDestaque}>
+                <Text style={styles.tituloLivro}>O Guarani, de José de Alencar</Text>
+                <Image
+                    source={{
+                        uri: 'https://s5.static.brasilescola.uol.com.br/be/2023/07/indigena-guarani.jpg',
+                    }}
+                    style={[styles.imagemLivroDestaque, { width: width - 50 }]}
+                    resizeMode="cover"
+                />
+            </View>
+        </ScrollView> 
     );
 }
 
