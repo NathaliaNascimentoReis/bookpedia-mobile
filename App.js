@@ -27,7 +27,7 @@ const Stack = createStackNavigator();
 const screenOptionsHeader = ({ navigation }) => ({
     headerStyle: {
         backgroundColor: '#C2E799',
-        height: 70,
+        height: 100,
         elevation: 0,
         borderBottomWidth: 0,
         boxShadow: 'none',

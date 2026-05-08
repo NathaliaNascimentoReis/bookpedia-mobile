@@ -1,5 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native';
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    useWindowDimensions,
+    TouchableOpacity,
+} from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
@@ -32,18 +40,66 @@ export default function PaginaInicial() {
             />
 
             <View style={styles.historiaSection}>
-                <View style={styles.tituloHistoriaDiv}>
-                    <Text style={styles.tituloTextoDiv}>Introdução</Text>
+                <View style={styles.historiaSecao}>
+                    <View style={styles.tituloHistoriaDiv}>
+                        <Text style={styles.tituloTextoDiv}>Introdução</Text>
+                    </View>
+                    <View style={styles.textoDiv}>
+                        <Text style={styles.textOParagrafoDiv}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                            commodo consequat.
+                        </Text>
+                    </View>
                 </View>
-                <View style={styles.textoDiv}>
-                    <Text style={styles.textOParagrafoDiv}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat.
-                    </Text>
+
+                <View style={styles.historiaSecao}>
+                    <View style={styles.tituloHistoriaDiv}>
+                        <Text style={styles.tituloTextoDiv}>Conflito</Text>
+                    </View>
+                    <View style={styles.textoDiv}>
+                        <Text style={styles.textOParagrafoDiv}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={styles.historiaSecao}>
+                    <View style={styles.tituloHistoriaDiv}>
+                        <Text style={styles.tituloTextoDiv}>Climax</Text>
+                    </View>
+                    <View style={styles.textoDiv}>
+                        <Text style={styles.textOParagrafoDiv}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                            commodo consequat.
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={styles.historiaSecao}>
+                    <View style={styles.tituloHistoriaDiv}>
+                        <Text style={styles.tituloTextoDiv}>Desfecho</Text>
+                    </View>
+                    <View style={styles.textoDiv}>
+                        <Text style={styles.textOParagrafoDiv}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.
+                        </Text>
+                    </View>
                 </View>
             </View>
+
+            <TouchableOpacity>
+                <View style={styles.divButton}>
+                    <View style={styles.subtituloButton}>
+                        <Text style={styles.textoButton}>Saiba mais sobre os cenários!</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
 
             <View style={styles.livroDestaque}></View>
             <StatusBar style="auto" />
@@ -58,26 +114,27 @@ const styles = StyleSheet.create({
     },
     tituloSection: {
         gap: 5,
+        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        gap: 10
+        gap: 10,
     },
     titulo: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#000000'
+        color: '#000000',
     },
     linha: {
-        width: 50,
+        width: 300,
         height: 1,
         backgroundColor: '#9B6737',
     },
     div: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 30,
+        marginTop: 10,
     },
     subtitulo: {
         backgroundColor: '#daccb3',
@@ -95,6 +152,7 @@ const styles = StyleSheet.create({
     },
     historiaSection: {
         margin: 20,
+        gap: 10,
     },
     tituloHistoriaDiv: {
         backgroundColor: '#9DBC8A',
@@ -116,5 +174,24 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#2B431E',
         fontWeight: 500,
+    },
+    divButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    subtituloButton: {
+        backgroundColor: '#9DBC8A',
+        padding: 10,
+        paddingHorizontal: 20,
+        borderRadius: 15,
+        marginVertical: 10,
+        marginHorizontal: 20,
+    },
+    textoButton: {
+        color: '#ffffffff',
+        fontSize: 18,
+        fontWeight: '500',
+        textAlign: 'center',
     },
 });
