@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 10,
+        borderRadius: 15
     },
     subtituloButton: {
         backgroundColor: '#9DBC8A',
