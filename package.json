@@ -5,7 +5,7 @@
     "scripts": {
         "start": "npx expo start",
         "brito": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.68.185 && expo start --lan",
-        "nath": "set REACT_NATIVE_PACKAGER_HOSTNAME=10.88.200.158 && expo start --lan",
+        "nath": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.68.184 && expo start --lan",
         "nicolas": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.68.106 && expo start --lan",
         "leitao": "set REACT_NATIVE_PACKAGER_HOSTNAME=10.88.200.157 && expo start --lan",
         "boehm": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.68.186 && expo start --lan",

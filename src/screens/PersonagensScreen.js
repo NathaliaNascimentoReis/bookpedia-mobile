@@ -29,20 +29,20 @@ export default function DicasVestibular() {
                 />
             </View>
 
-            <TouchableOpacity>
-                <View style={styles.divButton}>
-                    <View style={styles.subtituloButton}>
-                        <Text style={styles.textoButton}>
-                            Saiba mais sobre suas histórias clicando nos cards!
-                        </Text>
-                    </View>
+            <View style={styles.divButton}>
+                <View style={styles.subtituloButton}>
+                    <Text style={styles.textoButton}>
+                        Saiba mais sobre suas histórias clicando nos cards!
+                    </Text>
                 </View>
-            </TouchableOpacity>
+            </View>
 
             <View style={styles.personagemContainer}>
                 <View style={styles.divPersonagem}>
                     <Text style={styles.personagemNome}>Fulano de Tal</Text>
-                    <FontAwesome name="external-link" size={24} color="black" />
+                    <TouchableOpacity>
+                        <FontAwesome name="external-link" size={24} color="black" />
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.infoDiv}>
                     <Text style={styles.texto}>Idade: x anos</Text>
@@ -139,12 +139,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginHorizontal: 20,
         width: 300,
         paddingVertical: 10,
         paddingHorizontal: 15,
         backgroundColor: '#9EBC8B',
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
+        borderWidth: 2,
+        borderColor: '#6F9058'
     },
     personagemNome: {
         fontSize: 18,
@@ -154,5 +157,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#D4EBBA',
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
+        marginHorizontal: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        gap: 5,
+    },
+    texto: {
+        fontSize: 15,
+        color: '#',
     },
 });
