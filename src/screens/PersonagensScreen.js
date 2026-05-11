@@ -44,7 +44,7 @@ export default function DicasVestibular() {
                     <Text style={styles.personagemNome}>Fulano de Tal</Text>
                     <FontAwesome name="external-link" size={24} color="black" />
                 </View>
-                <View style={infoDiv}>
+                <View style={styles.infoDiv}>
                     <Text style={styles.texto}>Idade: x anos</Text>
                     <Text style={styles.texto}>Classe social: lorem ipsum</Text>
                     <Text style={styles.texto}>

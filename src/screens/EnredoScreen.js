@@ -94,13 +94,13 @@ export default function PaginaInicial() {
                 </View>
             </View>
 
-            <TouchableOpacity>
+    
                 <View style={styles.divButton}>
                     <View style={styles.subtituloButton}>
                         <Text style={styles.textoButton}>Saiba mais sobre os cenários!</Text>
                     </View>
                 </View>
-            </TouchableOpacity>
+
 
             <View style={styles.enredoSection}>
                 <View style={styles.cenarioSecao}>
