@@ -101,7 +101,6 @@ export default function PaginaInicial() {
                     </View>
                 </View>
 
-
             <View style={styles.enredoSection}>
                 <View style={styles.cenarioSecao}>
                     <View style={styles.tituloCenarioDiv}>
