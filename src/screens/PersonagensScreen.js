@@ -25,7 +25,8 @@ export default function DicasVestibular() {
                     source={{
                         uri: 'https://www.planocritico.com/wp-content/uploads/2022/06/O-Guarani.jpeg',
                     }}
-                    style={styles.fotoPrincipal}/>
+                    style={styles.fotoPrincipal}
+                />
             </View>
 
             <TouchableOpacity>
