@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Book-pedia",
-    "slug": "Book-pedia",
+    "name": "BookPedia",
+    "slug": "BookPedia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
