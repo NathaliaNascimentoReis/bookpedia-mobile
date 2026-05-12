@@ -10,7 +10,7 @@
         "leitao": "set REACT_NATIVE_PACKAGER_HOSTNAME=10.88.200.157 && expo start --lan",
         "boehm": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.68.186 && expo start --lan",
         "arthur": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.68.185 && expo start --lan",
-        "nath-casa": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.68.185 && expo start --lan",
+        "nath-casa": "set REACT_NATIVE_PACKAGER_HOSTNAME=192.168.15.14 && expo start --lan",
         "android": "expo start --android",
         "ios": "expo start --ios",
         "web": "expo start --web"

@@ -1,8 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions, Platform } from 'react-native';
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    useWindowDimensions,
+    ActivityIndicator,
+    Platform,
+    FlatList,
+} from 'react-native';
+import { useEffect, useState } from 'react';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
+
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    const getLivros = async () => {
+        try {
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/livros');
+            const json = await response.json();
+
+            console.log(json);
+
+            setData(json.livro || json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getLivros();
+    }, []);
 
     return (
         <ScrollView
@@ -11,61 +45,37 @@ export default function PaginaInicial() {
             showsVerticalScrollIndicator
             nestedScrollEnabled
             bounces={false}>
-            <View style={styles.titulos}>
-                <Text style={styles.titulo}>Já explorou a literatura hoje?</Text>
+            <View style={styles.tituloSection}>
+                <View style={styles.tituloDiv}>
+                    <FontAwesome5 name="home" size={24} color="black" />
+                    <Text style={styles.titulo}>Home</Text>
+                </View>
+                <View style={styles.linha}></View>
+            </View>
+
+            <View style={styles.subtitulos}>
+                <Text style={styles.subtitulo}>Já explorou a literatura hoje?</Text>
 
                 <View style={styles.intro}>
-                    <Text style={styles.introTexto}>
-                        Bem-vindo ao BookPedia! Aqui você descobre, explora e mergulha nos melhores
-                        títulos da literatura brasileira e mundial. Encontre sua próxima leitura
-                        favorita e expanda seu universo literário.
-                    </Text>
+                    <Text style={styles.introTexto}>Conheça o novo livro destaque!</Text>
                 </View>
             </View>
-            <View style={styles.intro}>
-                <Text style={styles.introTexto}>
-                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
-                </Text>
-                <Text style={styles.introTexto}>
-                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
-                </Text>
-                <Text style={styles.introTexto}>
-                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
-                </Text>
-                <Text style={styles.introTexto}>
-                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
-                </Text>
-                <Text style={styles.introTexto}>
-                    Introdução ao projeto: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
-                </Text>
-            </View>
 
-            <View style={styles.livroDestaque}>
-                <Text style={styles.tituloLivro}>O Guarani, de José de Alencar</Text>
-                <Image
-                    source={{
-                        uri: 'https://s5.static.brasilescola.uol.com.br/be/2023/07/indigena-guarani.jpg',
-                    }}
-                    style={[styles.imagemLivroDestaque, { width: width - 50 }]}
-                    resizeMode="cover"
-                />
-            </View>
-        </ScrollView> 
+            {isLoading ? (
+                <ActivityIndicator size="large" color="#caad92" />
+            ) : (
+                data?.map((livro) => (
+                    <View key={livro.id} style={styles.livroDestaque}>
+                        <Text style={styles.tituloLivro}>{livro.titulo}</Text>
+                        <Image
+                            source={{ uri: livro.capaURL }}
+                            style={{ width: width - 50, height: 300, borderRadius: 15 }}
+                            resizeMode="cover"
+                        />
+                    </View>
+                ))
+            )}
+        </ScrollView>
     );
 }
 
@@ -90,13 +100,32 @@ const styles = StyleSheet.create({
               }
             : null),
     },
-    titulos: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 30,
+    tituloSection: {
         gap: 5,
+        marginTop: 30,
+    },
+    tituloDiv: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: 10,
     },
     titulo: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: '#453E34',
+    },
+    linha: {
+        width: 300,
+        height: 1,
+        backgroundColor: '#9B6737',
+    },
+    subtitulos: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        gap: 5,
+    },
+    subtitulo: {
         color: '#453E34',
         fontSize: 20,
         fontWeight: '500',
@@ -116,33 +145,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     intro: {
-        backgroundColor: '#caad92',
+        backgroundColor: '#839c73',
         padding: 10,
         paddingHorizontal: 20,
         marginHorizontal: 20,
-        borderRadius: 15,
         margin: 10,
+        borderRadius: 15,
     },
     introTexto: {
         color: '#ffffff',
         fontSize: 15,
         fontWeight: '500',
-    },
-    livroDestaque: {
-        margin: 10,
-        gap: 20,
-        alignItems: 'center',
-    },
-    tituloLivro: {
-        fontWeight: '600',
-        fontSize: 20,
-        textAlign: 'center',
-        color: '#453E34',
-    },
-    imagemLivroDestaque: {
-        height: 500,
-        borderRadius: 15,
-        borderColor: '#fff',
-        borderWidth: 10,
     },
 });
