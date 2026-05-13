@@ -4,7 +4,7 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
+    ImageBackground,
     useWindowDimensions,
     ActivityIndicator,
     Platform,
@@ -12,12 +12,15 @@ import {
 } from 'react-native';
 import { useEffect, useState } from 'react';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { useIdioma } from '../../App.js';
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+
+    const { idioma } = useIdioma();
 
     const getLivros = async () => {
         try {
@@ -48,17 +51,13 @@ export default function PaginaInicial() {
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="home" size={24} color="black" />
-                    <Text style={styles.titulo}>Home</Text>
+                    <Text style={styles.titulo}>{idioma === 'en' ? 'Home' : 'Início'}</Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
 
-            <View style={styles.subtitulos}>
-                <Text style={styles.subtitulo}>Já explorou a literatura hoje?</Text>
-
-                <View style={styles.intro}>
-                    <Text style={styles.introTexto}>Conheça o novo livro destaque!</Text>
-                </View>
+            <View style={styles.intro}>
+                <Text style={styles.introTexto}>Conheça o livro destaque!</Text>
             </View>
 
             {isLoading ? (
@@ -66,12 +65,21 @@ export default function PaginaInicial() {
             ) : (
                 data?.map((livro) => (
                     <View key={livro.id} style={styles.livroDestaque}>
-                        <Text style={styles.tituloLivro}>{livro.titulo}</Text>
-                        <Image
+                        <ImageBackground
                             source={{ uri: livro.capaURL }}
-                            style={{ width: width - 50, height: 300, borderRadius: 15 }}
-                            resizeMode="cover"
-                        />
+                            style={styles.ImageBackground}
+                            resizeMode="cover">
+                            <View style={styles.overlay}>
+                                <Text key={livro.id} style={styles.textoOverlay}>
+                                    {idioma === 'en'
+                                        ? livro.tituloEn || livro.titulo
+                                        : livro.titulo}
+                                    {idioma === 'en'
+                                        ? livro.descricaoEn || livro.descricao
+                                        : livro.descricao}
+                                </Text>
+                            </View>
+                        </ImageBackground>
                     </View>
                 ))
             )}
@@ -119,31 +127,6 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#9B6737',
     },
-    subtitulos: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-        gap: 5,
-    },
-    subtitulo: {
-        color: '#453E34',
-        fontSize: 20,
-        fontWeight: '500',
-    },
-    subtitulo: {
-        backgroundColor: '#E0D5C4',
-        padding: 10,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        marginVertical: 10,
-        marginHorizontal: 20,
-    },
-    subtituloTexto: {
-        color: '#453E34',
-        fontSize: 18,
-        fontWeight: '500',
-        textAlign: 'center',
-    },
     intro: {
         backgroundColor: '#839c73',
         padding: 10,
@@ -156,5 +139,27 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: 15,
         fontWeight: '500',
+    },
+    livroDestaque: {
+        width: 280,
+        height: 300,
+        borderRadius: 15,
+        overflow: 'hidden',
+        marginTop: 5,
+    },
+    ImageBackground: {
+        width: '100%',
+        height: '100%',
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        padding: 20,
+    },
+    textoOverlay: {
+        fontWeight: 'bold',
+        color: '#ffffff',
     },
 });

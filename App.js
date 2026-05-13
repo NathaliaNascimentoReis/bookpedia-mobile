@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, createContext } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -24,171 +24,167 @@ import { TelaMenu } from './src/screens/MenuScreen.js';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const screenOptionsHeader = ({ navigation }) => ({
-    headerStyle: {
-        backgroundColor: '#C2E799',
-        height: 100,
-        elevation: 0,
-        borderBottomWidth: 0,
-        boxShadow: 'none',
-    },
+const IdiomaContext = createContext();
+
+export const IdiomaProvider = ({ children }) => {
+    const [idioma, setIdioma] = useState('pt');
+    const alternarIdioma = () => setIdioma((lang) => (lang === 'pt' ? 'en' : 'pt'));
+
+    return (
+        <IdiomaContext.Provider value={{ idioma, alternarIdioma }}>
+            {children}
+        </IdiomaContext.Provider>
+    );
+};
+
+export const useIdioma = () => useContext(IdiomaContext);
+
+const getHeaderOptions = (navigation, idioma, alternarIdioma) => ({
+    headerStyle: { backgroundColor: '#C2E799', height: 100, elevation: 0, shadowOpacity: 0 },
     headerTintColor: '#000',
+    headerTitleAlign: 'center',
     headerTitle: () => (
         <TouchableOpacity onPress={() => navigation.navigate('Início')} activeOpacity={0.85}>
             <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#1E1E1E' }}>BookPedia</Text>
         </TouchableOpacity>
     ),
-    headerTitleAlign: 'center',
-    headerTitleStyle: {
-        fontWeight: 'bold',
-    },
     headerLeft: () => (
         <TouchableOpacity
             style={{ marginLeft: 15, width: 40, alignItems: 'center' }}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-            <FontAwesome6 name='bars' size={24} color='black' />
+            <FontAwesome6 name="bars" size={24} color="black" />
         </TouchableOpacity>
     ),
     headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 15, width: 40, alignItems: 'center' }}>
-            <FontAwesome5 name='language' size={30} color='black' />
+        <TouchableOpacity
+            style={{ marginRight: 15, width: 40, alignItems: 'center' }}
+            onPress={alternarIdioma}>
+            <FontAwesome5 name="language" size={30} color={idioma === 'en' ? '#2E7D32' : 'black'} />
         </TouchableOpacity>
     ),
 });
 
-function InitialStack({ navigation }) {
+function GenericStack({ navigation, component, name }) {
+    const { idioma, alternarIdioma } = useIdioma();
+
     return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='Home' component={PaginaInicial}></Stack.Screen>
+        <Stack.Navigator screenOptions={() => getHeaderOptions(navigation, idioma, alternarIdioma)}>
+            <Stack.Screen name={name} component={component} />
         </Stack.Navigator>
     );
 }
 
-function CuriosidadesStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='CuriosidadesScreen' component={Curiosidades} />
-        </Stack.Navigator>
-    );
-}
-
-function SobreStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='SobreScreen' component={Sobre} />
-        </Stack.Navigator>
-    );
-}
-
-function SimuladoStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='SimuladoScreen' component={Simulado} />
-        </Stack.Navigator>
-    );
-}
-
-function EnredoStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='EnredoScreen' component={Enredo} />
-        </Stack.Navigator>
-    );
-}
-
-function VideoAulaStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='VideoAulaScreen' component={VideoAula} />
-        </Stack.Navigator>
-    );
-}
-
-function DicasVestibularStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='DicasVestibularScreen' component={DicasVestibular} />
-        </Stack.Navigator>
-    );
-}
-
-function LivroDestaqueStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='LivroDestaqueScreen' component={LivroDestaque} />
-        </Stack.Navigator>
-    );
-}
-
-function AutorStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='AutorScreen' component={Autor} />
-        </Stack.Navigator>
-    );
-}
-
-function PersonagensStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='PersonagensScreen' component={Personagens} />
-        </Stack.Navigator>
-    );
-}
-
-function BibliotecaStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='BibliotecaScreen' component={Biblioteca} />
-        </Stack.Navigator>
-    );
-}
-
-function VocabularioStack() {
-    return (
-        <Stack.Navigator screenOptions={screenOptionsHeader}>
-            <Stack.Screen name='VocabularioScreen' component={Vocabulario} />
-        </Stack.Navigator>
-    );
-}
-
-export default function App() {
+function AppContent() {
     const { width } = useWindowDimensions();
+    const { idioma } = useIdioma();
     const drawerWidth = Platform.OS === 'web' ? Math.min(380, width * 0.88) : '100%';
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
                 <Drawer.Navigator
-                    initialRouteName='Início'
+                    initialRouteName="Início"
                     screenOptions={{
                         headerShown: false,
                         swipeEnabled: Platform.OS !== 'web',
-                        drawerStyle: {
-                            width: drawerWidth,
-                        },
+                        drawerStyle: { width: drawerWidth },
                     }}
-                    drawerContent={(props) => <TelaMenu {...props}></TelaMenu>}>
-                    <Drawer.Screen name='Início' component={InitialStack}></Drawer.Screen>
-                    <Drawer.Screen
-                        name='Curiosidades'
-                        component={CuriosidadesStack}></Drawer.Screen>
-                    <Drawer.Screen name='Biblioteca' component={BibliotecaStack}></Drawer.Screen>
-                    <Drawer.Screen name='Sobre' component={SobreStack}></Drawer.Screen>
-                    <Drawer.Screen name='Vocabulario' component={VocabularioStack}></Drawer.Screen>
-                    <Drawer.Screen name='Autor' component={AutorStack}></Drawer.Screen>
-                    <Drawer.Screen name='Personagens' component={PersonagensStack}></Drawer.Screen>
-                    <Drawer.Screen
-                        name='LivroDestaque'
-                        component={LivroDestaqueStack}></Drawer.Screen>
-                    <Drawer.Screen name='Simulado' component={SimuladoStack}></Drawer.Screen>
-                    <Drawer.Screen name='VideoAula' component={VideoAulaStack}></Drawer.Screen>
-                    <Drawer.Screen name='Enredo' component={EnredoStack}></Drawer.Screen>
-                    <Drawer.Screen
-                        name='DicasVestibular'
-                        component={DicasVestibularStack}></Drawer.Screen>
+                    key={idioma}
+                    drawerContent={(props) => <TelaMenu {...props} idioma={idioma} />}>
+                    <Drawer.Screen name="Início">
+                        {(props) => (
+                            <GenericStack {...props} name="Home" component={PaginaInicial} />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Curiosidades">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="CuriosidadesScreen"
+                                component={Curiosidades}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Biblioteca">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="BibliotecaScreen"
+                                component={Biblioteca}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Sobre">
+                        {(props) => (
+                            <GenericStack {...props} name="SobreScreen" component={Sobre} />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Vocabulario">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="VocabularioScreen"
+                                component={Vocabulario}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Autor">
+                        {(props) => (
+                            <GenericStack {...props} name="AutorScreen" component={Autor} />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Personagens">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="PersonagensScreen"
+                                component={Personagens}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="LivroDestaque">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="LivroDestaqueScreen"
+                                component={LivroDestaque}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Simulado">
+                        {(props) => (
+                            <GenericStack {...props} name="SimuladoScreen" component={Simulado} />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="VideoAula">
+                        {(props) => (
+                            <GenericStack {...props} name="VideoAulaScreen" component={VideoAula} />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="Enredo">
+                        {(props) => (
+                            <GenericStack {...props} name="EnredoScreen" component={Enredo} />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="DicasVestibular">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="DicasVestibularScreen"
+                                component={DicasVestibular}
+                            />
+                        )}
+                    </Drawer.Screen>
                 </Drawer.Navigator>
             </NavigationContainer>
         </GestureHandlerRootView>
+    );
+}
+
+export default function App() {
+    return (
+        <IdiomaProvider>
+            <AppContent />
+        </IdiomaProvider>
     );
 }
