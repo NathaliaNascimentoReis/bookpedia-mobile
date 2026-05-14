@@ -27,11 +27,17 @@ export default function PaginaInicial() {
             const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/livros');
             const json = await response.json();
 
-            console.log(json);
-
-            setData(json.livro || json);
+            if (Array.isArray(json)) {
+                setData(json);
+            } else if (json.livros && Array.isArray(json.livros)) {
+                setData(json.livros);
+            } else if (json.livro) {
+                setData([json.livro]);
+            } else {
+                setData([json]);
+            }
         } catch (error) {
-            console.error(error);
+            console.error('Erro ao buscar o livro destaque: ' + error);
         } finally {
             setLoading(false);
         }
@@ -57,20 +63,22 @@ export default function PaginaInicial() {
             </View>
 
             <View style={styles.intro}>
-                <Text style={styles.introTexto}>Conheça o livro destaque!</Text>
+                <Text style={styles.introTexto}>
+                    {idioma === 'en' ? 'Discover the featured book!' : 'Conheça o livro destaque!'}
+                </Text>
             </View>
 
             {isLoading ? (
                 <ActivityIndicator size="large" color="#caad92" />
             ) : (
-                data?.map((livro) => (
+                data?.map((livro, index) => (
                     <View key={livro.id} style={styles.livroDestaque}>
                         <ImageBackground
                             source={{ uri: livro.capaURL }}
                             style={styles.ImageBackground}
                             resizeMode="cover">
                             <View style={styles.overlay}>
-                                <Text key={livro.id} style={styles.textoOverlay}>
+                                <Text style={styles.textoOverlay}>
                                     {idioma === 'en'
                                         ? livro.tituloEn || livro.titulo
                                         : livro.titulo}
