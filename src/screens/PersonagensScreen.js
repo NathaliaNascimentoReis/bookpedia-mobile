@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { useIdioma } from '../IdiomaContext.js';
 
 export default function DicasVestibular() {
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    
     return (
         <ScrollView
             style={{ flex: 1, backgroundColor: '#E7F0DB' }}

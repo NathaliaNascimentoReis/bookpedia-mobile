@@ -8,11 +8,10 @@ import {
     useWindowDimensions,
     ActivityIndicator,
     Platform,
-    FlatList,
 } from 'react-native';
 import { useEffect, useState } from 'react';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import { useIdioma } from '../../App.js';
+import { useIdioma } from '../IdiomaContext.js';
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
