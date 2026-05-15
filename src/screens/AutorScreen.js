@@ -4,16 +4,46 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     useWindowDimensions,
-    TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { useIdioma } from '../IdiomaContext.js';
+import { useState, useEffect } from 'react'
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
     const size = width > 600 ? 2 : 1;
+
+    const { idioma } = useIdioma();
+
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    const getAutor = async () => {
+        try {
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/autores');
+            const json = await response.json();
+
+            if (Array.isArray(json)) {
+                setData(json);
+            } else if (json.autores && Array.isArray(json.autores)) {
+                setData(json.autores);
+            } else if (json.autor) {
+                setData([json.autor]);
+            } else {
+                setData([json]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar o autor: ' + error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getAutor();
+    }, []);
 
     return (
         <ScrollView
@@ -42,6 +72,22 @@ export default function PaginaInicial() {
                 </View>
             </View>
 
+            {isLoading ? (
+                <ActivityIndicator size="large" color="#caad92" />
+            ) : (
+                data?.map((autor, index) => (
+                    <View key={autor.id} style={styles.autor}>
+                        <View style={styles.overlay}>
+                            <Text style={styles.textoOverlay}>
+                                {idioma === 'en'
+                                    ? autor.descricaoEn || autor.descricao
+                                    : autor.descricao}
+                            </Text>
+                        </View>
+                    </View>
+                ))
+            )}
+
             <View style={styles.descricaoSection}>
                 <View style={styles.descricaoDiv}>
                     <Text style={styles.tituloDescricao}>Descrição do autor</Text>
@@ -55,15 +101,13 @@ export default function PaginaInicial() {
                 </View>
             </View>
 
-            <TouchableOpacity>
-                <View style={styles.divButton}>
-                    <View style={styles.subtituloButton}>
-                        <Text style={styles.textoButton}>
-                            Saiba mais sobre esse movimento literário clicando no card!
-                        </Text>
-                    </View>
+            <View style={styles.divButton}>
+                <View style={styles.subtituloButton}>
+                    <Text style={styles.textoButton}>
+                        Saiba mais sobre esse movimento literário clicando no card!
+                    </Text>
                 </View>
-            </TouchableOpacity>
+            </View>
             <StatusBar style="auto" />
         </ScrollView>
     );

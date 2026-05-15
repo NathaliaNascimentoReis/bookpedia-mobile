@@ -1,8 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useIdioma } from '../IdiomaContext.js';
 
 export default function SobreScreen() {
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    
     return (
         <ScrollView
             style={{ flex: 1, backgroundColor: '#E7F0DB' }}

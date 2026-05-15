@@ -10,10 +10,14 @@ import {
 } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { useIdioma } from '../IdiomaContext.js';
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
     const size = width > 600 ? 2 : 1;
+
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
 
     return (
         <ScrollView
@@ -94,7 +98,7 @@ export default function PaginaInicial() {
                 </View>
             </View>
 
-    
+
                 <View style={styles.divButton}>
                     <View style={styles.subtituloButton}>
                         <Text style={styles.textoButton}>Saiba mais sobre os cenários!</Text>

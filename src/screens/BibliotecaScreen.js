@@ -1,11 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { useIdioma } from '../IdiomaContext.js';
+import { useState, useEffect } from 'react';
 
 export default function DicasVestibular() {
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    const { idioma } = useIdioma();
+
     return (
         <View style={styles.container}>
-            <Text>Open up App.js to start working on your app!</Text>
-            <StatusBar style='auto' />
+            <View style={styles.tituloSection}>
+                <View style={styles.tituloDiv}>
+                    <Text style={styles.titulo}>{idioma === 'en' ? 'Library' : 'Biblioteca'}</Text>
+                </View>
+                <View style={styles.linha}></View>
+            </View>
         </View>
     );
 }
@@ -16,5 +27,24 @@ const styles = StyleSheet.create({
         backgroundColor: '#E7F0DB',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    tituloSection: {
+        gap: 5,
+        marginTop: 30,
+    },
+    tituloDiv: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: 10,
+    },
+    titulo: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: '#453E34',
+    },
+    linha: {
+        width: 300,
+        height: 1,
+        backgroundColor: '#9B6737',
     },
 });

@@ -1,4 +1,3 @@
-import React, { useState, useContext, createContext } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,23 +20,10 @@ import VideoAula from './src/screens/VideoaulasScreen.js';
 import DicasVestibular from './src/screens/DicasVestibularScreen.js';
 import { TelaMenu } from './src/screens/MenuScreen.js';
 
+import { IdiomaProvider, useIdioma } from './src/IdiomaContext.js';
+
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-
-const IdiomaContext = createContext();
-
-export const IdiomaProvider = ({ children }) => {
-    const [idioma, setIdioma] = useState('pt');
-    const alternarIdioma = () => setIdioma((lang) => (lang === 'pt' ? 'en' : 'pt'));
-
-    return (
-        <IdiomaContext.Provider value={{ idioma, alternarIdioma }}>
-            {children}
-        </IdiomaContext.Provider>
-    );
-};
-
-export const useIdioma = () => useContext(IdiomaContext);
 
 const getHeaderOptions = (navigation, idioma, alternarIdioma) => ({
     headerStyle: { backgroundColor: '#C2E799', height: 100, elevation: 0, shadowOpacity: 0 },
