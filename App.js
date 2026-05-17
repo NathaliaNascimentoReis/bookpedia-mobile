@@ -6,6 +6,8 @@ import { TouchableOpacity, Text, Platform, useWindowDimensions } from 'react-nat
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
+import { ScrollView, View } from 'react-native';
+
 import PaginaInicial from './src/screens/PaginaInicialScreen.js';
 import Curiosidades from './src/screens/CuriosidadesScreen.js';
 import Biblioteca from './src/screens/BibliotecaScreen.js';
@@ -21,6 +23,7 @@ import DicasVestibular from './src/screens/DicasVestibularScreen.js';
 import { TelaMenu } from './src/screens/MenuScreen.js';
 
 import { IdiomaProvider, useIdioma } from './src/IdiomaContext.js';
+import Footer from './src/components/Footer.js';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -50,12 +53,21 @@ const getHeaderOptions = (navigation, idioma, alternarIdioma) => ({
     ),
 });
 
-function GenericStack({ navigation, component, name }) {
+function GenericStack({ navigation, component: Component, name }) {
     const { idioma, alternarIdioma } = useIdioma();
 
     return (
         <Stack.Navigator screenOptions={() => getHeaderOptions(navigation, idioma, alternarIdioma)}>
-            <Stack.Screen name={name} component={component} />
+            <Stack.Screen name={name}>
+                {(props) => (
+                    <View style={{ flex: 1 }}>
+                        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+                            <Component {...props} />
+                            <Footer />
+                        </ScrollView>
+                    </View>
+                )}
+            </Stack.Screen>
         </Stack.Navigator>
     );
 }
