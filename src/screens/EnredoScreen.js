@@ -6,19 +6,20 @@ import {
     View,
     Image,
     useWindowDimensions,
-    TouchableOpacity,
 } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState } from 'react';
 
-export default function Enredo() {
+export default function Enredos() {
     const { width } = useWindowDimensions();
     const size = width > 600 ? 2 : 1;
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+
+    const { idioma } = useIdioma();
 
     return (
         <ScrollView
@@ -27,13 +28,13 @@ export default function Enredo() {
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="book-open" size={24} color="black" />
-                    <Text style={styles.titulo}>Enredo</Text>
+                    <Text style={styles.titulo}>{idioma === 'en' ? 'Story' : 'Enredo'}</Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
             <View style={styles.div}>
                 <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>Conheça a história com profundidade!</Text>
+                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the story in depth!' : 'Conheça a história com profundidade!'}</Text>
                 </View>
             </View>
 

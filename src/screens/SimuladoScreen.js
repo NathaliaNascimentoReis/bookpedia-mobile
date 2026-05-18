@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     },
     tituloDiv: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         gap: 10,
     },
     titulo: {

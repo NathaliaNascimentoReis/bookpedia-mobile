@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     },
     tituloDiv: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         gap: 10,
     },
     titulo: {

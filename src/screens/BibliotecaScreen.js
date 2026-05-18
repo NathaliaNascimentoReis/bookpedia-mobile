@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-export default function Biclioteca() {
+export default function Biblioteca() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
