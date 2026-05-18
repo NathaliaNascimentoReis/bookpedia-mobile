@@ -22,7 +22,20 @@ export default function PaginaInicial() {
 
     const getLivros = async () => {
         try {
-            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/livros');
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/livros', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
             const json = await response.json();
 
             if (Array.isArray(json)) {
@@ -35,7 +48,8 @@ export default function PaginaInicial() {
                 setData([json]);
             }
         } catch (error) {
-            console.error('Erro ao buscar o livro destaque: ' + error);
+            console.error('Erro ao buscar o livro destaque: ' + error.message);
+            setData([]);
         } finally {
             setLoading(false);
         }
@@ -69,8 +83,8 @@ export default function PaginaInicial() {
             {isLoading ? (
                 <ActivityIndicator size="large" color="#caad92" />
             ) : (
-                data?.map(( livro ) => (
-                    <View key={livro.id} style={styles.livroDestaque}>
+                data?.map((livro, index) => (
+                    <View key={livro.id || index} style={styles.livroDestaque}>
                         <ImageBackground
                             source={{ uri: livro.capaURL }}
                             style={styles.ImageBackground}
