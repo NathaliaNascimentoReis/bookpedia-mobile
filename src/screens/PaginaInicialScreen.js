@@ -69,7 +69,7 @@ export default function PaginaInicial() {
             {isLoading ? (
                 <ActivityIndicator size="large" color="#caad92" />
             ) : (
-                data?.map((livro, index) => (
+                data?.map(( livro ) => (
                     <View key={livro.id} style={styles.livroDestaque}>
                         <ImageBackground
                             source={{ uri: livro.capaURL }}
