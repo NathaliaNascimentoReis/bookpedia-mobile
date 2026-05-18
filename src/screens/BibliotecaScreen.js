@@ -1,9 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-export default function DicasVestibular() {
+export default function Biclioteca() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
@@ -13,6 +13,7 @@ export default function DicasVestibular() {
         <View style={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
+                    <FontAwesome name='book' size={24} color='#1E1E1E' />
                     <Text style={styles.titulo}>{idioma === 'en' ? 'Library' : 'Biblioteca'}</Text>
                 </View>
                 <View style={styles.linha}></View>
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     },
     tituloDiv: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         gap: 10,
     },
     titulo: {
