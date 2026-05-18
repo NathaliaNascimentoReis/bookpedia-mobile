@@ -2,10 +2,13 @@ import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'rea
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
+import { useState } from 'react';
 
-export default function DicasVestibular() {
+export default function Personagens() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+
+    const { idioma } = useIdioma();
     
     return (
         <ScrollView
@@ -14,13 +17,13 @@ export default function DicasVestibular() {
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="users" size={24} color="black" />
-                    <Text style={styles.titulo}>Personagens</Text>
+                    <Text style={styles.titulo}>{idioma === 'en' ? 'Characters' : 'Personagens'}</Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
             <View style={styles.div}>
                 <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>Conheça os personagens!</Text>
+                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the characters' : 'Conheça os personagens!'}</Text>
                 </View>
             </View>
 
@@ -35,9 +38,7 @@ export default function DicasVestibular() {
 
             <View style={styles.divButton}>
                 <View style={styles.subtituloButton}>
-                    <Text style={styles.textoButton}>
-                        Saiba mais sobre suas histórias clicando nos cards!
-                    </Text>
+                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the characters' : 'Saiba mais sobre suas histórias clicando nos cards!'}</Text>
                 </View>
             </View>
 

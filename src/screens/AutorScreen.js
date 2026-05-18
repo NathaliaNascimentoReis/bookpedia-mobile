@@ -11,7 +11,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState, useEffect } from 'react'
 
-export default function PaginaInicial() {
+export default function Autores() {
     const { width } = useWindowDimensions();
     const size = width > 600 ? 2 : 1;
 
@@ -52,13 +52,17 @@ export default function PaginaInicial() {
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="user-alt" size={24} color="black" />
-                    <Text style={styles.titulo}>Autor</Text>
+                    <Text style={styles.titulo}>
+                                {idioma === "en"
+                                  ? "Author"
+                                  : "Autor"}
+                              </Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
             <View style={styles.div}>
                 <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>Conheça o autor!</Text>
+                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the author!' : 'Conheça o autor!'}</Text>
                 </View>
             </View>
 
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
     },
     tituloDiv: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         gap: 10,
     },
     titulo: {

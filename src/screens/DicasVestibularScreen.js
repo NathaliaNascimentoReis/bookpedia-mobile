@@ -1,6 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
+import { useState } from 'react';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 export default function DicasVestibular() {
     const [isLoading, setLoading] = useState(true);
@@ -14,8 +15,8 @@ export default function DicasVestibular() {
             contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome5 name='graduation-cap' size={22} color='#1E1E1E' />
-                    <Text style={styles.titulo}>{idioma === 'en' ? 'Curiosities' : 'Dicas de Vestibular'}</Text>
+                    <FontAwesome5 name="feather-alt" size={24} color="black" />
+                    <Text style={styles.titulo}>{idioma === 'en' ? 'Exam Tips' : 'Dicas de Vestibular'}</Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     },
     tituloDiv: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         gap: 10,
     },
     titulo: {
