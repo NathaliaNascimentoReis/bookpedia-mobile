@@ -11,8 +11,9 @@ import {
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
+import { useState } from 'react';
 
-export default function PaginaInicial() {
+export default function Enredo() {
     const { width } = useWindowDimensions();
     const size = width > 600 ? 2 : 1;
 
@@ -121,13 +122,7 @@ export default function PaginaInicial() {
 
                     <View style={styles.textoDiv}>
                         <Text style={styles.textoCaracteristicas}>
-                            Características: Lorem ipsum dolor sit amet.
-                        </Text>
-                    </View>
-
-                    <View style={styles.textoDiv}>
-                        <Text style={styles.textoCaracteristicas}>
-                            Descrição: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                            Características: Lorem ipsum dolor sit amet.                                                                                                  Descrição: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                             do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         </Text>
                     </View>
