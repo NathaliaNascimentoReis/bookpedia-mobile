@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
+import { useState } from 'react';
 
 export default function DicasVestibular() {
     const [isLoading, setLoading] = useState(true);
