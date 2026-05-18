@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -13,7 +13,7 @@ export default function Simulado() {
         <View style={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome name="check-square" size={18} color="#1E1E1E" />
+                    <FontAwesome name="check-square" size={24} color="#1E1E1E" />
                     <Text style={styles.titulo}>{idioma === 'en' ? 'Quizzes' : 'Simulado'}</Text>
                 </View>
                 <View style={styles.linha}></View>
