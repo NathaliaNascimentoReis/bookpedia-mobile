@@ -68,11 +68,8 @@ export default function PaginaInicial() {
                         <Text style={styles.autorNome}>José de Alencar</Text>
                         <Text style={styles.epocaAutor}>(1829-1877)</Text>
                     </View>
-                    <View style={styles.autorFoto}></View>
-                </View>
-            </View>
-
-            {isLoading ? (
+                    <View style={styles.autorDescricao}>
+                        {isLoading ? (
                 <ActivityIndicator size="large" color="#caad92" />
             ) : (
                 data?.map((autor, index) => (
@@ -87,6 +84,11 @@ export default function PaginaInicial() {
                     </View>
                 ))
             )}
+                    </View>
+                </View>
+            </View>
+
+            
 
             <View style={styles.descricaoSection}>
                 <View style={styles.descricaoDiv}>
@@ -181,9 +183,14 @@ const styles = StyleSheet.create({
         fontWeight: 500,
         fontSize: 18,
     },
-    autorFoto: {
-        height: 50,
+    autorDescricao: {
+        minHeight: 50, 
         backgroundColor: '#D5EBBA',
+        padding: 10,
+        borderBottomLeftRadius: 15,  
+        borderBottomRightRadius: 15,
+        
+        
     },
     descricaoSection: {
         margin: 20,
