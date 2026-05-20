@@ -82,69 +82,74 @@ export default function Vocabularios() {
                 <View style={styles.linha}></View>
             </View>
 
-            <View style={styles.introContainer}>
-                <Text style={styles.introTexto}>
-                    {idioma === 'en'
-                        ? 'Did you encounter an unfamiliar word?'
-                        : 'Encontrou uma palavra desconhecida?'}
-                </Text>
-                <View style={styles.bannerVerdeClaro}>
+            <View style={styles.main}>
+                <View style={styles.vocabularioContainer, {marginBottom: 20}}>
                     <Text style={styles.bannerTexto}>
                         {idioma === 'en'
                             ? 'Master the vocabulary of great literary works with BookPedia!'
                             : 'Domine o vocabulário das grandes obras com o BookPedia!'}
                     </Text>
-                    <FontAwesome6
-                        name="arrow-down"
-                        size={30}
-                        color="black"
-                        style={{ marginVertical: 10 }}
-                    />
-                </View>
-            </View>
+                    {isLoading ? (
+                        <ActivityIndicator size="large" color="#caad92" />
+                    ) : (
+                        data?.map((vocabulario, index) => {
+                            const idPalavra = vocabulario.id || index;
+                            const estaAberta = palavraAberta === idPalavra;
 
-            <View style={styles.vocabularioContainer}>
-                {isLoading ? (
-                    <ActivityIndicator size="large" color="#caad92" />
-                ) : (
-                    data?.map((vocabulario, index) => {
-                        const idPalavra = vocabulario.id || index;
-                        const estaAberta = palavraAberta === idPalavra;
-
-                        return (
-                            <View key={idPalavra} style={styles.cardPalavra}>
-                                <TouchableOpacity
-                                    style={[
-                                        styles.botaoPalavra,
-                                        estaAberta && styles.botaoPalavraAberto,
-                                    ]}
-                                    onPress={() => alternarCard(idPalavra)}
-                                    activeOpacity={0.8}>
-                                    <Text style={styles.palavraTexto}>
-                                        {idioma === 'en'
-                                            ? vocabulario.palavraEn || vocabulario.palavra
-                                            : vocabulario.palavra}
-                                    </Text>
-                                </TouchableOpacity>
-
-                                <FontAwesome6 name="arrow-down" size={24} color="white" />
-
-                                {estaAberta && (
-                                    <View style={styles.significadoContainer}>
-                                        <Text style={styles.significadoTexto}>
+                            return (
+                                <View key={idPalavra} style={styles.cardPalavra}>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.botaoPalavra,
+                                            estaAberta && styles.botaoPalavraAberto,
+                                        ]}
+                                        onPress={() => alternarCard(idPalavra)}
+                                        activeOpacity={0.8}>
+                                        <Text style={styles.palavraTexto}>
                                             {idioma === 'en'
-                                                ? vocabulario.significadoEn ||
-                                                  vocabulario.significado ||
-                                                  'Lorem ipsum dolor sit amet...'
-                                                : vocabulario.significado ||
-                                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'}
+                                                ? vocabulario.palavraEn || vocabulario.palavra
+                                                : vocabulario.palavra}
                                         </Text>
-                                    </View>
-                                )}
-                            </View>
-                        );
-                    })
-                )}
+                                        {estaAberta ? (
+                                            (
+                                                <FontAwesome5
+                                                    name="chevron-up"
+                                                    size={24}
+                                                    color="black"
+                                                />
+                                            ) || (
+                                                <FontAwesome5
+                                                    name="chevron-down"
+                                                    size={24}
+                                                    color="black"
+                                                />
+                                            )
+                                        ) : (
+                                            <FontAwesome5
+                                                name="chevron-down"
+                                                size={24}
+                                                color="black"
+                                            />
+                                        )}
+                                    </TouchableOpacity>
+
+                                    {estaAberta && (
+                                        <View style={styles.significadoContainer}>
+                                            <Text style={styles.significadoTexto}>
+                                                {idioma === 'en'
+                                                    ? vocabulario.significadoEn ||
+                                                      vocabulario.significado ||
+                                                      'Lorem ipsum dolor sit amet...'
+                                                    : vocabulario.significado ||
+                                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'}
+                                            </Text>
+                                        </View>
+                                    )}
+                                </View>
+                            );
+                        })
+                    )}
+                </View>
             </View>
         </ScrollView>
     );
@@ -154,12 +159,16 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flexGrow: 1,
-        paddingBottom: 50,
+        paddingVertical: 20,
+        paddingBottom: 30,
+    },
+    main: {
+        backgroundColor: '#F7F3E8',
+        padding: 14,
+        borderRadius: 12,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
-        width: 300,
     },
     tituloDiv: {
         flexDirection: 'row',
@@ -175,57 +184,44 @@ const styles = StyleSheet.create({
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
-    },
-    introContainer: {
-        alignItems: 'center',
-        marginTop: 20,
-        width: 300,
-    },
-    introTexto: {
-        fontSize: 18,
-        color: '#2A3B1B',
-        fontWeight: '500',
-        textAlign: 'center',
-        marginBottom: 10,
-    },
-    bannerVerdeClaro: {
-        backgroundColor: '#C2E799',
-        padding: 15,
-        borderRadius: 12,
-        width: '100%',
-    },
-    bannerTexto: {
-        textAlign: 'center',
-        color: '#2A3B1B',
-        fontWeight: 'bold',
+        marginBottom: 20
     },
     vocabularioContainer: {
         width: 300,
         marginTop: 5,
+        padding: 12
+    },
+        bannerTexto: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#5C664F',
+        textTransform: 'uppercase',
+        letterSpacing: 0.6,
+        paddingHorizontal: 8,
+        marginBottom: 15,
     },
     cardPalavra: {
         width: '100%',
         borderRadius: 12,
         overflow: 'hidden',
+        marginVertical: 7,
     },
     botaoPalavra: {
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#94B979',
+        backgroundColor: '#94B97B',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 12,
-        borderWidth: 1.5,
-        borderColor: '#6F905C',
     },
     botaoPalavraAberto: {
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
     },
     palavraTexto: {
-        color: '#FFF',
+        color: '#ffffff',
         fontWeight: 'bold',
         fontSize: 16,
     },
@@ -233,12 +229,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#D4EBBA',
         paddingHorizontal: 20,
         paddingVertical: 10,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
     },
     significadoTexto: {
-        color: '#2A3B1B',
+        color: '#2B431E',
         fontSize: 14,
-        lineHeight: 20,
+        fontWeight: 500,
     },
 });
