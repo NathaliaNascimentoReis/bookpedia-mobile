@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingVertical: 20,
         paddingBottom: 32,
         ...(Platform.OS === 'web'
             ? {
@@ -130,7 +131,6 @@ const styles = StyleSheet.create({
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',

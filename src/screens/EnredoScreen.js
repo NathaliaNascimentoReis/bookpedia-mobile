@@ -1,12 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    useWindowDimensions,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
@@ -34,7 +27,11 @@ export default function Enredos() {
             </View>
             <View style={styles.div}>
                 <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the story in depth!' : 'Conheça a história com profundidade!'}</Text>
+                    <Text style={styles.subtituloTexto}>
+                        {idioma === 'en'
+                            ? 'Get to know the story in depth!'
+                            : 'Conheça a história com profundidade!'}
+                    </Text>
                 </View>
             </View>
 
@@ -100,12 +97,11 @@ export default function Enredos() {
                 </View>
             </View>
 
-
-                <View style={styles.divButton}>
-                    <View style={styles.subtituloButton}>
-                        <Text style={styles.textoButton}>Saiba mais sobre os cenários!</Text>
-                    </View>
+            <View style={styles.divButton}>
+                <View style={styles.subtituloButton}>
+                    <Text style={styles.textoButton}>Saiba mais sobre os cenários!</Text>
                 </View>
+            </View>
 
             <View style={styles.enredoSection}>
                 <View style={styles.cenarioSecao}>
@@ -123,8 +119,9 @@ export default function Enredos() {
 
                     <View style={styles.textoDiv}>
                         <Text style={styles.textoCaracteristicas}>
-                            Características: Lorem ipsum dolor sit amet.                                                                                                  Descrição: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Características: Lorem ipsum dolor sit amet. Descrição: Lorem ipsum
+                            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                            incididunt ut labore et dolore magna aliqua.
                         </Text>
                     </View>
                 </View>
@@ -139,10 +136,11 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flexGrow: 1,
+        paddingVertical: 20,
+        paddingBottom: 30,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',

@@ -13,7 +13,7 @@ export default function Biblioteca() {
         <View style={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome name='book' size={24} color='#1E1E1E' />
+                    <FontAwesome name="book" size={24} color="#1E1E1E" />
                     <Text style={styles.titulo}>{idioma === 'en' ? 'Library' : 'Biblioteca'}</Text>
                 </View>
                 <View style={styles.linha}></View>
@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#E7F0DB',
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingVertical: 20,
+        paddingBottom: 30,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',

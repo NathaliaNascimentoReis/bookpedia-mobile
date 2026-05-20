@@ -8,32 +8,33 @@ export default function MovimentosLiterarios() {
     const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
-    
+
     return (
         <ScrollView
-                    style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-                    contentContainerStyle={styles.container}>
-                    <View style={styles.tituloSection}>
-                        <View style={styles.tituloDiv}>
-                            <FontAwesome5 name="feather-alt" size={24} color="black" />
-                            <Text style={styles.titulo}>{idioma === 'en' ? 'Literary Movement' : 'Movimentos Literarios'}</Text>
-                        </View>
-                        <View style={styles.linha}></View>
-                    </View>
-                    </ScrollView>
+            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
+            contentContainerStyle={styles.container}>
+            <View style={styles.tituloSection}>
+                <View style={styles.tituloDiv}>
+                    <FontAwesome5 name="feather-alt" size={24} color="black" />
+                    <Text style={styles.titulo}>
+                        {idioma === 'en' ? 'Literary Movement' : 'Movimentos Literarios'}
+                    </Text>
+                </View>
+                <View style={styles.linha}></View>
+            </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#E7F0DB',
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingVertical: 20,
+        paddingBottom: 30,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',

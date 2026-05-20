@@ -9,7 +9,7 @@ const mainItems = [
     {
         label: 'Livro Destaque',
         route: 'LivroDestaque',
-        icon: () => <FontAwesome name='bookmark' size={22} color='#1E1E1E' />,
+        icon: () => <FontAwesome name="bookmark" size={22} color="#1E1E1E" />,
     },
 ];
 
@@ -17,37 +17,37 @@ const relatedItems = [
     {
         label: 'Enredo',
         route: 'Enredo',
-        icon: () => <FontAwesome5 name='book-open' size={18} color='#1E1E1E' />,
+        icon: () => <FontAwesome5 name="book-open" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Autor',
         route: 'Autor',
-        icon: () => <FontAwesome5 name='user-alt' size={18} color='#1E1E1E' />,
+        icon: () => <FontAwesome5 name="user-alt" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Personagens',
         route: 'Personagens',
-        icon: () => <FontAwesome name='users' size={18} color='#1E1E1E' />,
+        icon: () => <FontAwesome name="users" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Simulado',
         route: 'Simulado',
-        icon: () => <FontAwesome name='check-square' size={18} color='#1E1E1E' />,
+        icon: () => <FontAwesome name="check-square" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Videoaulas',
         route: 'VideoAula',
-        icon: () => <FontAwesome name='video-camera' size={18} color='#1E1E1E' />,
+        icon: () => <FontAwesome name="video-camera" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Vocabulário',
         route: 'Vocabulario',
-        icon: () => <FontAwesome5 name='list-alt' size={18} color='#1E1E1E' />,
+        icon: () => <FontAwesome5 name="list-alt" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Curiosidades',
         route: 'Curiosidades',
-        icon: () => <FontAwesome5 name='lightbulb' size={18} color='#1E1E1E' />,
+        icon: () => <FontAwesome5 name="lightbulb" size={18} color="#1E1E1E" />,
     },
 ];
 
@@ -55,17 +55,17 @@ const secondaryItems = [
     {
         label: 'Dicas de Vestibular',
         route: 'DicasVestibular',
-        icon: () => <FontAwesome5 name='graduation-cap' size={22} color='#1E1E1E' />,
+        icon: () => <FontAwesome5 name="graduation-cap" size={22} color="#1E1E1E" />,
     },
     {
         label: 'Biblioteca',
         route: 'Biblioteca',
-        icon: () => <FontAwesome name='book' size={22} color='#1E1E1E' />,
+        icon: () => <FontAwesome name="book" size={22} color="#1E1E1E" />,
     },
     {
         label: 'Sobre',
         route: 'Sobre',
-        icon: () => <FontAwesome6 name='circle-info' size={22} color='#1E1E1E' />,
+        icon: () => <FontAwesome6 name="circle-info" size={22} color="#1E1E1E" />,
     },
 ];
 
@@ -101,7 +101,7 @@ export function TelaMenu(props) {
                     style={styles.closeButton}
                     onPress={() => props.navigation.closeDrawer()}
                     activeOpacity={0.85}>
-                    <FontAwesome6 name='xmark' size={20} color='#1E1E1E' />
+                    <FontAwesome6 name="xmark" size={20} color="#1E1E1E" />
                 </TouchableOpacity>
 
                 <Text style={styles.menuTitle}>Explorar o BookPedia</Text>

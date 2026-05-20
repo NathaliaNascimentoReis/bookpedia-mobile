@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#E7F0DB',
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingVertical: 20,
+        paddingBottom: 30,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',

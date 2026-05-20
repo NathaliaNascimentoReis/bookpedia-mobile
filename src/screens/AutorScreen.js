@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 export default function Autores() {
     const { width } = useWindowDimensions();
@@ -52,17 +52,15 @@ export default function Autores() {
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="user-alt" size={24} color="black" />
-                    <Text style={styles.titulo}>
-                                {idioma === "en"
-                                  ? "Author"
-                                  : "Autor"}
-                              </Text>
+                    <Text style={styles.titulo}>{idioma === 'en' ? 'Author' : 'Autor'}</Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
             <View style={styles.div}>
                 <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the author!' : 'Conheça o autor!'}</Text>
+                    <Text style={styles.subtituloTexto}>
+                        {idioma === 'en' ? 'Get to know the author!' : 'Conheça o autor!'}
+                    </Text>
                 </View>
             </View>
 
@@ -74,25 +72,23 @@ export default function Autores() {
                     </View>
                     <View style={styles.autorDescricao}>
                         {isLoading ? (
-                <ActivityIndicator size="large" color="#caad92" />
-            ) : (
-                data?.map((autor, index) => (
-                    <View key={autor.id} style={styles.autor}>
-                        <View style={styles.overlay}>
-                            <Text style={styles.textoOverlay}>
-                                {idioma === 'en'
-                                    ? autor.descricaoEn || autor.descricao
-                                    : autor.descricao}
-                            </Text>
-                        </View>
-                    </View>
-                ))
-            )}
+                            <ActivityIndicator size="large" color="#caad92" />
+                        ) : (
+                            data?.map((autor, index) => (
+                                <View key={autor.id} style={styles.autor}>
+                                    <View style={styles.overlay}>
+                                        <Text style={styles.textoOverlay}>
+                                            {idioma === 'en'
+                                                ? autor.descricaoEn || autor.descricao
+                                                : autor.descricao}
+                                        </Text>
+                                    </View>
+                                </View>
+                            ))
+                        )}
                     </View>
                 </View>
             </View>
-
-            
 
             <View style={styles.descricaoSection}>
                 <View style={styles.descricaoDiv}>
@@ -123,10 +119,11 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flexGrow: 1,
+        paddingVertical: 20,
+        paddingBottom: 30,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',
@@ -188,13 +185,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     autorDescricao: {
-        minHeight: 50, 
+        minHeight: 50,
         backgroundColor: '#D5EBBA',
         padding: 10,
-        borderBottomLeftRadius: 15,  
+        borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
-        
-        
     },
     descricaoSection: {
         margin: 20,
