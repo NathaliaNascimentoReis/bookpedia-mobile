@@ -9,7 +9,7 @@ export default function Personagens() {
     const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
-    
+
     return (
         <ScrollView
             style={{ flex: 1, backgroundColor: '#E7F0DB' }}
@@ -17,13 +17,17 @@ export default function Personagens() {
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="users" size={24} color="black" />
-                    <Text style={styles.titulo}>{idioma === 'en' ? 'Characters' : 'Personagens'}</Text>
+                    <Text style={styles.titulo}>
+                        {idioma === 'en' ? 'Characters' : 'Personagens'}
+                    </Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
             <View style={styles.div}>
                 <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the characters' : 'Conheça os personagens!'}</Text>
+                    <Text style={styles.subtituloTexto}>
+                        {idioma === 'en' ? 'Get to know the characters' : 'Conheça os personagens!'}
+                    </Text>
                 </View>
             </View>
 
@@ -38,7 +42,11 @@ export default function Personagens() {
 
             <View style={styles.divButton}>
                 <View style={styles.subtituloButton}>
-                    <Text style={styles.subtituloTexto}>{idioma === 'en' ? 'Get to know the characters' : 'Saiba mais sobre suas histórias clicando nos cards!'}</Text>
+                    <Text style={styles.subtituloTexto}>
+                        {idioma === 'en'
+                            ? 'Get to know the characters'
+                            : 'Saiba mais sobre suas histórias clicando nos cards!'}
+                    </Text>
                 </View>
             </View>
 
@@ -66,10 +74,11 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flexGrow: 1,
+        paddingVertical: 20,
+        paddingBottom: 30,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',
@@ -152,7 +161,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         borderWidth: 2,
-        borderColor: '#6F9058'
+        borderColor: '#6F9058',
     },
     personagemNome: {
         fontSize: 18,

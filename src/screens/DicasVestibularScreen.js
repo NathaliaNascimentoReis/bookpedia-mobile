@@ -8,7 +8,7 @@ export default function DicasVestibular() {
     const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
-    
+
     return (
         <ScrollView
             style={{ flex: 1, backgroundColor: '#E7F0DB' }}
@@ -16,24 +16,25 @@ export default function DicasVestibular() {
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="feather-alt" size={24} color="black" />
-                    <Text style={styles.titulo}>{idioma === 'en' ? 'Exam Tips' : 'Dicas de Vestibular'}</Text>
+                    <Text style={styles.titulo}>
+                        {idioma === 'en' ? 'Exam Tips' : 'Dicas de Vestibular'}
+                    </Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
-            </ScrollView>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#E7F0DB',
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingVertical: 20,
+        paddingBottom: 30,
     },
     tituloSection: {
         gap: 5,
-        marginTop: 30,
     },
     tituloDiv: {
         flexDirection: 'row',

@@ -162,11 +162,6 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingBottom: 30,
     },
-    main: {
-        backgroundColor: '#F7F3E8',
-        padding: 14,
-        borderRadius: 12,
-    },
     tituloSection: {
         gap: 5,
     },
@@ -185,6 +180,11 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#9B6737',
         marginBottom: 20
+    },
+    main: {
+        backgroundColor: '#F7F3E8',
+        padding: 14,
+        borderRadius: 12,
     },
     vocabularioContainer: {
         width: 300,
