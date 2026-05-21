@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 19,
         color: '#000000',
     },
     linha: {

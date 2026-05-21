@@ -8,6 +8,7 @@ import { useIdioma } from '../IdiomaContext.js';
 const mainItems = [
     {
         label: 'Livro Destaque',
+        labelEn: 'Featured Book',
         route: 'LivroDestaque',
         icon: () => <FontAwesome name="bookmark" size={22} color="#1E1E1E" />,
     },
@@ -16,36 +17,43 @@ const mainItems = [
 const relatedItems = [
     {
         label: 'Enredo',
+        labelEn: 'Story',
         route: 'Enredo',
         icon: () => <FontAwesome5 name="book-open" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Autor',
+        labelEn: 'Author',
         route: 'Autor',
         icon: () => <FontAwesome5 name="user-alt" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Personagens',
+        labelEn: 'Characters',
         route: 'Personagens',
         icon: () => <FontAwesome name="users" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Simulado',
+        labelEn: 'Quiz',
         route: 'Simulado',
         icon: () => <FontAwesome name="check-square" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Videoaulas',
+        labelEn: 'Video Classes',
         route: 'VideoAula',
         icon: () => <FontAwesome name="video-camera" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Vocabulário',
+        labelEn: 'Vocabulary',
         route: 'Vocabulario',
         icon: () => <FontAwesome5 name="list-alt" size={18} color="#1E1E1E" />,
     },
     {
         label: 'Curiosidades',
+        labelEn: 'Curiosities',
         route: 'Curiosidades',
         icon: () => <FontAwesome5 name="lightbulb" size={18} color="#1E1E1E" />,
     },
@@ -54,16 +62,19 @@ const relatedItems = [
 const secondaryItems = [
     {
         label: 'Dicas de Vestibular',
+        labelEn: 'Exam Tips',
         route: 'DicasVestibular',
         icon: () => <FontAwesome5 name="graduation-cap" size={22} color="#1E1E1E" />,
     },
     {
         label: 'Biblioteca',
+        labelEn: 'Library',
         route: 'Biblioteca',
         icon: () => <FontAwesome name="book" size={22} color="#1E1E1E" />,
     },
     {
         label: 'Sobre',
+        labelEn: 'About',
         route: 'Sobre',
         icon: () => <FontAwesome6 name="circle-info" size={22} color="#1E1E1E" />,
     },
@@ -86,6 +97,8 @@ function MenuButton({ icon, label, onPress, compact = false }) {
 }
 
 export function TelaMenu(props) {
+    const { idioma } = useIdioma();
+
     const navigateTo = (route) => {
         props.navigation.navigate(route);
         props.navigation.closeDrawer();
@@ -104,8 +117,14 @@ export function TelaMenu(props) {
                     <FontAwesome6 name="xmark" size={20} color="#1E1E1E" />
                 </TouchableOpacity>
 
-                <Text style={styles.menuTitle}>Explorar o BookPedia</Text>
-                <Text style={styles.menuSubtitle}>Escolha uma seção para continuar</Text>
+                <Text style={styles.menuTitle}>
+                    {idioma === 'en' ? 'Explore BookPedia' : 'Explorar o BookPedia'}
+                </Text>
+                <Text style={styles.menuSubtitle}>
+                    {idioma === 'en'
+                        ? 'Choose a section to continue'
+                        : 'Escolha uma seção para continuar'}
+                </Text>
             </View>
 
             <View style={styles.sectionCard}>
@@ -113,18 +132,20 @@ export function TelaMenu(props) {
                     <MenuButton
                         key={item.route}
                         icon={item.icon}
-                        label={item.label}
+                        label={idioma === 'en' ? item.labelEn : item.label}
                         onPress={() => navigateTo(item.route)}
                     />
                 ))}
 
                 <View style={styles.subSection}>
-                    <Text style={styles.subSectionTitle}>Capítulos e conteúdos</Text>
+                    <Text style={styles.subSectionTitle}>
+                        {idioma === 'en' ? 'Chapters and content' : 'Capítulos e conteúdos'}
+                    </Text>
                     {relatedItems.map((item) => (
                         <MenuButton
                             key={item.route}
                             icon={item.icon}
-                            label={item.label}
+                            label={idioma === 'en' ? item.labelEn : item.label}
                             compact
                             onPress={() => navigateTo(item.route)}
                         />
@@ -137,7 +158,7 @@ export function TelaMenu(props) {
                     <MenuButton
                         key={item.route}
                         icon={item.icon}
-                        label={item.label}
+                        label={idioma === 'en' ? item.labelEn : item.label}
                         onPress={() => navigateTo(item.route)}
                     />
                 ))}

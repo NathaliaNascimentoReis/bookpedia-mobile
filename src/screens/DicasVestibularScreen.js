@@ -15,7 +15,7 @@ export default function DicasVestibular() {
             contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome5 name="feather-alt" size={24} color="black" />
+                    <FontAwesome5 name="graduation-cap" size={24} color="#1E1E1E" />
                     <Text style={styles.titulo}>
                         {idioma === 'en' ? 'Exam Tips' : 'Dicas de Vestibular'}
                     </Text>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 19,
         color: '#453E34',
     },
     linha: {

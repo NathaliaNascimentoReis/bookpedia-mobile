@@ -1,13 +1,52 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useIdioma } from '../IdiomaContext.js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Sobre() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
+
+    const getEquipe = async () => {
+        try {
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/membros', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const json = await response.json();
+
+            if (Array.isArray(json)) {
+                setData(json);
+            } else if (json.membros && Array.isArray(json.membros)) {
+                setData(json.membros);
+            } else if (json.membro) {
+                setData([json.membvro]);
+            } else {
+                setData([json]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar membros: ' + error.message);
+            setData([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getEquipe();
+    }, []);
 
     return (
         <ScrollView
@@ -39,7 +78,21 @@ export default function Sobre() {
                 </Text>
             </View>
 
-            <View style={styles.main}></View>
+            <View style={styles.main}>
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#caad92" />
+                ) : (
+                    data?.map((membro, index) => (
+                        <View key={membro.id || index} style={styles.membro}>
+                            <View style={styles.cardSection}>
+                                <View style={styles.cardMembro}>
+                                    <Text style={styles.cardTitulo}>{membro.nome}</Text>
+                                </View>
+                            </View>
+                        </View>
+                    ))
+                )}
+            </View>
         </ScrollView>
     );
 }
@@ -61,7 +114,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 19,
         color: '#453E34',
     },
     linha: {

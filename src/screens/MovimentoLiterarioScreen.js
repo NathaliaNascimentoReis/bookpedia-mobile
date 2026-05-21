@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 19,
         color: '#453E34',
     },
     linha: {

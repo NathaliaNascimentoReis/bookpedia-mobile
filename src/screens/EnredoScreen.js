@@ -25,14 +25,16 @@ export default function Enredos() {
                 </View>
                 <View style={styles.linha}></View>
             </View>
-            <View style={styles.div}>
-                <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>
-                        {idioma === 'en'
-                            ? 'Get to know the story in depth!'
-                            : 'Conheça a história com profundidade!'}
-                    </Text>
-                </View>
+            <View style={[styles.intro, { backgroundColor: '#C2E799' }]}>
+                <Text
+                    style={[
+                        styles.introTexto,
+                        { color: '#2B431E', fontSize: 15, textAlign: 'center' },
+                    ]}>
+                    {idioma === 'en'
+                        ? 'Get to know the story in depth!'
+                        : 'Conheça a história com profundidade!'}
+                </Text>
             </View>
 
             <FontAwesome6
@@ -149,32 +151,24 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 19,
         color: '#000000',
     },
     linha: {
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
+        marginBottom: 20,
     },
-    div: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-    },
-    subtitulo: {
-        backgroundColor: '#daccb3',
+    intro: {
         padding: 10,
         paddingHorizontal: 20,
-        borderRadius: 15,
-        marginVertical: 10,
         marginHorizontal: 20,
+        borderRadius: 15,
+        alignSelf: 'center',
     },
-    subtituloTexto: {
-        color: '#453E34',
-        fontSize: 18,
+    introTexto: {
         fontWeight: '500',
-        textAlign: 'center',
     },
     enredoSection: {
         margin: 20,
