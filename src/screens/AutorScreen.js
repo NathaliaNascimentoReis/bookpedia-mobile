@@ -6,6 +6,7 @@ import {
     View,
     useWindowDimensions,
     ActivityIndicator,
+    Image,
 } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
@@ -22,7 +23,20 @@ export default function Autores() {
 
     const getAutor = async () => {
         try {
-            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/autores');
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/autores', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
             const json = await response.json();
 
             if (Array.isArray(json)) {
@@ -65,41 +79,84 @@ export default function Autores() {
             </View>
 
             <View style={styles.autorSection}>
-                <View style={styles.autorSecao}>
-                    <View style={styles.autorDiv}>
-                        <Text style={styles.autorNome}>José de Alencar</Text>
-                        <Text style={styles.epocaAutor}>(1829-1877)</Text>
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#caad92" />
+                ) : (
+                    data?.map((autor, index) => (
+                        <View
+                            key={autor.id}
+                            style={[styles.autorDiv, { backgroundColor: '#9DBC8A' }]}>
+                            <Text style={styles.autorNome}>{autor.nome}</Text>
+                            <Text style={styles.epocaAutor}>
+                                {autor.anoNascimento} - {autor.anoFalecimento}
+                            </Text>
+                        </View>
+                    ))
+                )}
+                <View style={styles.autorFotoSection}>
+                    {isLoading ? (
+                        <ActivityIndicator size="large" color="#caad92" />
+                    ) : (
+                        data?.map((autor, index) => (
+                            <View key={autor.id} style={styles.autor}>
+                                <Image
+                                    source={{ uri: autor.fotoURL }}
+                                    style={styles.imagemAutor}></Image>
+                            </View>
+                        ))
+                    )}
+                </View>
+            </View>
+
+            <View style={styles.main}>
+                <View style={styles.descricaoSection}>
+                    <View style={[styles.autorDiv, { backgroundColor: '#b49e7e' }]}>
+                        <Text style={styles.tituloDescricao}>
+                            {idioma === 'en' ? "Author's Description" : 'Descrição do autor'}
+                        </Text>
                     </View>
-                    <View style={styles.autorDescricao}>
+                    <View style={styles.descricaoCampo}>
                         {isLoading ? (
                             <ActivityIndicator size="large" color="#caad92" />
                         ) : (
                             data?.map((autor, index) => (
-                                <View key={autor.id} style={styles.autor}>
-                                    <View style={styles.overlay}>
-                                        <Text style={styles.textoOverlay}>
-                                            {idioma === 'en'
-                                                ? autor.descricaoEn || autor.descricao
-                                                : autor.descricao}
-                                        </Text>
-                                    </View>
+                                <View
+                                    key={autor.id}
+                                    style={[
+                                        styles.autor,
+                                        {
+                                            paddingHorizontal: 15,
+                                            paddingVertical: 10,
+                                            backgroundColor: '#E0D5C4',
+                                        },
+                                    ]}>
+                                    {isLoading ? (
+                                        <ActivityIndicator size="large" color="#caad92" />
+                                    ) : (
+                                        data?.map((autor, index) => (
+                                            <View
+                                                key={autor.id}
+                                                style={[
+                                                    styles.autor,
+                                                    {
+                                                        paddingHorizontal: 10,
+                                                        paddingVertical: 5,
+                                                        borderBottomLeftRadius: 15,
+                                                        borderBottomRightRadius: 15,
+                                                    },
+                                                ]}>
+                                                <Text style={styles.descricaoTexto}>
+                                                    {idioma === 'en'
+                                                        ? autor.descricaoEn || autor.descricao
+                                                        : autor.descricao}
+                                                </Text>
+                                            </View>
+                                        ))
+                                    )}
                                 </View>
                             ))
                         )}
                     </View>
-                </View>
-            </View>
-
-            <View style={styles.descricaoSection}>
-                <View style={styles.descricaoDiv}>
-                    <Text style={styles.tituloDescricao}>Descrição do autor</Text>
-                </View>
-                <View style={styles.descricaoCampo}>
-                    <Text>
-                        "Lorem Ipsum" est exemplar textus typographicus typographicus. "Lorem Ipsum"
-                        iam ab annis 1500 fuit, cum typographus ignotus seriem typorum confudit ut
-                        librum exemplarium typorum crearet.
-                    </Text>
                 </View>
             </View>
 
@@ -120,6 +177,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexGrow: 1,
         paddingVertical: 20,
+        paddingHorizontal: 15,
         paddingBottom: 30,
     },
     tituloSection: {
@@ -151,7 +209,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 15,
         marginVertical: 10,
-        marginHorizontal: 20,
     },
     subtituloTexto: {
         color: '#453E34',
@@ -160,14 +217,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     autorSection: {
-        margin: 20,
-        gap: 10,
-        width: 320,
+        width: '100%',
+        marginVertical: 10,
     },
     autorDiv: {
-        padding: 10,
-        backgroundColor: '#9DBC8A',
-        padding: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         flexDirection: 'row',
@@ -176,45 +231,55 @@ const styles = StyleSheet.create({
     },
     autorNome: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 16,
         color: '#2B431E',
     },
     epocaAutor: {
         color: '#59734A',
         fontWeight: 500,
-        fontSize: 18,
+        fontSize: 15,
     },
-    autorDescricao: {
+    autorFotoSection: {
         minHeight: 50,
         backgroundColor: '#D5EBBA',
         padding: 10,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
+        marginBottom: 20,
+    },
+    autor: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imagemAutor: {
+        width: 250,
+        height: 280,
+        borderRadius: 15,
+        borderWidth: 5,
+        borderColor: '#fff',
+    },
+    main: {
+        width: '100%',
+        backgroundColor: '#F7F3E8',
+        padding: 14,
+        borderRadius: 12,
     },
     descricaoSection: {
-        margin: 20,
-        width: 320,
-    },
-    descricaoDiv: {
-        backgroundColor: '#9DBC8A',
-        padding: 10,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        width: '100%',
+        marginVertical: 10,
     },
     tituloDescricao: {
         fontWeight: 'bold',
-        fontSize: 20,
-        color: '#2B431E',
+        fontSize: 16,
+        color: '#ffffff',
     },
     descricaoCampo: {
-        padding: 10,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
-        backgroundColor: '#D5EBBA',
-        height: 200,
+    },
+    descricaoTexto: {
+        fontSize: 14,
+        color: '#2B431E',
     },
     divButton: {
         alignItems: 'center',
@@ -227,7 +292,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 15,
         marginVertical: 10,
-        marginHorizontal: 20,
     },
     textoButton: {
         color: '#ffffffff',
