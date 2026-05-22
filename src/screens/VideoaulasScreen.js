@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import YoutubePlayer from 'react-native-youtube-iframe';
+
+const { width } = Dimensions.get('window');
 
 export default function VideoaulasScreen() {
     const [isLoading, setLoading] = useState(true);
@@ -15,6 +18,7 @@ export default function VideoaulasScreen() {
         <ScrollView
             style={{ flex: 1, backgroundColor: '#E7F0DB' }}
             contentContainerStyle={styles.container}>
+
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome name="video-camera" size={18} color="#1E1E1E" />
@@ -24,6 +28,7 @@ export default function VideoaulasScreen() {
                 </View>
                 <View style={styles.linha}></View>
             </View>
+
             <View style={[styles.intro, { backgroundColor: '#C2E799' }]}>
                 <Text
                     style={[
@@ -35,12 +40,21 @@ export default function VideoaulasScreen() {
                         : 'O BookPedia pode te ajudar nisso com videoaulas!'}
                 </Text>
             </View>
+
             <FontAwesome6
                 name="arrow-down"
                 size={30}
                 color="black"
                 style={{ marginVertical: 10 }}
             />
+            <View style={styles.videoCard}>
+                <YoutubePlayer
+                    height={200}
+                    play={false}
+                    videoId={'dQw4w9WgXcQ'} // id do video do Youtube
+                />
+            </View>
+
         </ScrollView>
     );
 }
@@ -80,5 +94,16 @@ const styles = StyleSheet.create({
     },
     introTexto: {
         fontWeight: '500',
+    },
+    videoCard: {
+        width: width * 0.9,
+        borderRadius: 12,
+        overflow: 'hidden',
+        marginTop: 10,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
     },
 });
