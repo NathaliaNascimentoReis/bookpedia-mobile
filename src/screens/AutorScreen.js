@@ -109,13 +109,13 @@ export default function Autores() {
             </View>
 
             <View style={styles.main}>
-                <View style={styles.descricaoSection}>
+                <View style={styles.infoSection}>
                     <View style={[styles.autorDiv, { backgroundColor: '#b49e7e' }]}>
-                        <Text style={styles.tituloDescricao}>
+                        <Text style={styles.tituloInfo}>
                             {idioma === 'en' ? "Author's Description" : 'Descrição do autor'}
                         </Text>
                     </View>
-                    <View style={styles.descricaoCampo}>
+                    <View style={styles.autorCampo}>
                         {isLoading ? (
                             <ActivityIndicator size="large" color="#caad92" />
                         ) : (
@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
+        marginBottom: 20,
     },
     div: {
         alignItems: 'center',
@@ -207,12 +208,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#daccb3',
         padding: 10,
         paddingHorizontal: 20,
+        marginHorizontal: 20,
+        margin: 10,
         borderRadius: 15,
-        marginVertical: 10,
     },
     subtituloTexto: {
         color: '#453E34',
-        fontSize: 18,
+        fontSize: 15,
         fontWeight: '500',
         textAlign: 'center',
     },
@@ -264,20 +266,23 @@ const styles = StyleSheet.create({
         padding: 14,
         borderRadius: 12,
     },
-    descricaoSection: {
+    infoSection: {
         width: '100%',
         marginVertical: 10,
     },
-    tituloDescricao: {
+    tituloInfo: {
         fontWeight: 'bold',
         fontSize: 16,
         color: '#ffffff',
     },
-    descricaoCampo: {
+    autorCampo: {
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
+        backgroundColor: '#E0D5C4',
+        overflow: 'hidden',
+        minHeight: 100,
     },
-    descricaoTexto: {
+    infoTexto: {
         fontSize: 14,
         color: '#2B431E',
     },

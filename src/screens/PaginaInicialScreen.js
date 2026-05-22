@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
+        marginBottom: 20,
     },
     intro: {
         backgroundColor: '#839c73',

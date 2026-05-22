@@ -32,7 +32,7 @@ export default function Sobre() {
             } else if (json.membros && Array.isArray(json.membros)) {
                 setData(json.membros);
             } else if (json.membro) {
-                setData([json.membvro]);
+                setData([json.membro]);
             } else {
                 setData([json]);
             }

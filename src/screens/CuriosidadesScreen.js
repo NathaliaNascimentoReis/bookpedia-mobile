@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
@@ -8,6 +8,48 @@ export default function Curiosidades() {
     const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
+
+    const getCurisosidade = async () => {
+        try {
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch(
+                'https://bookpedia-backend-4ab3.onrender.com/curiosidades',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': API_KEY,
+                    },
+                },
+            );
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const json = await response.json();
+
+            if (Array.isArray(json)) {
+                setData(json);
+            } else if (json.curiosidades && Array.isArray(json.curiosidades)) {
+                setData(json.curiosidades);
+            } else if (json.curiosidade) {
+                setData([json.curiosidade]);
+            } else {
+                setData([json]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar lista de curiosidades: ' + error.message);
+            setData([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getCurisosidade();
+    }, []);
 
     return (
         <ScrollView
@@ -21,6 +63,79 @@ export default function Curiosidades() {
                     </Text>
                 </View>
                 <View style={styles.linha}></View>
+            </View>
+
+            <View style={styles.div}>
+                <Text style={[styles.subtituloTexto, { marginBottom: 10 }]}>
+                    {idioma === 'en'
+                        ? 'Want to know how to ace the test?'
+                        : 'Quer saber como se destacar na prova?'}
+                </Text>
+                <View style={styles.subtitulo}>
+                    <Text style={styles.subtituloTexto}>
+                        {idioma === 'en'
+                            ? 'Learn valuable strategies with tips from BookPedia!'
+                            : 'Aprenda estratégias valiosas com as dicas do BookPedia!'}
+                    </Text>
+                </View>
+            </View>
+
+            <View style={styles.main}>
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#caad92" />
+                ) : (
+                    data?.map((curiosidade) => (
+                        <View
+                            key={curiosidade.id}
+                            style={[
+                                styles.dica,
+                                {
+                                    paddingHorizontal: 15,
+                                    paddingVertical: 10,
+                                    backgroundColor: '#E0D5C4',
+                                },
+                            ]}>
+                            {isLoading ? (
+                                <ActivityIndicator size="large" color="#caad92" />
+                            ) : (
+                                data?.map((curiosidade) => (
+                                    <View style={styles.infoSection}>
+                                        <View
+                                            style={[
+                                                styles.autorDiv,
+                                                { backgroundColor: '#b49e7e' },
+                                            ]}>
+                                            <Text style={styles.tituloInfo}>
+                                                {idioma === 'en'
+                                                    ? curiosidade.tituloCuriosidadeEn ||
+                                                      curiosidade.tituloCuriosidade
+                                                    : curiosidade.tituloCuriosidade}
+                                            </Text>
+                                        </View>
+                                        <View
+                                            key={curiosidade.id}
+                                            style={[
+                                                styles.autor,
+                                                {
+                                                    paddingHorizontal: 10,
+                                                    paddingVertical: 5,
+                                                    borderBottomLeftRadius: 15,
+                                                    borderBottomRightRadius: 15,
+                                                },
+                                            ]}>
+                                            <Text style={styles.descricaoTexto}>
+                                                {idioma === 'en'
+                                                    ? curiosidade.curiosidade ||
+                                                      curiosidade.curiosidade
+                                                    : curiosidade.curiosidade}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                ))
+                            )}
+                        </View>
+                    ))
+                )}
             </View>
         </ScrollView>
     );
@@ -50,5 +165,50 @@ const styles = StyleSheet.create({
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
+    },
+    div: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    subtitulo: {
+        backgroundColor: '#daccb3',
+        padding: 10,
+        paddingHorizontal: 20,
+        marginHorizontal: 20,
+        margin: 10,
+        borderRadius: 15,
+    },
+    subtituloTexto: {
+        color: '#453E34',
+        fontSize: 15,
+        fontWeight: '500',
+        textAlign: 'center',
+    },
+    main: {
+        width: '100%',
+        backgroundColor: '#F7F3E8',
+        padding: 14,
+        borderRadius: 12,
+    },
+    infoSection: {
+        width: '100%',
+        marginVertical: 10,
+    },
+    tituloInfo: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#ffffff',
+    },
+    autorCampo: {
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        backgroundColor: '#E0D5C4',
+        overflow: 'hidden',
+        minHeight: 100,
+    },
+    infoTexto: {
+        fontSize: 14,
+        color: '#2B431E',
     },
 });
