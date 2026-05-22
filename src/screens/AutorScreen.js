@@ -14,8 +14,6 @@ import { useState, useEffect } from 'react';
 
 export default function Autores() {
     const { width } = useWindowDimensions();
-    const size = width > 600 ? 2 : 1;
-
     const { idioma } = useIdioma();
 
     const [isLoading, setLoading] = useState(true);
@@ -60,248 +58,185 @@ export default function Autores() {
     }, []);
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome5 name="user-alt" size={24} color="black" />
+                    <FontAwesome5 name="user-alt" size={20} color="black" />
                     <Text style={styles.titulo}>{idioma === 'en' ? 'Author' : 'Autor'}</Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
-            <View style={styles.div}>
-                <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>
-                        {idioma === 'en' ? 'Get to know the author!' : 'Conheça o autor!'}
-                    </Text>
-                </View>
+
+            {/* Subtítulo */}
+            <View style={styles.subtituloContainer}>
+                <Text style={styles.subtituloTexto}>
+                    {idioma === 'en' ? 'Get to know the author!' : 'Conheça o autor!'}
+                </Text>
             </View>
 
-            <View style={styles.autorSection}>
-                {isLoading ? (
-                    <ActivityIndicator size="large" color="#caad92" />
-                ) : (
-                    data?.map((autor, index) => (
-                        <View
-                            key={autor.id}
-                            style={[styles.autorDiv, { backgroundColor: '#9DBC8A' }]}>
-                            <Text style={styles.autorNome}>{autor.nome}</Text>
-                            <Text style={styles.epocaAutor}>
-                                {autor.anoNascimento} - {autor.anoFalecimento}
-                            </Text>
-                        </View>
-                    ))
-                )}
-                <View style={styles.autorFotoSection}>
-                    {isLoading ? (
-                        <ActivityIndicator size="large" color="#caad92" />
-                    ) : (
-                        data?.map((autor, index) => (
-                            <View key={autor.id} style={styles.autor}>
-                                <Image
-                                    source={{ uri: autor.fotoURL }}
-                                    style={styles.imagemAutor}></Image>
+            {isLoading ? (
+                <View style={styles.loaderContainer}>
+                    <ActivityIndicator size="large" color="#7A8C66" />
+                </View>
+            ) : (
+                data?.map((autor) => (
+                    <View key={autor.id} style={styles.dadosContainer}>
+                        {/* Card: Foto do Autor */}
+                        <View style={styles.card}>
+                            <View style={[styles.cardHeader, { backgroundColor: '#9CB48A' }]}>
+                                <Text style={styles.cardHeaderTextoEscuro}>{autor.nome}</Text>
+                                <Text style={styles.cardHeaderTextoEscuro}>
+                                    ({autor.anoNascimento}-{autor.anoFalecimento})
+                                </Text>
                             </View>
-                        ))
-                    )}
-                </View>
-            </View>
+                            <View
+                                style={[
+                                    styles.cardBody,
+                                    { backgroundColor: '#D1E6BA', alignItems: 'center' },
+                                ]}>
+                                <Image source={{ uri: autor.fotoURL }} style={styles.imagemAutor} />
+                            </View>
+                        </View>
 
-            <View style={styles.main}>
-                <View style={styles.infoSection}>
-                    <View style={[styles.autorDiv, { backgroundColor: '#b49e7e' }]}>
-                        <Text style={styles.tituloInfo}>
-                            {idioma === 'en' ? "Author's Description" : 'Descrição do autor'}
-                        </Text>
-                    </View>
-                    <View style={styles.autorCampo}>
-                        {isLoading ? (
-                            <ActivityIndicator size="large" color="#caad92" />
-                        ) : (
-                            data?.map((autor, index) => (
-                                <View
-                                    key={autor.id}
-                                    style={[
-                                        styles.autor,
-                                        {
-                                            paddingHorizontal: 15,
-                                            paddingVertical: 10,
-                                            backgroundColor: '#E0D5C4',
-                                        },
-                                    ]}>
-                                    {isLoading ? (
-                                        <ActivityIndicator size="large" color="#caad92" />
-                                    ) : (
-                                        data?.map((autor, index) => (
-                                            <View
-                                                key={autor.id}
-                                                style={[
-                                                    styles.autor,
-                                                    {
-                                                        paddingHorizontal: 10,
-                                                        paddingVertical: 5,
-                                                        borderBottomLeftRadius: 15,
-                                                        borderBottomRightRadius: 15,
-                                                    },
-                                                ]}>
-                                                <Text style={styles.descricaoTexto}>
-                                                    {idioma === 'en'
-                                                        ? autor.descricaoEn || autor.descricao
-                                                        : autor.descricao}
-                                                </Text>
-                                            </View>
-                                        ))
-                                    )}
-                                </View>
-                            ))
-                        )}
-                    </View>
-                </View>
-            </View>
+                        {/* Card: Descrição do Autor */}
+                        <View style={styles.card}>
+                            <View style={[styles.cardHeader, { backgroundColor: '#E1D3C1' }]}>
+                                <Text style={styles.cardHeaderTextoEscuro}>
+                                    {idioma === 'en'
+                                        ? "Author's Description"
+                                        : 'Descrição do autor'}
+                                </Text>
+                            </View>
+                            <View style={[styles.cardBody, { backgroundColor: '#C2A88D' }]}>
+                                <Text style={styles.textoBranco}>
+                                    {idioma === 'en'
+                                        ? autor.descricaoEn || autor.descricao
+                                        : autor.descricao}
+                                </Text>
+                            </View>
+                        </View>
 
-            <View style={styles.divButton}>
-                <View style={styles.subtituloButton}>
-                    <Text style={styles.textoButton}>
-                        Saiba mais sobre esse movimento literário clicando no card!
-                    </Text>
-                </View>
-            </View>
-            <StatusBar style="auto" />
+                        {/* Card: Contexto Histórico */}
+                        <View style={styles.card}>
+                            <View style={[styles.cardHeader, { backgroundColor: '#7A8C66' }]}>
+                                <Text style={styles.cardHeaderTextoBranco}>
+                                    {idioma === 'en' ? 'Historical Context' : 'Contexto Histórico'}
+                                </Text>
+                            </View>
+                            <View style={[styles.cardBody, { backgroundColor: '#D1E6BA' }]}>
+                                <Text style={styles.textoEscuro}>
+                                    {idioma === 'en'
+                                        ? autor.contextoEn || autor.contextoHistorico
+                                        : autor.contextoHistorico}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                ))
+            )}
+
+            <StatusBar style="dark" />
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
     container: {
         alignItems: 'center',
         flexGrow: 1,
         paddingVertical: 20,
-        paddingHorizontal: 15,
-        paddingBottom: 30,
+        paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
-        gap: 5,
+        width: '100%',
+        marginBottom: 15,
     },
     tituloDiv: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
+        marginBottom: 8,
     },
     titulo: {
         fontWeight: 'bold',
-        fontSize: 19,
-        color: '#453E34',
+        fontSize: 20,
+        color: '#000',
     },
     linha: {
-        width: 300,
+        width: '100%',
         height: 1,
-        backgroundColor: '#9B6737',
+        backgroundColor: '#BCA893',
+    },
+    subtituloContainer: {
+        backgroundColor: '#C0DE9E', // Verde claro do botão
+        width: '100%',
+        paddingVertical: 12,
+        borderRadius: 10,
         marginBottom: 20,
-    },
-    div: {
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-    },
-    subtitulo: {
-        backgroundColor: '#daccb3',
-        padding: 10,
-        paddingHorizontal: 20,
-        marginHorizontal: 20,
-        margin: 10,
-        borderRadius: 15,
     },
     subtituloTexto: {
-        color: '#453E34',
-        fontSize: 15,
-        fontWeight: '500',
-        textAlign: 'center',
+        color: '#3A4A28',
+        fontSize: 16,
+        fontWeight: '600',
     },
-    autorSection: {
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: 200,
+    },
+    dadosContainer: {
         width: '100%',
-        marginVertical: 10,
+        gap: 20, // Espaçamento entre os cards
     },
-    autorDiv: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
+    card: {
+        width: '100%',
+        borderRadius: 12,
+        overflow: 'hidden',
+    },
+    cardHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 15,
     },
-    autorNome: {
+    cardHeaderTextoEscuro: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#2B431E',
+        color: '#414D35',
     },
-    epocaAutor: {
-        color: '#59734A',
-        fontWeight: 500,
-        fontSize: 15,
+    cardHeaderTextoBranco: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#FFFFFF',
     },
-    autorFotoSection: {
-        minHeight: 50,
-        backgroundColor: '#D5EBBA',
-        padding: 10,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        marginBottom: 20,
-    },
-    autor: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    cardBody: {
+        padding: 15,
     },
     imagemAutor: {
         width: 250,
-        height: 280,
-        borderRadius: 15,
-        borderWidth: 5,
-        borderColor: '#fff',
+        height: 220,
+        borderRadius: 10,
+        borderWidth: 4,
+        borderColor: '#FFFFFF',
     },
-    main: {
-        width: '100%',
-        backgroundColor: '#F7F3E8',
-        padding: 14,
-        borderRadius: 12,
-    },
-    infoSection: {
-        width: '100%',
-        marginVertical: 10,
-    },
-    tituloInfo: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#ffffff',
-    },
-    autorCampo: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        backgroundColor: '#E0D5C4',
-        overflow: 'hidden',
-        minHeight: 100,
-    },
-    infoTexto: {
-        fontSize: 14,
-        color: '#2B431E',
-    },
-    divButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-    },
-    subtituloButton: {
-        backgroundColor: '#6E7E63',
-        padding: 10,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        marginVertical: 10,
-    },
-    textoButton: {
-        color: '#ffffffff',
-        fontSize: 18,
+    textoBranco: {
+        fontSize: 15,
+        color: '#FFFFFF',
+        lineHeight: 22,
         fontWeight: '500',
-        textAlign: 'center',
+    },
+    textoEscuro: {
+        fontSize: 15,
+        color: '#2B3820',
+        lineHeight: 22,
+        fontWeight: '500',
     },
 });
