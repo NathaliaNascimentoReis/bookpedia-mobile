@@ -87,7 +87,7 @@ export default function PaginaInicial() {
                     <View key={livro.id || index} style={styles.livroDestaque}>
                         <ImageBackground
                             source={{ uri: livro.capaURL }}
-                            style={styles.ImageBackground}
+                            style={styles.imageBackground}
                             resizeMode="cover">
                             <View style={styles.overlay}>
                                 <Text style={styles.textoOverlay}>
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         marginTop: 5,
     },
-    ImageBackground: {
+    imageBackground: {
         width: '100%',
         height: '100%',
     },

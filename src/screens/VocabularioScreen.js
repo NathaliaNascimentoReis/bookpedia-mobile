@@ -37,6 +37,7 @@ export default function Vocabularios() {
             if (!response.ok) {
                 throw new Error(`Erro na requisição: ${response.status}`);
             }
+
             const json = await response.json();
 
             if (Array.isArray(json)) {
@@ -115,20 +116,20 @@ export default function Vocabularios() {
                                                 <FontAwesome5
                                                     name="chevron-up"
                                                     size={24}
-                                                    color="black"
+                                                    color="white"
                                                 />
                                             ) || (
                                                 <FontAwesome5
                                                     name="chevron-down"
                                                     size={24}
-                                                    color="black"
+                                                    color="white"
                                                 />
                                             )
                                         ) : (
                                             <FontAwesome5
                                                 name="chevron-down"
                                                 size={24}
-                                                color="black"
+                                                color="white"
                                             />
                                         )}
                                     </TouchableOpacity>
