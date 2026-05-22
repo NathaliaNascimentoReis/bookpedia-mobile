@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export default function Vocabularios() {
     const [isLoading, setLoading] = useState(true);
@@ -84,7 +83,7 @@ export default function Vocabularios() {
             </View>
 
             <View style={styles.main}>
-                <View style={styles.vocabularioContainer, {marginBottom: 20}}>
+                <View style={[styles.vocabularioContainer, { marginBottom: 20 }]}>
                     <Text style={styles.bannerTexto}>
                         {idioma === 'en'
                             ? 'Master the vocabulary of great literary works with BookPedia!'
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
-        marginBottom: 20
+        marginBottom: 20,
     },
     main: {
         backgroundColor: '#F7F3E8',
@@ -190,9 +189,9 @@ const styles = StyleSheet.create({
     vocabularioContainer: {
         width: 300,
         marginTop: 5,
-        padding: 12
+        padding: 12,
     },
-        bannerTexto: {
+    bannerTexto: {
         fontSize: 12,
         fontWeight: '700',
         color: '#5C664F',
