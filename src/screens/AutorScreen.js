@@ -61,7 +61,7 @@ export default function Autores() {
         <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome5 name="user-alt" size={20} color="black" />
+                    <FontAwesome5 name="user-alt" size={20} color="#2B3820" />
                     <Text style={styles.titulo}>{idioma === 'en' ? 'Author' : 'Autor'}</Text>
                 </View>
                 <View style={styles.linha}></View>
@@ -81,12 +81,12 @@ export default function Autores() {
             ) : (
                 data?.map((autor) => (
                     <View key={autor.id} style={styles.dadosContainer}>
-                        {/* Card: Foto do Autor */}
+                        {/* Foto do Autor */}
                         <View style={styles.card}>
                             <View style={[styles.cardHeader, { backgroundColor: '#9CB48A' }]}>
                                 <Text style={styles.cardHeaderTextoEscuro}>{autor.nome}</Text>
                                 <Text style={styles.cardHeaderTextoEscuro}>
-                                    ({autor.anoNascimento}-{autor.anoFalecimento})
+                                    ({autor.anoNascimento} - {autor.anoFalecimento})
                                 </Text>
                             </View>
                             <View
@@ -94,21 +94,25 @@ export default function Autores() {
                                     styles.cardBody,
                                     { backgroundColor: '#D1E6BA', alignItems: 'center' },
                                 ]}>
-                                <Image source={{ uri: autor.fotoURL }} style={styles.imagemAutor} />
+                                <Image
+                                    source={{ uri: autor.fotoURL }}
+                                    style={styles.imagemAutor}
+                                    resizeMode="cover"
+                                />
                             </View>
                         </View>
 
-                        {/* Card: Descrição do Autor */}
+                        {/* Descrição do Autor */}
                         <View style={styles.card}>
-                            <View style={[styles.cardHeader, { backgroundColor: '#E1D3C1' }]}>
-                                <Text style={styles.cardHeaderTextoEscuro}>
+                            <View style={[styles.cardHeader, { backgroundColor: '#C2A88D' }]}>
+                                <Text style={styles.cardHeaderTextoBranco}>
                                     {idioma === 'en'
                                         ? "Author's Description"
                                         : 'Descrição do autor'}
                                 </Text>
                             </View>
-                            <View style={[styles.cardBody, { backgroundColor: '#C2A88D' }]}>
-                                <Text style={styles.textoBranco}>
+                            <View style={[styles.cardBody, { backgroundColor: '#E1D3C1' }]}>
+                                <Text style={styles.cardHeaderTextoEscuro}>
                                     {idioma === 'en'
                                         ? autor.descricaoEn || autor.descricao
                                         : autor.descricao}
@@ -116,7 +120,7 @@ export default function Autores() {
                             </View>
                         </View>
 
-                        {/* Card: Contexto Histórico */}
+                        {/* Contexto Histórico */}
                         <View style={styles.card}>
                             <View style={[styles.cardHeader, { backgroundColor: '#7A8C66' }]}>
                                 <Text style={styles.cardHeaderTextoBranco}>
@@ -154,36 +158,44 @@ const styles = StyleSheet.create({
     },
     tituloSection: {
         width: '100%',
-        marginBottom: 15,
+        marginBottom: 20,
     },
     tituloDiv: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 10,
-        marginBottom: 8,
+        gap: 12,
+        marginBottom: 10,
     },
     titulo: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: '#000',
+        fontWeight: '900',
+        fontSize: 22,
+        color: '#2B3820',
+        letterSpacing: 0.5,
     },
     linha: {
         width: '100%',
-        height: 1,
+        height: 2,
         backgroundColor: '#BCA893',
+        opacity: 0.6,
     },
     subtituloContainer: {
-        backgroundColor: '#C0DE9E', // Verde claro do botão
+        backgroundColor: '#C0DE9E',
         width: '100%',
-        paddingVertical: 12,
-        borderRadius: 10,
-        marginBottom: 20,
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 25,
         alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     subtituloTexto: {
         color: '#3A4A28',
-        fontSize: 16,
-        fontWeight: '600',
+        fontSize: 16.5,
+        fontWeight: '700',
     },
     loaderContainer: {
         flex: 1,
@@ -193,50 +205,53 @@ const styles = StyleSheet.create({
     },
     dadosContainer: {
         width: '100%',
-        gap: 20, // Espaçamento entre os cards
+        gap: 24,
     },
     card: {
         width: '100%',
-        borderRadius: 12,
+        borderRadius: 16,
         overflow: 'hidden',
+        // Sombras
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.15,
+        shadowRadius: 5,
+        elevation: 4,
+        backgroundColor: '#FFF',
     },
     cardHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 15,
+        paddingVertical: 14,
+        paddingHorizontal: 18,
     },
     cardHeaderTextoEscuro: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#414D35',
+        color: '#2B3820',
+        lineHeight: 24,
     },
     cardHeaderTextoBranco: {
         fontWeight: 'bold',
         fontSize: 16,
         color: '#FFFFFF',
+        letterSpacing: 0.3,
     },
     cardBody: {
-        padding: 15,
+        padding: 18,
     },
     imagemAutor: {
-        width: 250,
-        height: 220,
-        borderRadius: 10,
-        borderWidth: 4,
+        width: '100%',
+        height: 280,
+        borderRadius: 12,
+        borderWidth: 3,
         borderColor: '#FFFFFF',
     },
-    textoBranco: {
-        fontSize: 15,
-        color: '#FFFFFF',
-        lineHeight: 22,
-        fontWeight: '500',
-    },
     textoEscuro: {
-        fontSize: 15,
+        fontSize: 15.5,
         color: '#2B3820',
-        lineHeight: 22,
+        lineHeight: 24,
         fontWeight: '500',
     },
 });
