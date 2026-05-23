@@ -66,16 +66,11 @@ export default function Curiosidades() {
             </View>
 
             <View style={styles.div}>
-                <Text style={[styles.subtituloTexto, { marginBottom: 10 }]}>
-                    {idioma === 'en'
-                        ? 'Want to know how to ace the test?'
-                        : 'Quer saber como se destacar na prova?'}
-                </Text>
                 <View style={styles.subtitulo}>
                     <Text style={styles.subtituloTexto}>
                         {idioma === 'en'
-                            ? 'Learn valuable strategies with tips from BookPedia!'
-                            : 'Aprenda estratégias valiosas com as dicas do BookPedia!'}
+                            ? 'Quer conhecer fatos interessantes? Explore o que as páginas não contam, mas o BookPedia sim!'
+                            : "Want to discover interesting facts? Explore what the pages don't tell you, but BookPedia does!"}
                     </Text>
                 </View>
             </View>
@@ -85,54 +80,25 @@ export default function Curiosidades() {
                     <ActivityIndicator size="large" color="#caad92" />
                 ) : (
                     data?.map((curiosidade) => (
-                        <View
-                            key={curiosidade.id}
-                            style={[
-                                styles.dica,
-                                {
-                                    paddingHorizontal: 15,
-                                    paddingVertical: 10,
-                                    backgroundColor: '#E0D5C4',
-                                },
-                            ]}>
-                            {isLoading ? (
-                                <ActivityIndicator size="large" color="#caad92" />
-                            ) : (
-                                data?.map((curiosidade) => (
-                                    <View style={styles.infoSection}>
-                                        <View
-                                            style={[
-                                                styles.autorDiv,
-                                                { backgroundColor: '#b49e7e' },
-                                            ]}>
-                                            <Text style={styles.tituloInfo}>
-                                                {idioma === 'en'
-                                                    ? curiosidade.tituloCuriosidadeEn ||
-                                                      curiosidade.tituloCuriosidade
-                                                    : curiosidade.tituloCuriosidade}
-                                            </Text>
-                                        </View>
-                                        <View
-                                            key={curiosidade.id}
-                                            style={[
-                                                styles.autor,
-                                                {
-                                                    paddingHorizontal: 10,
-                                                    paddingVertical: 5,
-                                                    borderBottomLeftRadius: 15,
-                                                    borderBottomRightRadius: 15,
-                                                },
-                                            ]}>
-                                            <Text style={styles.descricaoTexto}>
-                                                {idioma === 'en'
-                                                    ? curiosidade.curiosidade ||
-                                                      curiosidade.curiosidade
-                                                    : curiosidade.curiosidade}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                ))
-                            )}
+                        <View key={curiosidade.id} style={styles.curiosidadeCard}>
+                            {/* Cabeçalho da Curiosidade */}
+                            <View style={styles.curiosidadeHeader}>
+                                <Text style={styles.tituloInfo}>
+                                    {idioma === 'en'
+                                        ? curiosidade.tituloCuriosidadeEn ||
+                                          curiosidade.tituloCuriosidade
+                                        : curiosidade.tituloCuriosidade}
+                                </Text>
+                            </View>
+
+                            {/* Corpo da Curiosidade */}
+                            <View style={styles.curiosidadeBody}>
+                                <Text style={styles.descricaoTexto}>
+                                    {idioma === 'en'
+                                        ? curiosidade.curiosidadeEn || curiosidade.curiosidade
+                                        : curiosidade.curiosidade}
+                                </Text>
+                            </View>
                         </View>
                     ))
                 )}
@@ -143,7 +109,7 @@ export default function Curiosidades() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: 'center',
         paddingVertical: 20,
         paddingBottom: 30,
@@ -165,6 +131,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
+        marginBottom: 20,
     },
     div: {
         alignItems: 'center',
@@ -172,43 +139,56 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     subtitulo: {
-        backgroundColor: '#daccb3',
+        backgroundColor: '#C0DE9E',
         padding: 10,
         paddingHorizontal: 20,
         marginHorizontal: 20,
         margin: 10,
         borderRadius: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     subtituloTexto: {
-        color: '#453E34',
+        color: '#3A4A28',
         fontSize: 15,
         fontWeight: '500',
         textAlign: 'center',
     },
     main: {
         width: '100%',
-        backgroundColor: '#F7F3E8',
         padding: 14,
-        borderRadius: 12,
     },
-    infoSection: {
-        width: '100%',
-        marginVertical: 10,
+    curiosidadeCard: {
+        backgroundColor: '#E0D5C4',
+        borderRadius: 15,
+        overflow: 'hidden',
+        marginBottom: 20,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    curiosidadeHeader: {
+        backgroundColor: '#b49e7e',
+        paddingVertical: 12,
+        paddingHorizontal: 15,
     },
     tituloInfo: {
         fontWeight: 'bold',
         fontSize: 16,
         color: '#ffffff',
     },
-    autorCampo: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        backgroundColor: '#E0D5C4',
-        overflow: 'hidden',
-        minHeight: 100,
+    curiosidadeBody: {
+        paddingVertical: 15,
+        paddingHorizontal: 15,
     },
-    infoTexto: {
+    descricaoTexto: {
         fontSize: 14,
         color: '#2B431E',
+        lineHeight: 20,
     },
 });

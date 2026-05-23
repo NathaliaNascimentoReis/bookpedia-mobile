@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: 15,
         fontWeight: '500',
+        textAlign: 'center',
     },
     livroDestaque: {
         width: 280,

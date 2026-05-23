@@ -10,7 +10,7 @@ export default function Simulado() {
     const { idioma } = useIdioma();
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome name="check-square" size={24} color="#1E1E1E" />
@@ -18,7 +18,7 @@ export default function Simulado() {
                 </View>
                 <View style={styles.linha}></View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
