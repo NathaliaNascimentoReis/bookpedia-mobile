@@ -1,5 +1,7 @@
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState, useEffect } from 'react';
 
@@ -64,14 +66,14 @@ export default function Sobre() {
                 <View style={styles.linha}></View>
             </View>
 
-            <View style={[styles.intro, { backgroundColor: '#C2E799' }]}>
-                <Text style={[styles.introTexto, { color: '#2B431E', fontSize: 15 }]}>
+            <View style={[styles.intro, { backgroundColor: '#C2E799', marginBottom: 10 }]}>
+                <Text style={[styles.introTexto, { color: '#2B431E', fontSize: 16 }]}>
                     {idioma === 'en' ? 'Get to know the team too!' : 'Conheça a equipe também!'}
                 </Text>
             </View>
 
-            <View style={[styles.intro, { backgroundColor: '#839c73', marginTop: 20 }]}>
-                <Text style={[styles.introTexto, { color: '#ffffff', fontSize: 13 }]}>
+            <View style={[styles.intro, { backgroundColor: '#839c73', marginBottom: 10 }]}>
+                <Text style={[styles.introTexto, { color: '#ffffff', fontSize: 14 }]}>
                     {idioma === 'en'
                         ? "Learn more about the team's individual reflections about the main work by clicking on their cards"
                         : 'Saiba mais sobre a reflexão individual da equipe acerca da obra principal clicando em seus cards!'}
@@ -83,11 +85,23 @@ export default function Sobre() {
                     <ActivityIndicator size="large" color="#caad92" />
                 ) : (
                     data?.map((membro, index) => (
-                        <View key={membro.id || index} style={styles.membro}>
-                            <View style={styles.cardSection}>
-                                <View style={styles.cardMembro}>
+                        <View key={membro.id || index} style={styles.membroCard}>
+                            <View style={styles.cardTituloContainer}>
+                                <View style={styles.infoDiv}>
+                                    {membro.curso !== 'Desenvolvimento de Sistemas' ? (
+                                        <FontAwesome6
+                                            name="puzzle-piece"
+                                            size={22}
+                                            color="white"
+                                        />
+                                    ) : (
+                                        <FontAwesome5 name="code" size={22} color="white" />
+                                    )}
                                     <Text style={styles.cardTitulo}>{membro.nome}</Text>
                                 </View>
+                                <TouchableOpacity>
+                                    <FontAwesome name="external-link" size={24} color="white" />
+                                </TouchableOpacity>
                             </View>
                         </View>
                     ))
@@ -103,6 +117,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         paddingVertical: 20,
         paddingBottom: 30,
+        paddingHorizontal: 20,
     },
     tituloSection: {
         gap: 5,
@@ -124,17 +139,58 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     intro: {
-        padding: 10,
-        paddingHorizontal: 20,
-        marginHorizontal: 20,
-        borderRadius: 15,
+        backgroundColor: '#C0DE9E',
+        width: '100%',
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 15,
+        alignItems: 'center',
+        // Sombras
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     introTexto: {
-        fontWeight: '500',
+        color: '#3A4A28',
+        fontSize: 16.5,
+        fontWeight: '700',
+        textAlign: 'center',
     },
     main: {
-        backgroundColor: '#F7F3E8',
-        padding: 14,
+        width: '100%',
+    },
+    membroCard: {
+        padding: 16,
         borderRadius: 12,
+        marginBottom: 12,
+        width: '100%',
+        elevation: 2, // Sombra
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+    },
+    cardTituloContainer: {
+        backgroundColor: '#C2A88D',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    infoDiv: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+    },
+    cardTitulo: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#ffffff',
     },
 });
