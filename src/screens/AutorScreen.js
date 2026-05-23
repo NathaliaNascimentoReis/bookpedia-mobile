@@ -67,7 +67,6 @@ export default function Autores() {
                 <View style={styles.linha}></View>
             </View>
 
-            {/* Subtítulo */}
             <View style={styles.subtituloContainer}>
                 <Text style={styles.subtituloTexto}>
                     {idioma === 'en' ? 'Get to know the author!' : 'Conheça o autor!'}
