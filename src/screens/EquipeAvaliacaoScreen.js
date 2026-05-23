@@ -2,8 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState } from 'react';
+import { useRoute } from '@react-navigation/native';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export default function EquipeAvaliacao() {
+    const route = useRoute();
+
+    const membro = route.params?.membro;
+
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
@@ -15,11 +21,11 @@ export default function EquipeAvaliacao() {
             contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome6 name="circle-info" size={22} color="#1E1E1E" />
+                    <FontAwesome6 name="pen-to-square" size={24} color="black" />
                     <Text style={styles.titulo}>
                         {idioma === 'en'
-                            ? 'About the project and team'
-                            : 'Sobre o Projeto e Equipe'}
+                            ? `Evaluation by ${membro.nome}`
+                            : `Avaliação de ${membro.nome}`}
                     </Text>
                 </View>
                 <View style={styles.linha}></View>

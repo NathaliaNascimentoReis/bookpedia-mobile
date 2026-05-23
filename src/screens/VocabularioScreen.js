@@ -124,10 +124,8 @@ export default function Vocabularios() {
                                         <Text style={styles.significadoTexto}>
                                             {idioma === 'en'
                                                 ? vocabulario.significadoEn ||
-                                                  vocabulario.significado ||
-                                                  'Lorem ipsum dolor sit amet...'
-                                                : vocabulario.significado ||
-                                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'}
+                                                  vocabulario.significado
+                                                : vocabulario.significado}
                                         </Text>
                                     </View>
                                 )}
@@ -239,7 +237,7 @@ const styles = StyleSheet.create({
         padding: 18,
     },
     significadoTexto: {
-        color: '#2B3820',
+        color: '#453E34',
         fontSize: 15.5,
         lineHeight: 24,
         fontWeight: '500',

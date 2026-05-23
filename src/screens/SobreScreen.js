@@ -1,15 +1,25 @@
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    ActivityIndicator,
+    TouchableOpacity,
+} from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Sobre() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
+
+    const navigation = useNavigation();
 
     const getEquipe = async () => {
         try {
@@ -89,19 +99,70 @@ export default function Sobre() {
                             <View style={styles.cardTituloContainer}>
                                 <View style={styles.infoDiv}>
                                     {membro.curso !== 'Desenvolvimento de Sistemas' ? (
-                                        <FontAwesome6
-                                            name="puzzle-piece"
-                                            size={22}
-                                            color="white"
-                                        />
+                                        <FontAwesome6 name="puzzle-piece" size={22} color="white" />
                                     ) : (
                                         <FontAwesome5 name="code" size={22} color="white" />
                                     )}
                                     <Text style={styles.cardTitulo}>{membro.nome}</Text>
                                 </View>
-                                <TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate('EquipeAvaliacao', {
+                                            screen: 'EquipeAvaliacaoScreen',
+                                            params: { membro: membro },
+                                        })
+                                    }
+                                    activeOpacity={0.7}>
                                     <FontAwesome name="external-link" size={24} color="white" />
                                 </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.infoMembro}>
+                                {/* Idade */}
+                                <View style={styles.div}>
+                                    <Text style={styles.infoTexto}>
+                                        <Text style={styles.boldText}>
+                                            {idioma === 'en' ? 'Age: ' : 'Idade: '}
+                                        </Text>
+                                        {membro.idade}
+                                    </Text>
+                                </View>
+
+                                {/* Curso */}
+                                <View style={styles.div}>
+                                    <Text style={styles.infoTexto}>
+                                        <Text style={styles.boldText}>
+                                            {idioma === 'en' ? 'Course: ' : 'Curso: '}
+                                        </Text>
+                                        {idioma === 'en'
+                                            ? membro.cursoEn || membro.curso
+                                            : membro.curso}
+                                    </Text>
+                                </View>
+
+                                {/* Cargo */}
+                                <View style={styles.div}>
+                                    <Text style={styles.infoTexto}>
+                                        <Text style={styles.boldText}>
+                                            {idioma === 'en' ? 'Role: ' : 'Cargo: '}
+                                        </Text>
+                                        {idioma === 'en'
+                                            ? membro.cargoEn || membro.cargo
+                                            : membro.cargo}
+                                    </Text>
+                                </View>
+
+                                {/* Descrição */}
+                                <View style={styles.div}>
+                                    <Text style={styles.infoTexto}>
+                                        <Text style={styles.boldText}>
+                                            {idioma === 'en' ? 'Description: ' : 'Descrição: '}
+                                        </Text>
+                                        {idioma === 'en'
+                                            ? membro.descricaoEn || membro.descricao
+                                            : membro.descricao}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
                     ))
@@ -146,7 +207,6 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         marginBottom: 15,
         alignItems: 'center',
-        // Sombras
         shadowColor: 'rgb(0, 0, 0)',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
@@ -163,20 +223,20 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     membroCard: {
-        padding: 16,
+        marginTop: 4,
         borderRadius: 12,
-        marginBottom: 12,
+        marginBottom: 16,
         width: '100%',
-        elevation: 2, // Sombra
+        elevation: 3,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 4,
     },
     cardTituloContainer: {
         backgroundColor: '#C2A88D',
-        paddingVertical: 8,
-        paddingHorizontal: 12,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
         borderTopLeftRadius: 12,
         borderTopRightRadius: 12,
         justifyContent: 'space-between',
@@ -192,5 +252,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         color: '#ffffff',
+    },
+    infoMembro: {
+        backgroundColor: '#E1D3C1',
+        paddingHorizontal: 15,
+        paddingVertical: 12,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+    },
+    div: {
+        marginBottom: 10,
+    },
+    infoTexto: {
+        color: '#453E34',
+        fontSize: 14,
+        fontWeight: '500',
+        lineHeight: 20,
+    },
+    boldText: {
+        fontWeight: 'bold',
+        color: '#332C24',
     },
 });

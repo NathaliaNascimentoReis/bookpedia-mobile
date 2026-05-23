@@ -13,6 +13,7 @@ import Curiosidades from './src/screens/CuriosidadesScreen.js';
 import Biblioteca from './src/screens/BibliotecaScreen.js';
 import Simulado from './src/screens/SimuladoScreen.js';
 import Sobre from './src/screens/SobreScreen.js';
+import EquipeAvaliacao from './src/screens/EquipeAvaliacaoScreen.js';
 import Autor from './src/screens/AutorScreen.js';
 import Personagens from './src/screens/PersonagensScreen.js';
 import Enredo from './src/screens/EnredoScreen.js';
@@ -146,6 +147,15 @@ function AppContent() {
                                 {...props}
                                 name="LivroDestaqueScreen"
                                 component={LivroDestaque}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="EquipeAvaliacao">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="EquipeAvaliacaoScreen"
+                                component={EquipeAvaliacao}
                             />
                         )}
                     </Drawer.Screen>
