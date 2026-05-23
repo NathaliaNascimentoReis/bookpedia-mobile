@@ -10,7 +10,7 @@ export default function Biblioteca() {
     const { idioma } = useIdioma();
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome name="book" size={24} color="#1E1E1E" />
@@ -18,7 +18,7 @@ export default function Biblioteca() {
                 </View>
                 <View style={styles.linha}></View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 

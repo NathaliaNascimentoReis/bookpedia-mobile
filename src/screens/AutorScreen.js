@@ -83,9 +83,9 @@ export default function Autores() {
                     <View key={autor.id} style={styles.dadosContainer}>
                         {/* Foto do Autor */}
                         <View style={styles.card}>
-                            <View style={[styles.cardHeader, { backgroundColor: '#9CB48A' }]}>
-                                <Text style={styles.cardHeaderTextoEscuro}>{autor.nome}</Text>
-                                <Text style={styles.cardHeaderTextoEscuro}>
+                            <View style={[styles.cardHeader, { backgroundColor: '#839c73' }]}>
+                                <Text style={styles.cardHeaderTextoBranco}>{autor.nome}</Text>
+                                <Text style={styles.cardHeaderTextoBranco}>
                                     ({autor.anoNascimento} - {autor.anoFalecimento})
                                 </Text>
                             </View>
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 280,
         borderRadius: 12,
-        borderWidth: 3,
+        borderWidth: 5,
         borderColor: '#FFFFFF',
     },
     textoEscuro: {

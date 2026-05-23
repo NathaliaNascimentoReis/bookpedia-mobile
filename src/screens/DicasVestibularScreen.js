@@ -65,16 +65,11 @@ export default function DicasVestibular() {
             </View>
 
             <View style={styles.div}>
-                <Text style={[styles.subtituloTexto, { marginBottom: 10 }]}>
-                    {idioma === 'en'
-                        ? 'Want to know how to ace the test?'
-                        : 'Quer saber como se destacar na prova?'}
-                </Text>
                 <View style={styles.subtitulo}>
                     <Text style={styles.subtituloTexto}>
                         {idioma === 'en'
-                            ? 'Learn valuable strategies with tips from BookPedia!'
-                            : 'Aprenda estratégias valiosas com as dicas do BookPedia!'}
+                            ? 'Want to know how to ace the test? Learn valuable strategies with tips from BookPedia!'
+                            : 'Quer saber como se destacar na prova? Aprenda estratégias valiosas com as dicas do BookPedia!'}
                     </Text>
                 </View>
             </View>
@@ -84,52 +79,22 @@ export default function DicasVestibular() {
                     <ActivityIndicator size="large" color="#caad92" />
                 ) : (
                     data?.map((dica) => (
-                        <View
-                            key={dica.id}
-                            style={[
-                                styles.dica,
-                                {
-                                    paddingHorizontal: 15,
-                                    paddingVertical: 10,
-                                    backgroundColor: '#E0D5C4',
-                                },
-                            ]}>
-                            {isLoading ? (
-                                <ActivityIndicator size="large" color="#caad92" />
-                            ) : (
-                                data?.map((dica) => (
-                                    <View style={styles.infoSection}>
-                                        <View
-                                            style={[
-                                                styles.autorDiv,
-                                                { backgroundColor: '#b49e7e' },
-                                            ]}>
-                                            <Text style={styles.tituloInfo}>
-                                                {idioma === 'en'
-                                                    ? dica.tituloEn || dica.titulo
-                                                    : dica.titulo}
-                                            </Text>
-                                        </View>
-                                        <View
-                                            key={dica.id}
-                                            style={[
-                                                styles.autor,
-                                                {
-                                                    paddingHorizontal: 10,
-                                                    paddingVertical: 5,
-                                                    borderBottomLeftRadius: 15,
-                                                    borderBottomRightRadius: 15,
-                                                },
-                                            ]}>
-                                            <Text style={styles.descricaoTexto}>
-                                                {idioma === 'en'
-                                                    ? dica.descricaoEn || dica.descricao
-                                                    : dica.descricao}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                ))
-                            )}
+                        <View key={dica.id} style={styles.dicaCard}>
+                            {/* Cabeçalho da Dica (Título) */}
+                            <View style={styles.dicaHeader}>
+                                <Text style={styles.tituloInfo}>
+                                    {idioma === 'en' ? dica.tituloEn || dica.titulo : dica.titulo}
+                                </Text>
+                            </View>
+
+                            {/* Corpo da Dica (Descrição) */}
+                            <View style={styles.dicaBody}>
+                                <Text style={styles.descricaoTexto}>
+                                    {idioma === 'en'
+                                        ? dica.descricaoEn || dica.descricao
+                                        : dica.descricao}
+                                </Text>
+                            </View>
                         </View>
                     ))
                 )}
@@ -185,28 +150,36 @@ const styles = StyleSheet.create({
     },
     main: {
         width: '100%',
-        backgroundColor: '#F7F3E8',
         padding: 14,
-        borderRadius: 12,
     },
-    infoSection: {
-        width: '100%',
-        marginVertical: 10,
+    dicaCard: {
+        backgroundColor: '#E0D5C4',
+        borderRadius: 15,
+        overflow: 'hidden', // Garante que o fundo do título não vaze pelas bordas
+        marginBottom: 20,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    dicaHeader: {
+        backgroundColor: '#b49e7e',
+        paddingVertical: 12,
+        paddingHorizontal: 15,
     },
     tituloInfo: {
         fontWeight: 'bold',
         fontSize: 16,
         color: '#ffffff',
     },
-    autorCampo: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        backgroundColor: '#E0D5C4',
-        overflow: 'hidden',
-        minHeight: 100,
+    dicaBody: {
+        paddingVertical: 15,
+        paddingHorizontal: 15,
     },
-    infoTexto: {
+    descricaoTexto: {
         fontSize: 14,
         color: '#2B431E',
+        lineHeight: 20,
     },
 });
