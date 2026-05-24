@@ -112,10 +112,18 @@ export default function Biblioteca() {
                         idioma === 'en'
                             ? item.descricao_en || 'Unknown Description'
                             : item.descricao_pt || 'Descrição Desconhecida',
+                    enredo:
+                        idioma === 'en'
+                            ? item.enredo_en || 'Unknown Story'
+                            : item.enredo_pt || 'Enredo Desconhecido',
                     movimento:
                         idioma === 'en'
                             ? item.movimento_en || 'Unknown Movement'
                             : item.movimento_pt || 'Movimento Desconhecido',
+                    contextoHistorico:
+                        idioma === 'en'
+                            ? item.contexto_historico_en || 'Unknown Historical Context'
+                            : item.contexto_historico_pt || 'Contexto Histórico Desconhecido',
                     autor: item.autor
                         ? typeof item.autor === 'string'
                             ? item.autor
