@@ -1,9 +1,23 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    ActivityIndicator,
+    TouchableOpacity,
+    Image,
+} from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 
 export default function LivroDestaque() {
+    const route = useRoute();
+    const navigation = useNavigation();
+
+    const { livroOGuarani: livro } = route.params || {};
+
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
@@ -50,10 +64,22 @@ export default function LivroDestaque() {
         getMovimento();
     }, []);
 
+    if (!livro) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#E7F0DB',
+                }}>
+                <ActivityIndicator size="large" color="#1E1E1E" />
+            </View>
+        );
+    }
+
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome name="bookmark" size={22} color="#1E1E1E" />
@@ -65,50 +91,61 @@ export default function LivroDestaque() {
             </View>
 
             <View style={styles.main}>
-                <View style={styles.infoSection}>
-                    <View style={[styles.infoDiv, { backgroundColor: '#b49e7e' }]}>
-                        <Text style={styles.tituloInfo}>
-                            {idioma === 'en' ? 'Literary Movement' : 'Movimento Literário'}
+                <View style={styles.introLivro}>
+                    <Image source={{ uri: livro.capa }} style={styles.capa} />
+                    <View style={styles.introInfos}>
+                        <Text style={styles.livroTitulo}>{livro.titulo}</Text>
+                        <Text style={styles.livroAutor}>{livro.autor}</Text>
+
+                        <Text style={styles.infoTexto}>
+                            <Text style={styles.boldText}>
+                                {idioma === 'en' ? 'Year: ' : 'Ano: '}
+                            </Text>
+                            {livro.ano}
                         </Text>
                     </View>
-                    <View style={styles.livroCampo}>
-                        {isLoading ? (
-                            <ActivityIndicator size="large" color="#caad92" />
-                        ) : (
-                            data?.map((movimentoLiterario) => (
-                                <View
-                                    key={movimentoLiterario.id}
-                                    style={[
-                                        styles.movimentoLiterario,
-                                        {
-                                            paddingHorizontal: 15,
-                                            paddingVertical: 10,
-                                            backgroundColor: '#E0D5C4',
-                                            borderBottomLeftRadius: 15,
-                                            borderBottomRightRadius: 15,
-                                        },
-                                    ]}>
-                                    <Text style={styles.livroTexto}>
-                                        {idioma === 'en'
-                                            ? movimentoLiterario.nomeEn || movimentoLiterario.nome
-                                            : movimentoLiterario.nome}
-                                    </Text>
-                                </View>
-                            ))
-                        )}
-                    </View>
                 </View>
+            </View>
+
+            <View
+                style={{
+                    alignSelf: 'flex-start',
+                    marginTop: 20,
+                }}>
+                <TouchableOpacity
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 20,
+                        borderRadius: 12,
+                        padding: 12,
+                        backgroundColor: '#C2E799',
+                        shadowColor: 'rgb(0, 0, 0)',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 4,
+                        elevation: 3,
+                    }}
+                    onPress={() => navigation.navigate('Biblioteca')}>
+                    <FontAwesome name="chevron-left" size={22} color="#000000" />
+                    <Text style={{ fontSize: 16, color: '#000000', fontWeight: '500' }}>
+                        {idioma === 'en' ? 'Return' : 'Voltar'}
+                    </Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#E7F0DB',
+    },
     container: {
         alignItems: 'center',
-        flexGrow: 1,
         paddingVertical: 20,
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
         paddingBottom: 30,
     },
     tituloSection: {
@@ -132,41 +169,22 @@ const styles = StyleSheet.create({
     },
     main: {
         width: '100%',
-        backgroundColor: '#F7F3E8',
         padding: 14,
+    },
+    capa: {
+        width: '90%',
+        height: 200,
         borderRadius: 12,
-    },
-    autor: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    infoDiv: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    infoSection: {
-        width: '100%',
-        marginVertical: 10,
-    },
-    tituloInfo: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#ffffff',
-    },
-    autorCampo: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        backgroundColor: '#E0D5C4',
-        overflow: 'hidden',
-        minHeight: 100,
+        resizeMode: 'cover',
     },
     infoTexto: {
+        color: '#453E34',
         fontSize: 14,
-        color: '#2B431E',
+        fontWeight: '500',
+        lineHeight: 20,
+    },
+    boldText: {
+        fontWeight: 'bold',
+        color: '#332C24',
     },
 });

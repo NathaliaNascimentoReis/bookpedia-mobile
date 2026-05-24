@@ -23,6 +23,8 @@ import VideoAula from './src/screens/VideoaulasScreen.js';
 import DicasVestibular from './src/screens/DicasVestibularScreen.js';
 import { TelaMenu } from './src/screens/MenuScreen.js';
 
+import VidasSecas from './src/screens/VidasSecasScreen.js';
+
 import { IdiomaProvider, useIdioma } from './src/IdiomaContext.js';
 import Footer from './src/components/Footer.js';
 
@@ -180,6 +182,15 @@ function AppContent() {
                                 {...props}
                                 name="DicasVestibularScreen"
                                 component={DicasVestibular}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="VidasSecas">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="VidasSecasScreen"
+                                component={VidasSecas}
                             />
                         )}
                     </Drawer.Screen>
