@@ -162,8 +162,7 @@ const styles = StyleSheet.create({
         padding: 14,
     },
     curiosidadeCard: {
-        backgroundColor: '#E0D5C4',
-        borderRadius: 15,
+        borderRadius: 12,
         overflow: 'hidden',
         marginBottom: 20,
         elevation: 3,
@@ -183,12 +182,11 @@ const styles = StyleSheet.create({
         color: '#ffffff',
     },
     curiosidadeBody: {
-        paddingVertical: 15,
-        paddingHorizontal: 15,
+        padding: 15,
     },
     descricaoTexto: {
         fontSize: 14,
-        color: '#2B431E',
+        color: '#453E34',
         lineHeight: 20,
     },
 });

@@ -4,48 +4,134 @@ import {
     View,
     ScrollView,
     ActivityIndicator,
-    ImageBackground,
+    TouchableOpacity,
     Image,
+    Touchable,
 } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState, useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Biblioteca() {
+    const navigation = useNavigation();
+
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
 
-    const getVidasSecas = async () => {
+    const carregarTodosOsLivros = async () => {
         try {
-            const API_KEY = 'amods';
+            setLoading(true);
 
-            const response = await fetch('https://bookverse-back-pob5.onrender.com/livros', {
+            // requisição do livro O Guarani
+            const API_KEY_GUARANI = 'bookpedia-backend-2026';
+            const headersGuarani = {
+                'Content-Type': 'application/json',
+                'x-api-key': API_KEY_GUARANI,
+            };
+
+            const oGuarani = await fetch('https://bookpedia-backend-4ab3.onrender.com/livros', {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': API_KEY,
-                },
+                headers: headersGuarani,
             });
 
-            if (!response.ok) {
-                throw new Error(`Erro na requisição: ${response.status}`);
+            let livrosGuarani = [];
+
+            if (oGuarani.ok) {
+                const jsonDiferente = await oGuarani.json();
+
+                const listaGuarani = Array.isArray(jsonDiferente) ? jsonDiferente : [];
+
+                livrosGuarani = listaGuarani.map((item) => ({
+                    id: item.id,
+                    titulo: idioma === 'en' ? item.tituloDoLivroEn : item.tituloDoLivro,
+                    capa:
+                        item.capaURL && item.capaURL.trim() !== ''
+                            ? item.capaURL
+                            : idioma === 'en'
+                              ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                              : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
+                    ano: item.anoDeLancamento,
+                    autor:
+                        item.autores && item.autores.length > 0
+                            ? item.autores[0].nome
+                            : 'Autor Desconhecido',
+                    origem: 'oGuarani',
+                }));
             }
 
-            const json = await response.json();
+            // Requisição do livro Vidas Secas
+            const API_KEY_VIDAS_SECAS = 'amods';
+            const headersVidasSecas = {
+                'Content-Type': 'application/json',
+                'x-api-key': API_KEY_VIDAS_SECAS,
+            };
 
-            if (Array.isArray(json)) {
-                setData(json);
-            } else if (json.livrosVidasSecas && Array.isArray(json.livrosVidasSecas)) {
-                setData(json.livrosVidasSecas);
-            } else if (json.livroVidasSecas) {
-                setData([json.livroVidasSecas]);
-            } else {
-                setData([json]);
+            const vidasSecas = await fetch('https://bookverse-back-pob5.onrender.com/livros', {
+                method: 'GET',
+                headers: headersVidasSecas,
+            });
+
+            let livrosVidasSecas = [];
+
+            if (vidasSecas.ok) {
+                const jsonDiferente = await vidasSecas.json();
+
+                let listaVidasSecas = [];
+
+                if (Array.isArray(jsonDiferente)) {
+                    listaVidasSecas = jsonDiferente;
+                } else if (
+                    jsonDiferente.livrosVidasSecas &&
+                    Array.isArray(jsonDiferente.livrosVidasSecas)
+                ) {
+                    listaVidasSecas = jsonDiferente.livrosVidasSecas;
+                } else if (jsonDiferente.livroVidasSecas) {
+                    listaVidasSecas = [jsonDiferente.livroVidasSecas];
+                } else {
+                    listaVidasSecas = [jsonDiferente];
+                }
+
+                livrosVidasSecas = listaVidasSecas.map((item) => ({
+                    id: item.id,
+                    titulo: item.titulo,
+                    capa:
+                        item.capa_url && item.capa_url.trim() !== ''
+                            ? item.capa_url
+                            : idioma === 'en'
+                              ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                              : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
+                    ano: item.ano,
+                    genero:
+                        idioma === 'en'
+                            ? item.genero_en || 'Unknown Genre'
+                            : item.genero_pt || 'Gênero Desconhecido',
+                    descricao:
+                        idioma === 'en'
+                            ? item.descricao_en || 'Unknown Description'
+                            : item.descricao_pt || 'Descrição Desconhecida',
+                    movimento:
+                        idioma === 'en'
+                            ? item.movimento_en || 'Unknown Movement'
+                            : item.movimento_pt || 'Movimento Desconhecido',
+                    autor: item.autor
+                        ? typeof item.autor === 'string'
+                            ? item.autor
+                            : item.autor.nome
+                        : item.autores && item.autores.length > 0
+                          ? item.autores[0].nome
+                          : 'Autor Desconhecido',
+                    origem: 'vidasSecas',
+                }));
             }
+
+            const listaLivros = [...livrosVidasSecas, ...livrosGuarani];
+
+            setData(listaLivros);
         } catch (error) {
-            console.error('Erro ao buscar livro "Vidas Secas": ' + error.message);
+            console.error('Erro ao buscar os livros: ' + error.message);
             setData([]);
         } finally {
             setLoading(false);
@@ -53,7 +139,7 @@ export default function Biblioteca() {
     };
 
     useEffect(() => {
-        getVidasSecas();
+        carregarTodosOsLivros();
     }, []);
 
     return (
@@ -66,36 +152,60 @@ export default function Biblioteca() {
                 <View style={styles.linha}></View>
             </View>
 
-            {isLoading ? (
-                <ActivityIndicator size="large" color="#caad92" />
-            ) : (
-                data?.map((livroVidaSeca, index) => (
-                    <View style={styles.main}>
-                        <View key={livroVidaSeca.id || index} style={styles.livroContainer}>
-                            <View style={styles.cardLivro}>
-                                <Image
-                                    source={{ uri: livroVidaSeca.capa_url }}
-                                    style={styles.capa}></Image>
-                                <View style={styles.infoLivro}>
-                                    <Text style={styles.livroTexto}>{livroVidaSeca.titulo}</Text>
-                                    <Text style={styles.autorTexto}>{livroVidaSeca.autor}</Text>
+            <View style={styles.subtituloContainer}>
+                <Text style={styles.subtituloTexto}>
+                    {idioma === 'en'
+                        ? 'Want to discover more books? Explore literature on BookPedia!'
+                        : 'Deseja conhecer outros livros? Explore a literatura no BookPedia!'}
+                </Text>
+            </View>
+
+            <View style={styles.main}>
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#caad92" />
+                ) : (
+                    <View style={styles.livros}>
+                        {data?.map((livro, index) => (
+                            <View key={livro.id || index} style={styles.livroContainer}>
+                                <View style={styles.cardLivro}>
+                                    <Image source={{ uri: livro.capa }} style={styles.capa} />
+                                    <View style={styles.infoLivro}>
+                                        <Text style={styles.livroTexto} numberOfLines={2}>
+                                            {livro.titulo}
+                                        </Text>
+                                        <Text style={styles.autorTexto} numberOfLines={1}>
+                                            {livro.autor}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.botao}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                if (livro.origem === 'vidasSecas') {
+                                                    navigation.navigate('VidasSecas', {
+                                                        screen: 'VidasSecasScreen',
+                                                        params: { livroVidasSecas: livro },
+                                                    });
+                                                } else {
+                                                    navigation.navigate('LivroDestaque', {
+                                                        screen: 'LivroDestaqueScreen',
+                                                        params: { livroOGuarani: livro },
+                                                    });
+                                                }
+                                            }}
+                                            activeOpacity={0.7}>
+                                            <FontAwesome
+                                                name="external-link"
+                                                size={24}
+                                                color="black"
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                        <View key={livroVidaSeca.id || index} style={styles.livroContainer}>
-                            <View style={styles.cardLivro}>
-                                <Image
-                                    source={{ uri: livroVidaSeca.capa_url }}
-                                    style={styles.capa}></Image>
-                                <View style={styles.infoLivro}>
-                                    <Text style={styles.livroTexto}>{livroVidaSeca.titulo}</Text>
-                                    <Text style={styles.autorTexto}>{livroVidaSeca.autor}</Text>
-                                </View>
-                            </View>
-                        </View>
+                        ))}
                     </View>
-                ))
-            )}
+                )}
+            </View>
         </ScrollView>
     );
 }
@@ -130,6 +240,26 @@ const styles = StyleSheet.create({
         backgroundColor: '#9B6737',
         marginBottom: 20,
     },
+    subtituloContainer: {
+        backgroundColor: '#C2A88D',
+        width: '100%',
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 25,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    subtituloTexto: {
+        color: '#ffffff',
+        fontSize: 16.5,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
     main: {
         flex: 1,
         width: '100%',
@@ -137,11 +267,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 20,
     },
+    livros: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
     livroContainer: {
-        width: '47%',
-        height: 250,
-        borderRadius: 12,
-        overflow: 'hidden',
+        width: '48%',
+        height: 270,
+        marginBottom: 15,
     },
     cardLivro: {
         backgroundColor: '#D4EBBA',
@@ -150,27 +285,40 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: '#C0DE9E',
         flex: 1,
-        padding: 15,
+        padding: 10,
+        justifyContent: 'space-between',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     capa: {
         width: '100%',
-        maxHeight: 200,
+        height: 120,
         borderRadius: 12,
-        marginBottom: 10,
+        resizeMode: 'cover',
     },
     infoLivro: {
         alignItems: 'flex-start',
-        justifyContent: 'flex-end',
-        gap: 5,
+        marginVertical: 5,
+        flex: 1,
     },
     livroTexto: {
         fontSize: 16,
         fontWeight: 'bold',
         color: '#2B431E',
+        flexWrap: 'wrap',
     },
     autorTexto: {
         fontSize: 14,
         fontWeight: '500',
         color: '#2B431E',
+        flexWrap: 'wrap',
+    },
+    botao: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        marginTop: 10,
     },
 });
