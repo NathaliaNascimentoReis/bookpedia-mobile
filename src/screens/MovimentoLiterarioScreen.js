@@ -10,9 +10,7 @@ export default function MovimentosLiterarios() {
     const { idioma } = useIdioma();
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+       <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="feather-alt" size={24} color="black" />
@@ -27,11 +25,16 @@ export default function MovimentosLiterarios() {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    background: {
         flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
+    container: {
         alignItems: 'center',
+        flexGrow: 1,
         paddingVertical: 20,
-        paddingBottom: 30,
+        paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,
@@ -50,5 +53,6 @@ const styles = StyleSheet.create({
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
+        marginBottom: 20,
     },
 });

@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 const { width } = Dimensions.get('window');
@@ -11,17 +9,13 @@ const { width } = Dimensions.get('window');
 export default function VideoaulasScreen() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-
     const { idioma } = useIdioma();
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
-
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome name="video-camera" size={18} color="#1E1E1E" />
+                    <FontAwesome name="video-camera" size={24} color="#1E1E1E" />
                     <Text style={styles.titulo}>
                         {idioma === 'en' ? 'Video Classes' : 'Videoaulas'}
                     </Text>
@@ -41,30 +35,30 @@ export default function VideoaulasScreen() {
                 </Text>
             </View>
 
-            <FontAwesome6
-                name="arrow-down"
-                size={30}
-                color="black"
-                style={{ marginVertical: 10 }}
-            />
             <View style={styles.videoCard}>
-                <YoutubePlayer
-                    height={200}
-                    play={false}
-                    videoId={'dQw4w9WgXcQ'} // id do video do Youtube
-                />
+                <View style={styles.videoWrapper}>
+                    <YoutubePlayer
+                        height={width * 0.51}
+                        play={false}
+                        videoId={'dQw4w9WgXcQ'}
+                    />
+                </View>
             </View>
-
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
     container: {
         alignItems: 'center',
         flexGrow: 1,
         paddingVertical: 20,
-        paddingBottom: 30,
+        paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,
@@ -97,13 +91,18 @@ const styles = StyleSheet.create({
     },
     videoCard: {
         width: width * 0.9,
+        marginTop: 10,
+        backgroundColor: '#ffffff',
+        borderRadius: 12,
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.15,
+        shadowRadius: 5,
+    },
+    videoWrapper: {
         borderRadius: 12,
         overflow: 'hidden',
-        marginTop: 10,
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        backgroundColor: '#000',
     },
 });

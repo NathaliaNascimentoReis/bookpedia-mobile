@@ -47,7 +47,7 @@ export default function Biblioteca() {
                 livrosGuarani = listaGuarani.map((item) => ({
                     id: item.id,
                     titulo: item.tituloDoLivro || 'Título Desconhecido',
-                    tituloEn: item.tituloDoLivroEn || 'Unknown Title',
+                    tituloEn: item.tituloDoLivroEn,
                     capa:
                         item.capaURL && item.capaURL.trim() !== ''
                             ? item.capaURL

@@ -155,7 +155,7 @@ export default function Autores() {
                             <View style={[styles.cardBody, { backgroundColor: '#D1E6BA' }]}>
                                 <Text style={styles.textoEscuro}>
                                     {idioma === 'en'
-                                        ? autor.contextoEn || autor.contextoHistorico
+                                        ? autor.contextoHistoricoEn || autor.contextoHistorico
                                         : autor.contextoHistorico}
                                 </Text>
                             </View>
@@ -163,19 +163,22 @@ export default function Autores() {
 
                         {/* Biografia */}
                         <View style={styles.card}>
-                            <View style={[styles.cardHeader, { backgroundColor: '#7A8C66' }]}>
+                            <View
+                                style={[
+                                    styles.cardHeader,
+                                    { backgroundColor: 'rgba(158, 133, 105, 0.85)' },
+                                ]}>
                                 <Text style={styles.cardHeaderTextoBranco}>
                                     {idioma === 'en' ? 'Biography' : 'Biografia'}
                                 </Text>
                             </View>
-                            <View style={[styles.cardBody, { backgroundColor: '#D1E6BA' }]}>
+                            <View style={[styles.cardBody, { backgroundColor: '#E1D3C1' }]}>
                                 <TextoBiografia
                                     texto={
                                         idioma === 'en'
                                             ? autor.biografiaEn || autor.biografia
                                             : autor.biografia
                                     }
-                                    idioma={idioma}
                                 />
                             </View>
                         </View>
@@ -201,26 +204,23 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
     },
     tituloSection: {
-        width: '100%',
-        marginBottom: 20,
+        gap: 5,
     },
     tituloDiv: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 12,
-        marginBottom: 10,
+        gap: 10,
     },
     titulo: {
-        fontWeight: '900',
-        fontSize: 22,
-        color: '#2B3820',
-        letterSpacing: 0.5,
+        fontWeight: 'bold',
+        fontSize: 19,
+        color: '#453E34',
     },
     linha: {
-        width: '100%',
-        height: 2,
-        backgroundColor: '#BCA893',
-        opacity: 0.6,
+        width: 300,
+        height: 1,
+        backgroundColor: '#9B6737',
+        marginBottom: 20,
     },
     subtituloContainer: {
         backgroundColor: '#C0DE9E',
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
     },
     textoBotaoLerMais: {
-        color: '#4A5B35',
+        color: '#453E34',
         fontWeight: 'bold',
         fontSize: 14,
         textDecorationLine: 'underline',

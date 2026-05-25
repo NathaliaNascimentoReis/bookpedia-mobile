@@ -11,18 +11,17 @@ export default function Personagens() {
     const { idioma } = useIdioma();
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome5 name="users" size={24} color="black" />
+                    <FontAwesome name="users" size={24} color="#1E1E1E" />
                     <Text style={styles.titulo}>
                         {idioma === 'en' ? 'Characters' : 'Personagens'}
                     </Text>
                 </View>
                 <View style={styles.linha}></View>
             </View>
+
             <View style={styles.div}>
                 <View style={styles.subtitulo}>
                     <Text style={styles.subtituloTexto}>
@@ -71,11 +70,16 @@ export default function Personagens() {
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
     container: {
         alignItems: 'center',
         flexGrow: 1,
         paddingVertical: 20,
-        paddingBottom: 30,
+        paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,
@@ -88,25 +92,23 @@ const styles = StyleSheet.create({
     titulo: {
         fontWeight: 'bold',
         fontSize: 19,
-        color: '#000000',
+        color: '#453E34',
     },
     linha: {
         width: 300,
         height: 1,
         backgroundColor: '#9B6737',
+        marginBottom: 20,
     },
     div: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10,
     },
     subtitulo: {
         backgroundColor: '#daccb3',
         padding: 10,
         paddingHorizontal: 20,
         borderRadius: 15,
-        marginVertical: 10,
-        marginHorizontal: 20,
     },
     subtituloTexto: {
         color: '#453E34',
