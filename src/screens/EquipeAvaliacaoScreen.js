@@ -27,9 +27,7 @@ export default function EquipeAvaliacao() {
     const quantidadeEstrelas = Math.floor(Number(membro.avaliacaoDaObra || 1));
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome6 name="pen-to-square" size={24} color="black" />
@@ -148,12 +146,16 @@ export default function EquipeAvaliacao() {
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
     container: {
         alignItems: 'center',
         flexGrow: 1,
         paddingVertical: 20,
         paddingHorizontal: 20,
-        paddingBottom: 30,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,

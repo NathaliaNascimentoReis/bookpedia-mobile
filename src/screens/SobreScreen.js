@@ -61,9 +61,7 @@ export default function Sobre() {
     }, []);
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome6 name="circle-info" size={22} color="#1E1E1E" />
@@ -173,12 +171,16 @@ export default function Sobre() {
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
     container: {
         alignItems: 'center',
         flexGrow: 1,
         paddingVertical: 20,
-        paddingBottom: 30,
         paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,

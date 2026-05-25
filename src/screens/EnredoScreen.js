@@ -5,6 +5,7 @@ import {
     Text,
     View,
     useWindowDimensions,
+    ImageBackground,
     ActivityIndicator,
 } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -81,7 +82,7 @@ export default function Enredos() {
                         <View style={[styles.enredoCard, { backgroundColor: '#E0D5C4' }]}>
                             <View style={[styles.enredoHeader, { backgroundColor: '#b49e7e' }]}>
                                 <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
-                                    {idioma === 'en' ? 'Introduction' : 'Introducao'}
+                                    {idioma === 'en' ? 'Introduction' : 'Introdução'}
                                 </Text>
                             </View>
 
@@ -111,19 +112,32 @@ export default function Enredos() {
                         </View>
 
                         <View style={[styles.enredoCard, { backgroundColor: '#c6ae91ff' }]}>
-                            <View style={[styles.enredoHeader, { backgroundColor: '#9e8569' }]}>
-                                <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
-                                    {idioma === 'en' ? 'Climax' : 'Clímax'}
-                                </Text>
-                            </View>
+                            <ImageBackground
+                                source={{
+                                    uri: 'https://scontent.fcpq5-1.fna.fbcdn.net/v/t1.6435-9/199406676_2837240533272812_56141282844742213_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=4co09DNKwwIQ7kNvwF7cR0X&_nc_oc=AdqJcn-4Lt6JIRbYw6vJaxWG0P0QJyAZikNi8NnWimjIIR9N73QcwOwUqCwQQmH4x3M&_nc_zt=23&_nc_ht=scontent.fcpq5-1.fna&_nc_gid=PEfQQCAMu5hNDv8ttuZ5lQ&_nc_ss=7a289&oh=00_Af62mQ_Ixl2ctMnTAey-zDwPGZtGWkDlCIpbTuNMRkGVBw&oe=6A3BFC9A',
+                                }}
+                                style={styles.imageBackgroundAbsoluto}
+                                resizeMode="cover">
+                                <View style={styles.overlayCompleto}>
+                                    <View
+                                        style={[
+                                            styles.enredoHeader,
+                                            { backgroundColor: 'rgba(158, 133, 105, 0.85)' },
+                                        ]}>
+                                        <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
+                                            {idioma === 'en' ? 'Climax' : 'Clímax'}
+                                        </Text>
+                                    </View>
 
-                            <View style={styles.enredoBody}>
-                                <Text style={[styles.enredoTexto, { color: '#ffffffff' }]}>
-                                    {idioma === 'en'
-                                        ? enredo.climaxEn || enredo.climax
-                                        : enredo.climax}
-                                </Text>
-                            </View>
+                                    <View style={styles.enredoBody}>
+                                        <Text style={styles.textoOverlay}>
+                                            {idioma === 'en'
+                                                ? enredo.climaxEn || enredo.climax
+                                                : enredo.climax}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </ImageBackground>
                         </View>
 
                         <View style={[styles.enredoCard, { backgroundColor: '#D4EBAB' }]}>
@@ -172,7 +186,7 @@ const styles = StyleSheet.create({
     titulo: {
         fontWeight: 'bold',
         fontSize: 19,
-        color: '#000000',
+        color: '#453E34',
     },
     linha: {
         width: 300,
@@ -231,5 +245,24 @@ const styles = StyleSheet.create({
         fontSize: 15.5,
         fontWeight: '500',
         lineHeight: 20,
+    },
+    imageBackgroundAbsoluto: {
+        width: '100%',
+        flex: 1,
+    },
+    overlayCompleto: {
+        flex: 1,
+        backgroundColor: 'rgba(225, 211, 193, 0.75)',
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(225, 211, 193, 0.8)',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        padding: 20,
+    },
+    textoOverlay: {
+        fontWeight: 'bold',
+        color: '#453E34',
     },
 });
