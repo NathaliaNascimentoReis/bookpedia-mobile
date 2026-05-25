@@ -6,9 +6,10 @@ import {
     ScrollView,
     TouchableOpacity,
     ImageBackground,
+    ActivityIndicator,
 } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -17,12 +18,105 @@ export default function LivroDestaque() {
     const route = useRoute();
     const navigation = useNavigation();
 
-    const { livroOGuarani: livro } = route.params || {};
+    const { livroOGuarani: livroDaRota } = route.params || {};
 
     const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+    const [livro, setLivro] = useState(null);
 
     const { idioma } = useIdioma();
+
+    const getLivro = async () => {
+        try {
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/livros', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const json = await response.json();
+            let listaDeLivros = [];
+
+            if (Array.isArray(json)) {
+                listaDeLivros = json;
+            } else if (json.livros && Array.isArray(json.livros)) {
+                listaDeLivros = json.livros;
+            } else if (json.livro) {
+                listaDeLivros = [json.livro];
+            } else {
+                listaDeLivros = [json];
+            }
+
+            const livrosMapeados = listaDeLivros.map((item) => ({
+                id: item.id,
+                titulo: item.tituloDoLivro || item.titulo || 'Título Desconhecido',
+                tituloEn: item.tituloDoLivroEn || item.titulo_en || 'Unknown Title',
+                capa:
+                    item.capaURL ||
+                    (idioma === 'en'
+                        ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                        : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg'),
+                ano: item.anoDeLancamento || 'Ano de lançamento desconhecido',
+                autor:
+                    item.autores && item.autores.length > 0
+                        ? item.autores[0].nome
+                        : typeof item.autor === 'string'
+                          ? item.autor
+                          : 'Autor Desconhecido',
+                descricao: item.descricao || 'Descrição Indisponível',
+                descricaoEn: item.descricaoEn || 'Unavailable Description',
+                resumo: item.resumo || 'Resumo da obra indisponível',
+                resumoEn: item.resumoEn || 'Unavailable Summary',
+                analise: item.analise || 'Análise Desconhecida',
+                analiseEn: item.analiseEn || 'Unavailable Analysis',
+                contextoHistorico: item.contextoHistorico || 'Contexto Histórico Desconhecido',
+                contextoHistoricoEn: item.contextoHistoricoEn || 'Unknown Historical Context',
+            }));
+            const oGuarani = livrosMapeados.find(
+                (l) => l.titulo.toLowerCase().includes('guarani') || l.id === '1',
+            );
+
+            if (oGuarani) {
+                setLivro(oGuarani);
+            } else {
+                setLivro(livrosMapeados[0]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar o livro: ' + error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (livroDaRota) {
+            setLivro(livroDaRota);
+            setLoading(false);
+        } else {
+            getLivro();
+        }
+    }, [livroDaRota]);
+
+    if (isLoading || !livro) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#E7F0DB',
+                }}>
+                <ActivityIndicator size="large" color="#453E34" />
+            </View>
+        );
+    }
 
     return (
         <ScrollView style={styles.background} contentContainerStyle={styles.container}>
@@ -30,7 +124,7 @@ export default function LivroDestaque() {
                 <View style={styles.tituloDiv}>
                     <FontAwesome name="book" size={24} color="black" />
                     <Text style={styles.titulo}>
-                        {idioma === 'en' ? 'Barren Lives' : 'Vidas Secas'}
+                        {idioma === 'en' ? 'Featured Book' : 'Livro Destaque'}
                     </Text>
                 </View>
                 <View style={styles.linha}></View>
@@ -51,24 +145,18 @@ export default function LivroDestaque() {
                             </Text>
                             {livro.ano}
                         </Text>
-                        <Text style={styles.infoTexto}>
-                            <Text style={styles.boldText}>
-                                {idioma === 'en' ? 'Genre: ' : 'Gênero: '}
-                            </Text>
-                            {livro.genero}
-                        </Text>
                     </View>
                 </View>
 
                 <View style={styles.livroSection}>
                     <View style={[styles.tituloSectionDiv, { backgroundColor: '#9e8569' }]}>
                         <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
-                            {idioma === 'en' ? 'Literary Movement' : 'Movimento Literário'}
+                            {idioma === 'en' ? 'Description' : 'Descrição'}
                         </Text>
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
                         <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
-                            {livro.movimento}
+                            {idioma === 'en' ? livro.descricaoEn : livro.descricao}
                         </Text>
                     </View>
                 </View>
@@ -76,12 +164,14 @@ export default function LivroDestaque() {
                 <View style={styles.enredo}>
                     <ImageBackground
                         source={{
-                            uri: 'https://i.pinimg.com/474x/88/fa/0c/88fa0cd1043046d01ce7ac20f77b73e1.jpg',
+                            uri: 'https://s5.static.brasilescola.uol.com.br/be/2023/07/indigena-guarani.jpg',
                         }}
                         style={styles.imageBackground}
                         resizeMode="cover">
                         <View style={styles.overlay}>
-                            <Text style={styles.textoOverlay}>{livro.descricao}</Text>
+                            <Text style={styles.textoOverlay}>
+                                {idioma === 'en' ? livro.resumoEn : livro.resumo}
+                            </Text>
                         </View>
                     </ImageBackground>
                 </View>
@@ -89,12 +179,12 @@ export default function LivroDestaque() {
                 <View style={styles.livroSection}>
                     <View style={[styles.tituloSectionDiv, { backgroundColor: '#839c73' }]}>
                         <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
-                            {idioma === 'en' ? 'Story' : 'Enredo'}
+                            {idioma === 'en' ? 'Analysis' : 'Análise'}
                         </Text>
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#C0DE9E' }]}>
                         <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
-                            {livro.enredo}
+                            {idioma === 'en' ? livro.analiseEn : livro.analise}
                         </Text>
                     </View>
                 </View>
@@ -112,10 +202,27 @@ export default function LivroDestaque() {
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
                         <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
-                            {livro.contextoHistorico}
+                            {idioma === 'en' ? livro.contextoHistoricoEn : livro.contextoHistorico}
                         </Text>
                     </View>
                 </View>
+
+                {livro.movimento && (
+                    <View style={styles.livroSection}>
+                        <View style={[styles.tituloSectionDiv, { backgroundColor: '#9e8569' }]}>
+                            <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
+                                {idioma === 'en' ? 'Literary Movement' : 'Movimento Literário'}
+                            </Text>
+                        </View>
+                        <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
+                            <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
+                                {idioma === 'en'
+                                    ? livro.contextoHistoricoEn
+                                    : livro.contextoHistorico}
+                            </Text>
+                        </View>
+                    </View>
+                )}
             </View>
 
             <View
