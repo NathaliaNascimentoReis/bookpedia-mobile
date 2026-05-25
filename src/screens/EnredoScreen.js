@@ -1,9 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native';
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+    useWindowDimensions,
+    ActivityIndicator,
+} from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Enredos() {
     const { width } = useWindowDimensions();
@@ -14,10 +21,47 @@ export default function Enredos() {
 
     const { idioma } = useIdioma();
 
+    const getEnredo = async () => {
+        try {
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/enredos', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const json = await response.json();
+
+            if (Array.isArray(json)) {
+                setData(json);
+            } else if (json.enredos && Array.isArray(json.enredos)) {
+                setData(json.enredos);
+            } else if (json.enredo) {
+                setData([json.enredo]);
+            } else {
+                setData([json]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar enredo do livro: ' + error.message);
+            setData([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getEnredo();
+    }, []);
+
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="book-open" size={24} color="black" />
@@ -25,108 +69,80 @@ export default function Enredos() {
                 </View>
                 <View style={styles.linha}></View>
             </View>
-            <View style={[styles.intro, { backgroundColor: '#C2E799' }]}>
-                <Text
-                    style={[
-                        styles.introTexto,
-                        { color: '#2B431E', fontSize: 15, textAlign: 'center' },
-                    ]}>
-                    {idioma === 'en'
-                        ? 'Get to know the story in depth!'
-                        : 'Conheça a história com profundidade!'}
+            <View style={[styles.intro, { backgroundColor: '#C2E799', marginBottom: 10 }]}>
+                <Text style={[styles.introTexto, { color: '#2B431E', fontSize: 16 }]}>
+                    {idioma === 'en' ? 'Get to know the team too!' : 'Conheça a equipe também!'}
                 </Text>
             </View>
 
-            <FontAwesome6
-                name="arrow-down"
-                size={30}
-                color="black"
-                style={{ marginVertical: 10 }}
-            />
+            <View style={styles.main}>
+                {data?.map((enredo) => (
+                    <View key={enredo.id}>
+                        <View style={[styles.enredoCard, { backgroundColor: '#E0D5C4' }]}>
+                            <View style={[styles.enredoHeader, { backgroundColor: '#b49e7e' }]}>
+                                <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
+                                    {idioma === 'en' ? 'Introduction' : 'Introducao'}
+                                </Text>
+                            </View>
 
-            <View style={styles.enredoSection}>
-                <View style={styles.historiaSecao}>
-                    <View style={styles.tituloHistoriaDiv}>
-                        <Text style={styles.tituloTextoDiv}>Introdução</Text>
-                    </View>
-                    <View style={styles.textoDiv}>
-                        <Text style={styles.textoParagrafoDiv}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat.
-                        </Text>
-                    </View>
-                </View>
+                            <View style={styles.enredoBody}>
+                                <Text style={[styles.enredoTexto, { color: '#453E34' }]}>
+                                    {idioma === 'en'
+                                        ? enredo.introducaoEn || enredo.introducao
+                                        : enredo.introducao}
+                                </Text>
+                            </View>
+                        </View>
 
-                <View style={styles.historiaSecao}>
-                    <View style={styles.tituloHistoriaDiv}>
-                        <Text style={styles.tituloTextoDiv}>Conflito</Text>
-                    </View>
-                    <View style={styles.textoDiv}>
-                        <Text style={styles.textoParagrafoDiv}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua.
-                        </Text>
-                    </View>
-                </View>
+                        <View style={[styles.enredoCard, { backgroundColor: '#C0DE9E' }]}>
+                            <View style={[styles.enredoHeader, { backgroundColor: '#839c73' }]}>
+                                <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
+                                    {idioma === 'en' ? 'Conflict' : 'Conflito'}
+                                </Text>
+                            </View>
 
-                <View style={styles.historiaSecao}>
-                    <View style={styles.tituloHistoriaDiv}>
-                        <Text style={styles.tituloTextoDiv}>Climax</Text>
-                    </View>
-                    <View style={styles.textoDiv}>
-                        <Text style={styles.textoParagrafoDiv}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat.
-                        </Text>
-                    </View>
-                </View>
+                            <View style={styles.enredoBody}>
+                                <Text style={[styles.enredoTexto, { color: '#3A4A28' }]}>
+                                    {idioma === 'en'
+                                        ? enredo.conflitoEn || enredo.conflito
+                                        : enredo.conflito}
+                                </Text>
+                            </View>
+                        </View>
 
-                <View style={styles.historiaSecao}>
-                    <View style={styles.tituloHistoriaDiv}>
-                        <Text style={styles.tituloTextoDiv}>Desfecho</Text>
-                    </View>
+                        <View style={[styles.enredoCard, { backgroundColor: '#c6ae91ff' }]}>
+                            <View style={[styles.enredoHeader, { backgroundColor: '#9e8569' }]}>
+                                <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
+                                    {idioma === 'en' ? 'Climax' : 'Clímax'}
+                                </Text>
+                            </View>
 
-                    <View style={styles.textoDiv}>
-                        <Text style={styles.textoParagrafoDiv}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua.
-                        </Text>
-                    </View>
-                </View>
-            </View>
+                            <View style={styles.enredoBody}>
+                                <Text style={[styles.enredoTexto, { color: '#ffffffff' }]}>
+                                    {idioma === 'en'
+                                        ? enredo.climaxEn || enredo.climax
+                                        : enredo.climax}
+                                </Text>
+                            </View>
+                        </View>
 
-            <View style={styles.divButton}>
-                <View style={styles.subtituloButton}>
-                    <Text style={styles.textoButton}>Saiba mais sobre os cenários!</Text>
-                </View>
-            </View>
+                        <View style={[styles.enredoCard, { backgroundColor: '#D4EBBA' }]}>
+                            <View style={[styles.enredoHeader, { backgroundColor: '#839c73' }]}>
+                                <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
+                                    {idioma === 'en' ? 'Outcome' : 'Desfecho'}
+                                </Text>
+                            </View>
 
-            <View style={styles.enredoSection}>
-                <View style={styles.cenarioSecao}>
-                    <View style={styles.tituloCenarioDiv}>
-                        <Text style={styles.tituloCenario}>Cenário 1</Text>
+                            <View style={styles.enredoBody}>
+                                <Text style={[styles.enredoTexto, { color: '#2B431E' }]}>
+                                    {idioma === 'en'
+                                        ? enredo.desfechoEn || enredo.desfecho
+                                        : enredo.desfecho}
+                                </Text>
+                            </View>
+                        </View>
                     </View>
-
-                    <View style={styles.imagemDiv}>
-                        <Image
-                            source={{
-                                uri: 'https://lh4.googleusercontent.com/proxy/Iz50mgMSYllCDmoGfcUnkUYQ20gR5WNXzQ08-LVN1s8eRdEYxtwnwIHNdFpZiGQrebCrNv4vb6sy3XNdADOVRMfe5yQKBUkr5gqvbNdh3eQ',
-                            }}
-                            style={styles.cenarioFoto}></Image>
-                    </View>
-
-                    <View style={styles.textoDiv}>
-                        <Text style={styles.textoCaracteristicas}>
-                            Características: Lorem ipsum dolor sit amet. Descrição: Lorem ipsum
-                            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua.
-                        </Text>
-                    </View>
-                </View>
+                ))}
             </View>
 
             <StatusBar style="auto" />
@@ -135,10 +151,14 @@ export default function Enredos() {
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#E7F0DB',
+    },
     container: {
         alignItems: 'center',
-        flexGrow: 1,
         paddingVertical: 20,
+        paddingHorizontal: 20,
         paddingBottom: 30,
     },
     tituloSection: {
@@ -161,83 +181,55 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     intro: {
-        padding: 10,
-        paddingHorizontal: 20,
-        marginHorizontal: 20,
-        borderRadius: 15,
-        alignSelf: 'center',
+        backgroundColor: '#C0DE9E',
+        width: '100%',
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 20,
+        alignItems: 'center',
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     introTexto: {
-        fontWeight: '500',
-    },
-    enredoSection: {
-        margin: 20,
-        gap: 30,
-    },
-    tituloHistoriaDiv: {
-        backgroundColor: '#9DBC8A',
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-    },
-    tituloTextoDiv: {
-        fontSize: 18,
-        fontWeight: '500',
-    },
-    textoDiv: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        backgroundColor: '#D4EBB9',
-    },
-    textoParagrafoDiv: {
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        fontSize: 15,
-        color: '#2B431E',
-        fontWeight: '500',
-    },
-    divButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 15,
-    },
-    subtituloButton: {
-        backgroundColor: '#9DBC8A',
-        padding: 10,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        marginVertical: 10,
-        marginHorizontal: 20,
-        borderWidth: 2,
-        borderColor: '#8ba47cff',
-    },
-    textoButton: {
-        color: '#ffffffff',
-        fontSize: 15,
-        fontWeight: '500',
+        color: '#3A4A28',
+        fontSize: 16.5,
+        fontWeight: '700',
         textAlign: 'center',
     },
-    tituloCenarioDiv: {
-        backgroundColor: '#9DBC8A',
-        paddingVertical: 10,
+    main: {
+        flex: 1,
+        width: '100%',
+        marginTop: 20,
+    },
+    enredoCard: {
+        borderRadius: 15,
+        overflow: 'hidden', // Garante que o fundo do título não vaze pelas bordas
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        marginBottom: 30,
+    },
+    enredoHeader: {
+        paddingVertical: 12,
         paddingHorizontal: 15,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
     },
-    tituloCenario: {
-        fontSize: 18,
-        fontWeight: '500',
+    tituloInfo: {
+        fontWeight: 'bold',
+        fontSize: 16,
     },
-    textoCaracteristicas: {
-        paddingVertical: 5,
+    enredoBody: {
+        paddingVertical: 15,
         paddingHorizontal: 15,
-        fontSize: 15,
-        color: '#2B431E',
-        fontWeight: '500',
     },
-    cenarioFoto: {
-        width: 100,
-        height: 30,
+    enredoTexto: {
+        fontSize: 15.5,
+        fontWeight: '500',
+        lineHeight: 20,
     },
 });

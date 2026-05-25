@@ -1,18 +1,19 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
     StyleSheet,
     Text,
     View,
-    ScrollView,
-    ActivityIndicator,
-    TouchableOpacity,
     Image,
+    ScrollView,
+    TouchableOpacity,
+    ImageBackground,
 } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
+import { useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { useState, useEffect } from 'react';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-export default function LivroDestaque() {
+export default function VidasSecas() {
     const route = useRoute();
     const navigation = useNavigation();
 
@@ -23,68 +24,13 @@ export default function LivroDestaque() {
 
     const { idioma } = useIdioma();
 
-    const getMovimento = async () => {
-        try {
-            const API_KEY = 'bookpedia-backend-2026';
-
-            const response = await fetch(
-                'https://bookpedia-backend-4ab3.onrender.com/movimentos-literarios',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': API_KEY,
-                    },
-                },
-            );
-
-            if (!response.ok) {
-                throw new Error(`Erro na requisição: ${response.status}`);
-            }
-
-            const json = await response.json();
-
-            if (Array.isArray(json)) {
-                setData(json);
-            } else if (json.movimentosLiterarios && Array.isArray(json.movimentosLiterarios)) {
-                setData(json.movimentosLiterarios);
-            } else if (json.movimentoLiterario) {
-                setData([json.movimentoLiterario]);
-            } else {
-                setData([json]);
-            }
-        } catch (error) {
-            console.error('Erro ao buscar o movimento literário: ' + error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getMovimento();
-    }, []);
-
-    if (!livro) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#E7F0DB',
-                }}>
-                <ActivityIndicator size="large" color="#1E1E1E" />
-            </View>
-        );
-    }
-
     return (
         <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
-                    <FontAwesome name="bookmark" size={22} color="#1E1E1E" />
+                    <FontAwesome name="book" size={24} color="black" />
                     <Text style={styles.titulo}>
-                        {idioma === 'en' ? 'Featured Book' : 'Livro Destaque'}
+                        {idioma === 'en' ? 'Barren Lives' : 'Vidas Secas'}
                     </Text>
                 </View>
                 <View style={styles.linha}></View>
@@ -102,6 +48,69 @@ export default function LivroDestaque() {
                                 {idioma === 'en' ? 'Year: ' : 'Ano: '}
                             </Text>
                             {livro.ano}
+                        </Text>
+                        <Text style={styles.infoTexto}>
+                            <Text style={styles.boldText}>
+                                {idioma === 'en' ? 'Genre: ' : 'Gênero: '}
+                            </Text>
+                            {livro.genero}
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={styles.livroSection}>
+                    <View style={[styles.tituloSectionDiv, { backgroundColor: '#9e8569' }]}>
+                        <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
+                            {idioma === 'en' ? 'Literary Movement' : 'Movimento Literário'}
+                        </Text>
+                    </View>
+                    <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
+                        <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
+                            {livro.movimento}
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={styles.enredo}>
+                    <ImageBackground
+                        source={{
+                            uri: 'https://i.pinimg.com/474x/88/fa/0c/88fa0cd1043046d01ce7ac20f77b73e1.jpg',
+                        }}
+                        style={styles.imageBackground}
+                        resizeMode="cover">
+                        <View style={styles.overlay}>
+                            <Text style={styles.textoOverlay}>{livro.descricao}</Text>
+                        </View>
+                    </ImageBackground>
+                </View>
+
+                <View style={styles.livroSection}>
+                    <View style={[styles.tituloSectionDiv, { backgroundColor: '#839c73' }]}>
+                        <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
+                            {idioma === 'en' ? 'Story' : 'Enredo'}
+                        </Text>
+                    </View>
+                    <View style={[styles.sectionInfo, { backgroundColor: '#C0DE9E' }]}>
+                        <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
+                            {livro.enredo}
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={styles.livroSection}>
+                    <View
+                        style={[
+                            styles.tituloSectionDiv,
+                            { backgroundColor: '#9e8569', flexDirection: 'row', gap: 10 },
+                        ]}>
+                        <FontAwesome6 name="clock" size={22} color="white" />
+                        <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
+                            {idioma === 'en' ? 'Historical Context' : 'Contexto Histórico'}
+                        </Text>
+                    </View>
+                    <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
+                        <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
+                            {livro.contextoHistorico}
                         </Text>
                     </View>
                 </View>
@@ -169,22 +178,103 @@ const styles = StyleSheet.create({
     },
     main: {
         width: '100%',
+    },
+    introLivro: {
+        backgroundColor: '#D4EBBA',
+        borderRadius: 12,
+        borderWidth: 3,
+        borderColor: '#C0DE9E',
         padding: 14,
+        flexDirection: 'row',
+        marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     capa: {
-        width: '90%',
-        height: 200,
+        width: '35%',
         borderRadius: 12,
         resizeMode: 'cover',
+        marginRight: 15,
+        alignSelf: 'stretch',
+    },
+    introInfos: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        gap: 5,
+    },
+    livroTitulo: {
+        color: '#2B431E',
+        fontSize: 22,
+        fontWeight: '800',
+        marginBottom: 3,
+    },
+    livroAutor: {
+        color: '#2B431E',
+        fontSize: 16,
+        fontWeight: '500',
+        marginBottom: 10,
     },
     infoTexto: {
-        color: '#453E34',
-        fontSize: 14,
-        fontWeight: '500',
-        lineHeight: 20,
+        color: '#2B431E',
+        fontSize: 15,
+        lineHeight: 22,
+        marginBottom: 6,
     },
     boldText: {
         fontWeight: 'bold',
-        color: '#332C24',
+        color: '#2B431E',
+    },
+    livroSection: {
+        borderRadius: 12,
+        overflow: 'hidden',
+        marginBottom: 20,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    tituloSectionDiv: {
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+    },
+    sectionTitulo: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    sectionInfo: {
+        padding: 15,
+    },
+    sectionTexto: {
+        fontSize: 14,
+        fontWeight: '700',
+        lineHeight: 20,
+    },
+    enredo: {
+        width: '100%',
+        height: 400,
+        borderRadius: 12,
+        overflow: 'hidden',
+        resizeMode: 'cover',
+        marginBottom: 20,
+        borderWeight: 5,
+    },
+    imageBackground: {
+        width: '100%',
+        height: '100%',
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(225, 211, 193, 0.8)',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        padding: 20,
+    },
+    textoOverlay: {
+        fontWeight: 'bold',
+        color: '#453E34',
     },
 });
