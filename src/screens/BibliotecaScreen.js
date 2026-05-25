@@ -59,6 +59,14 @@ export default function Biblioteca() {
                         item.autores && item.autores.length > 0
                             ? item.autores[0].nome
                             : 'Autor Desconhecido',
+                    descricao: item.descricao || 'Descrição Indisponível',
+                    descricaoEn: item.descricaoEn || 'Unavailable Description',
+                    resumo: item.resumo || 'Resumo da obra indisponível',
+                    resumoEn: item.resumoEn || 'Unavailable Summary',
+                    analise: item.analise || 'Análise Desconhecida',
+                    analiseEn: item.analiseEn || 'Unavailable Analysis',
+                    contextoHistorico: item.contextoHistorico || 'Contexto Histórico Desconhecido',
+                    contextoHistoricoEn: item.contextoHistoricoEn || 'Unknown Historical Context',
                     origem: 'oGuarani',
                 }));
             }
