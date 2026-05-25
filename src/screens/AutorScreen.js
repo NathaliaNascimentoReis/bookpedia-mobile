@@ -7,10 +7,36 @@ import {
     useWindowDimensions,
     ActivityIndicator,
     Image,
+    TouchableOpacity, // 1. Importado para fazer o botão clicável
 } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState, useEffect } from 'react';
+
+function TextoBiografia({ texto, idioma }) {
+    const [expandido, setExpandido] = useState(false);
+
+    const limiteLinhas = expandido ? undefined : 3;
+
+    return (
+        <View>
+            <Text numberOfLines={limiteLinhas} style={styles.textoEscuro}>
+                {texto}
+            </Text>
+            <TouchableOpacity onPress={() => setExpandido(!expandido)} style={styles.botaoLerMais}>
+                <Text style={styles.textoBotaoLerMais}>
+                    {expandido
+                        ? idioma === 'en'
+                            ? 'Show less'
+                            : 'Ler menos...'
+                        : idioma === 'en'
+                          ? 'Read more...'
+                          : 'Ler mais...'}
+                </Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
 
 export default function Autores() {
     const { width } = useWindowDimensions();
@@ -134,6 +160,25 @@ export default function Autores() {
                                 </Text>
                             </View>
                         </View>
+
+                        {/* Biografia */}
+                        <View style={styles.card}>
+                            <View style={[styles.cardHeader, { backgroundColor: '#7A8C66' }]}>
+                                <Text style={styles.cardHeaderTextoBranco}>
+                                    {idioma === 'en' ? 'Biography' : 'Biografia'}
+                                </Text>
+                            </View>
+                            <View style={[styles.cardBody, { backgroundColor: '#D1E6BA' }]}>
+                                <TextoBiografia
+                                    texto={
+                                        idioma === 'en'
+                                            ? autor.biografiaEn || autor.biografia
+                                            : autor.biografia
+                                    }
+                                    idioma={idioma}
+                                />
+                            </View>
+                        </View>
                     </View>
                 ))
             )}
@@ -210,7 +255,6 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 16,
         overflow: 'hidden',
-        // Sombras
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.15,
@@ -252,5 +296,15 @@ const styles = StyleSheet.create({
         color: '#2B3820',
         lineHeight: 24,
         fontWeight: '500',
+    },
+    botaoLerMais: {
+        marginTop: 10,
+        alignSelf: 'flex-start',
+    },
+    textoBotaoLerMais: {
+        color: '#4A5B35',
+        fontWeight: 'bold',
+        fontSize: 14,
+        textDecorationLine: 'underline',
     },
 });

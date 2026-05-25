@@ -91,8 +91,8 @@ export default function DicasVestibular() {
                             <View style={styles.dicaBody}>
                                 <Text style={styles.descricaoTexto}>
                                     {idioma === 'en'
-                                        ? dica.descricaoEn || dica.descricao
-                                        : dica.descricao}
+                                        ? dica.dicaEn || dica.dica
+                                        : dica.dica}
                                 </Text>
                             </View>
                         </View>
@@ -178,8 +178,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     descricaoTexto: {
-        fontSize: 14,
         color: '#2B431E',
-        lineHeight: 20,
+        fontSize: 15.5,
+        lineHeight: 24,
+        fontWeight: '500',
     },
 });
