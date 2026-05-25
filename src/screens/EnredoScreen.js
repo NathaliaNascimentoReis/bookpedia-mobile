@@ -126,7 +126,7 @@ export default function Enredos() {
                             </View>
                         </View>
 
-                        <View style={[styles.enredoCard, { backgroundColor: '#D4EBBA' }]}>
+                        <View style={[styles.enredoCard, { backgroundColor: '#D4EBAB' }]}>
                             <View style={[styles.enredoHeader, { backgroundColor: '#839c73' }]}>
                                 <Text style={[styles.tituloInfo, { color: '#ffffff' }]}>
                                     {idioma === 'en' ? 'Outcome' : 'Desfecho'}

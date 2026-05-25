@@ -51,9 +51,7 @@ export default function DicasVestibular() {
     }, []);
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="graduation-cap" size={24} color="#1E1E1E" />
@@ -64,14 +62,12 @@ export default function DicasVestibular() {
                 <View style={styles.linha}></View>
             </View>
 
-            <View style={styles.div}>
-                <View style={styles.subtitulo}>
-                    <Text style={styles.subtituloTexto}>
-                        {idioma === 'en'
-                            ? 'Want to know how to ace the test? Learn valuable strategies with tips from BookPedia!'
-                            : 'Quer saber como se destacar na prova? Aprenda estratégias valiosas com as dicas do BookPedia!'}
-                    </Text>
-                </View>
+            <View style={styles.intro}>
+                <Text style={styles.introTexto}>
+                    {idioma === 'en'
+                        ? 'Want to know how to ace the test? Learn valuable strategies with tips from BookPedia!'
+                        : 'Quer saber como se destacar na prova? Aprenda estratégias valiosas com as dicas do BookPedia!'}
+                </Text>
             </View>
 
             <View style={styles.main}>
@@ -90,9 +86,7 @@ export default function DicasVestibular() {
                             {/* Corpo da Dica (Descrição) */}
                             <View style={styles.dicaBody}>
                                 <Text style={styles.descricaoTexto}>
-                                    {idioma === 'en'
-                                        ? dica.dicaEn || dica.dica
-                                        : dica.dica}
+                                    {idioma === 'en' ? dica.dicaEn || dica.dica : dica.dica}
                                 </Text>
                             </View>
                         </View>
@@ -104,11 +98,16 @@ export default function DicasVestibular() {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    background: {
         flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
+    container: {
         alignItems: 'center',
+        flexGrow: 1,
         paddingVertical: 20,
-        paddingBottom: 30,
+        paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,
@@ -129,28 +128,30 @@ const styles = StyleSheet.create({
         backgroundColor: '#9B6737',
         marginBottom: 20,
     },
-    div: {
+    intro: {
+        backgroundColor: '#C0DE9E',
+        width: '100%',
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 15,
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
-    subtitulo: {
-        backgroundColor: '#daccb3',
-        padding: 10,
-        paddingHorizontal: 20,
-        marginHorizontal: 20,
-        margin: 10,
-        borderRadius: 15,
-    },
-    subtituloTexto: {
-        color: '#453E34',
-        fontSize: 15,
-        fontWeight: '500',
+    introTexto: {
+        color: '#3A4A28',
+        fontSize: 16.5,
+        fontWeight: '700',
         textAlign: 'center',
     },
     main: {
+        flex: 1,
         width: '100%',
-        padding: 14,
+        marginBottom: 20,
     },
     dicaCard: {
         backgroundColor: '#E0D5C4',
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     descricaoTexto: {
-        color: '#2B431E',
+        color: '#453E34',
         fontSize: 15.5,
         lineHeight: 24,
         fontWeight: '500',

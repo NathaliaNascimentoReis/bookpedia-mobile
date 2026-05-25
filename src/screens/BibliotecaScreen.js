@@ -46,7 +46,8 @@ export default function Biblioteca() {
 
                 livrosGuarani = listaGuarani.map((item) => ({
                     id: item.id,
-                    titulo: idioma === 'en' ? item.tituloDoLivroEn : item.tituloDoLivro,
+                    titulo: item.tituloDoLivro || 'Título Desconhecido',
+                    tituloEn: item.tituloDoLivroEn || 'Unknown Title',
                     capa:
                         item.capaURL && item.capaURL.trim() !== ''
                             ? item.capaURL
@@ -104,26 +105,17 @@ export default function Biblioteca() {
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
                     ano: item.ano,
-                    genero:
-                        idioma === 'en'
-                            ? item.genero_en || 'Unknown Genre'
-                            : item.genero_pt || 'Gênero Desconhecido',
-                    descricao:
-                        idioma === 'en'
-                            ? item.descricao_en || 'Unknown Description'
-                            : item.descricao_pt || 'Descrição Desconhecida',
-                    enredo:
-                        idioma === 'en'
-                            ? item.enredo_en || 'Unknown Story'
-                            : item.enredo_pt || 'Enredo Desconhecido',
-                    movimento:
-                        idioma === 'en'
-                            ? item.movimento_en || 'Unknown Movement'
-                            : item.movimento_pt || 'Movimento Desconhecido',
+                    genero: item.genero_pt || 'Gênero Desconhecido',
+                    generoEn: item.genero_en || 'Unknown Genre',
+                    descricao: item.descricao_pt || 'Descrição Desconhecida',
+                    descricaoEn: item.descricao_en || 'Unknown Description',
+                    enredo: item.enredo_pt || 'Enredo Desconhecido',
+                    enredoEn: item.enredo_en || 'Unknown Story',
+                    movimento: item.movimento_pt || 'Movimento Desconhecido',
+                    movimentoEn: item.movimento_en || 'Unknown Movement',
                     contextoHistorico:
-                        idioma === 'en'
-                            ? item.contexto_historico_en || 'Unknown Historical Context'
-                            : item.contexto_historico_pt || 'Contexto Histórico Desconhecido',
+                        item.contexto_historico_pt || 'Contexto Histórico Desconhecido',
+                    contextoHistoricoEn: item.contexto_historico_en || 'Unknown Historical Context',
                     autor: item.autor
                         ? typeof item.autor === 'string'
                             ? item.autor
@@ -330,7 +322,7 @@ export default function Biblioteca() {
                 ...(livrosReadflow || []),
                 ...(livrosGuarani || []),
                 ...(livrosMemoriasPostumas || []),
-                ...(livrosQuarto || [])
+                ...(livrosQuarto || []),
             ];
 
             setData(listaLivros);
@@ -344,7 +336,7 @@ export default function Biblioteca() {
 
     useEffect(() => {
         carregarTodosOsLivros();
-    }, []);
+    }, [idioma]);
 
     return (
         <ScrollView style={styles.background} contentContainerStyle={styles.container}>

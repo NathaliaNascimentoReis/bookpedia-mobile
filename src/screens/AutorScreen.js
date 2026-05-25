@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
         paddingVertical: 14,
         paddingHorizontal: 15,
         borderRadius: 12,
-        marginBottom: 25,
+        marginBottom: 15,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
         color: '#3A4A28',
         fontSize: 16.5,
         fontWeight: '700',
+        textAlign: 'center',
     },
     loaderContainer: {
         flex: 1,

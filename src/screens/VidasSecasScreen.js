@@ -66,7 +66,7 @@ export default function VidasSecas() {
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#c6ae91ff' }]}>
                         <Text style={[styles.sectionTexto, { color: '#ffffffff' }]}>
-                            {livro.movimento}
+                            {idioma === 'en' ? livro.movimentoEn : livro.movimento}
                         </Text>
                     </View>
                 </View>
@@ -79,7 +79,9 @@ export default function VidasSecas() {
                         style={styles.imageBackground}
                         resizeMode="cover">
                         <View style={styles.overlay}>
-                            <Text style={styles.textoOverlay}>{livro.descricao}</Text>
+                            <Text style={styles.textoOverlay}>
+                                {idioma === 'en' ? livro.enredoEn : livro.enredo}
+                            </Text>
                         </View>
                     </ImageBackground>
                 </View>
@@ -92,7 +94,7 @@ export default function VidasSecas() {
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#C0DE9E' }]}>
                         <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
-                            {livro.enredo}
+                            {idioma === 'en' ? livro.descricaoEn : livro.descricao}
                         </Text>
                     </View>
                 </View>
@@ -110,7 +112,7 @@ export default function VidasSecas() {
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
                         <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
-                            {livro.contextoHistorico}
+                            {idioma === 'en' ? livro.contextoHistoricoEn : livro.contextoHistorico}
                         </Text>
                     </View>
                 </View>
