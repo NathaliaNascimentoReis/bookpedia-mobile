@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -10,6 +10,44 @@ export default function VideoaulasScreen() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const { idioma } = useIdioma();
+
+    const getVideo = async () => {
+        try {
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/videos', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const json = await response.json();
+
+            if (Array.isArray(json)) {
+                setData(json);
+            } else if (json.videos && Array.isArray(json.videos)) {
+                setData(json.videos);
+            } else if (json.video) {
+                setData([json.video]);
+            } else {
+                setData([json]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar vídeos: ' + error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getVideo();
+    }, []);
 
     return (
         <ScrollView style={styles.background} contentContainerStyle={styles.container}>
@@ -23,26 +61,50 @@ export default function VideoaulasScreen() {
                 <View style={styles.linha}></View>
             </View>
 
-            <View style={[styles.intro, { backgroundColor: '#C2E799' }]}>
-                <Text
-                    style={[
-                        styles.introTexto,
-                        { color: '#2B431E', fontSize: 15, textAlign: 'center' },
-                    ]}>
+            <View style={[styles.intro, { backgroundColor: '#C2E799', marginBottom: 10 }]}>
+                <Text style={[styles.introTexto, { color: '#2B431E', fontSize: 16 }]}>
                     {idioma === 'en'
-                        ? 'BookPedia can help you with that through video lessons!'
-                        : 'O BookPedia pode te ajudar nisso com videoaulas!'}
+                        ? 'Have you explored literature today? BookPedia can help you with that through video lessons!'
+                        : 'Já explorou a literatura hoje? O BookPedia pode te ajudar nisso com videoaulas!'}
                 </Text>
             </View>
 
-            <View style={styles.videoCard}>
-                <View style={styles.videoWrapper}>
-                    <YoutubePlayer
-                        height={width * 0.51}
-                        play={false}
-                        videoId={'dQw4w9WgXcQ'}
-                    />
-                </View>
+            <View style={styles.main}>
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#caad92" />
+                ) : (
+                    data?.map((video) => (
+                        <View key={video.id} style={styles.card}>
+                            <View style={styles.header}>
+                                <Text style={styles.tituloInfo}>
+                                    {idioma === 'en'
+                                        ? video.tituloEn || video.titulo
+                                        : video.titulo}
+                                </Text>
+                            </View>
+                            <View style={styles.body}>
+                                <View style={styles.videoCard}>
+                                    <View style={styles.videoWrapper}>
+                                        <YoutubePlayer
+                                            height={width * 0.51}
+                                            play={false}
+                                            videoId={'dQw4w9WgXcQ'}
+                                        />
+                                    </View>
+                                </View>
+
+                                <Text style={styles.descricaoTexto}>
+                                    <Text style={styles.boldText}>
+                                        {idioma === 'en' ? 'Description: ' : 'Descrição: '}
+                                    </Text>
+                                    {idioma === 'en'
+                                        ? video.descricaoEn || video.descricao
+                                        : video.descricao}
+                                </Text>
+                            </View>
+                        </View>
+                    ))
+                )}
             </View>
         </ScrollView>
     );
@@ -80,18 +142,70 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     intro: {
-        padding: 10,
-        paddingHorizontal: 20,
-        marginHorizontal: 20,
-        borderRadius: 15,
-        alignSelf: 'center',
+        backgroundColor: '#C0DE9E',
+        width: '100%',
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 15,
+        alignItems: 'center',
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     introTexto: {
+        color: '#3A4A28',
+        fontSize: 16.5,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+    main: {
+        flex: 1,
+        width: '100%',
+        marginBottom: 20,
+    },
+    card: {
+        backgroundColor: '#E0D5C4',
+        borderRadius: 15,
+        overflow: 'hidden', // Garante que o fundo do título não vaze pelas bordas
+        marginBottom: 20,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    header: {
+        backgroundColor: '#b49e7e',
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+    },
+    tituloInfo: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#ffffff',
+    },
+    body: {
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        alignItems: 'center',
+    },
+    descricaoTexto: {
+        color: '#453E34',
+        fontSize: 15.5,
+        lineHeight: 24,
         fontWeight: '500',
+        alignSelf: 'flex-start',
+        width: '100%',
+    },
+    boldText: {
+        fontWeight: 'bold',
     },
     videoCard: {
-        width: width * 0.9,
-        marginTop: 10,
+        width: '90%',
+        marginBottom: 20,
         backgroundColor: '#ffffff',
         borderRadius: 12,
         elevation: 4,
