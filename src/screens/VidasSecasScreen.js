@@ -4,7 +4,6 @@ import {
     View,
     Image,
     ScrollView,
-    ActivityIndicator,
     TouchableOpacity,
     ImageBackground,
 } from 'react-native';
@@ -65,8 +64,8 @@ export default function VidasSecas() {
                             {idioma === 'en' ? 'Literary Movement' : 'Movimento Literário'}
                         </Text>
                     </View>
-                    <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
-                        <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
+                    <View style={[styles.sectionInfo, { backgroundColor: '#c6ae91ff' }]}>
+                        <Text style={[styles.sectionTexto, { color: '#ffffffff' }]}>
                             {livro.movimento}
                         </Text>
                     </View>
@@ -92,7 +91,7 @@ export default function VidasSecas() {
                         </Text>
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#C0DE9E' }]}>
-                        <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
+                        <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
                             {livro.enredo}
                         </Text>
                     </View>
