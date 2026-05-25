@@ -24,6 +24,9 @@ import DicasVestibular from './src/screens/DicasVestibularScreen.js';
 import { TelaMenu } from './src/screens/MenuScreen.js';
 
 import VidasSecas from './src/screens/VidasSecasScreen.js';
+import CapitaesDeAreia from './src/screens/CapitaesDeAreiaScreen.js';
+import MemoriasPostumas from './src/screens/MemoriasPostumasScreen.js';
+import QuartoDespejo from './src/screens/QuartoDespejoScreen.js';
 
 import { IdiomaProvider, useIdioma } from './src/IdiomaContext.js';
 import Footer from './src/components/Footer.js';
@@ -191,6 +194,33 @@ function AppContent() {
                                 {...props}
                                 name="VidasSecasScreen"
                                 component={VidasSecas}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="CapitaesDeAreia">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="CapitaesDeAreiaScreen"
+                                component={CapitaesDeAreia}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="MemoriasPostumas">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="MemoriasPostumasScreen"
+                                component={MemoriasPostumas}
+                            />
+                        )}
+                    </Drawer.Screen>
+                    <Drawer.Screen name="QuartoDespejo">
+                        {(props) => (
+                            <GenericStack
+                                {...props}
+                                name="QuartoDespejoScreen"
+                                component={QuartoDespejo}
                             />
                         )}
                     </Drawer.Screen>
