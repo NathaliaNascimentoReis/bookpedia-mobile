@@ -13,7 +13,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-export default function VidasSecas() {
+export default function LivroDestaque() {
     const route = useRoute();
     const navigation = useNavigation();
 
@@ -40,7 +40,9 @@ export default function VidasSecas() {
                 <View style={styles.introLivro}>
                     <Image source={{ uri: livro.capa }} style={styles.capa} />
                     <View style={styles.introInfos}>
-                        <Text style={styles.livroTitulo}>{livro.titulo}</Text>
+                        <Text style={styles.livroTitulo}>
+                            {idioma === 'en' ? livro.tituloEn : livro.titulo}
+                        </Text>
                         <Text style={styles.livroAutor}>{livro.autor}</Text>
 
                         <Text style={styles.infoTexto}>

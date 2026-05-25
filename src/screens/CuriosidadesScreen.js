@@ -52,9 +52,7 @@ export default function Curiosidades() {
     }, []);
 
     return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: '#E7F0DB' }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="lightbulb" size={24} color="#1E1E1E" />
@@ -66,7 +64,7 @@ export default function Curiosidades() {
             </View>
 
             <View style={styles.div}>
-                <View style={styles.subtitulo}>
+                <View style={styles.subtituloContainer}>
                     <Text style={styles.subtituloTexto}>
                         {idioma === 'en'
                             ? 'Quer conhecer fatos interessantes? Explore o que as páginas não contam, mas o BookPedia sim!'
@@ -108,11 +106,16 @@ export default function Curiosidades() {
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        backgroundColor: '#EFF3E7',
+    },
     container: {
-        flexGrow: 1,
         alignItems: 'center',
+        flexGrow: 1,
         paddingVertical: 20,
-        paddingBottom: 30,
+        paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,
@@ -138,13 +141,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 10,
     },
-    subtitulo: {
-        backgroundColor: '#C0DE9E',
-        padding: 10,
-        paddingHorizontal: 20,
-        marginHorizontal: 20,
-        margin: 10,
-        borderRadius: 15,
+    subtituloContainer: {
+        backgroundColor: '#D4EBAB',
+        width: '100%',
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 30,
+        alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
@@ -153,16 +157,17 @@ const styles = StyleSheet.create({
     },
     subtituloTexto: {
         color: '#3A4A28',
-        fontSize: 15,
-        fontWeight: '500',
+        fontSize: 16.5,
+        fontWeight: '700',
         textAlign: 'center',
     },
     main: {
+        flex: 1,
         width: '100%',
-        padding: 14,
+        marginBottom: 20,
     },
     curiosidadeCard: {
-        backgroundColor: '#b49e7e',
+        backgroundColor: '#c6ae91ff',
         borderRadius: 12,
         marginBottom: 20,
         elevation: 4,
@@ -172,20 +177,24 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
     },
     curiosidadeHeader: {
-        backgroundColor: '#b49e7e',
+        backgroundColor: '#9e8569',
         paddingVertical: 12,
         paddingHorizontal: 15,
         borderTopLeftRadius: 12,
         borderTopRightRadius: 12,
     },
     curiosidadeBody: {
-        backgroundColor: '#F5EFE6',
         padding: 15,
         borderBottomLeftRadius: 12,
         borderBottomRightRadius: 12,
     },
+    tituloInfo: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#ffffff',
+    },
     descricaoTexto: {
-        color: '#453E34',
+        color: '#ffffff',
         fontSize: 15.5,
         lineHeight: 24,
         fontWeight: '500',
