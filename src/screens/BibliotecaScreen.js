@@ -47,13 +47,13 @@ export default function Biblioteca() {
                 livrosGuarani = listaGuarani.map((item) => ({
                     id: item.id,
                     titulo: item.tituloDoLivro || 'Título Desconhecido',
-                    tituloEn: item.tituloDoLivroEn,
+                    tituloEn: item.tituloDoLivroEn || 'Untitled',
                     capa:
                         item.capaURL && item.capaURL.trim() !== ''
                             ? item.capaURL
                             : idioma === 'en'
-                                ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
-                                : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
+                              ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                              : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
                     ano: item.anoDeLancamento,
                     autor:
                         item.autores && item.autores.length > 0
@@ -105,13 +105,14 @@ export default function Biblioteca() {
 
                 livrosVidasSecas = listaVidasSecas.map((item) => ({
                     id: item.id,
-                    titulo: item.titulo,
+                    titulo: item.titulo || 'Sem título',
+                    tituloEn: 'Barren Lives' || 'Untitled',
                     capa:
                         item.capa_url && item.capa_url.trim() !== ''
                             ? item.capa_url
                             : idioma === 'en'
-                                ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
-                                : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
+                              ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                              : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
                     ano: item.ano,
                     genero: item.genero_pt || 'Gênero Desconhecido',
                     generoEn: item.genero_en || 'Unknown Genre',
@@ -129,8 +130,8 @@ export default function Biblioteca() {
                             ? item.autor
                             : item.autor.nome
                         : item.autores && item.autores.length > 0
-                            ? item.autores[0].nome
-                            : 'Autor Desconhecido',
+                          ? item.autores[0].nome
+                          : 'Autor Desconhecido',
                     origem: 'vidasSecas',
                 }));
             }
@@ -168,50 +169,34 @@ export default function Biblioteca() {
                     id: item.id,
                     titulo:
                         idioma === 'en'
-                            ? item.titulo || 'Untitled'
-                            : 'Captains of the Sands' || 'Sem Título',
+                            ? 'Captains of the Sands' || 'Untitled'
+                            : item.titulo || 'Sem título',
                     capa:
-                        (item.capa_url && item.capa_url.trim() !== '') ||
-                            (item.capaURL && item.capaURL.trim() !== '') ||
-                            (item.capa && item.capa.trim() !== '')
-                            ? item.capa_url || item.capaURL || item.capa
-                            : idioma === 'en'
-                                ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
-                                : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: idioma === 'en'
-                        ? item.anoPublicacao || 'Unknown Year'
-                        : item.anoPublicacao || 'Ano Desconhecido',
-                    genero:
                         idioma === 'en'
-                            ? item.genero_en || item.genero || 'Unknown Genre'
-                            : item.genero_pt || item.genero || 'Gênero Desconhecido',
-                    descricao:
+                            ? item.capa_url ||
+                              'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                            : item.capa_url ||
+                              'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
+                    ano:
                         idioma === 'en'
-                            ? item.descricao_en || item.descricao || 'Unknown Description'
-                            : item.descricao_pt || item.descricao || 'Descrição Desconhecida',
-                    enredo:
-                        idioma === 'en'
-                            ? item.enredo_en || item.enredo || 'Unknown Story'
-                            : item.enredo_pt || item.enredo || 'Enredo Desconhecido',
-                    movimento:
-                        idioma === 'en'
-                            ? item.movimento_en || item.movimento || 'Unknown Movement'
-                            : item.movimento_pt || item.movimento || 'Movimento Desconhecido',
-                    contextoHistorico:
-                        idioma === 'en'
-                            ? item.contexto_historico_en ||
-                            item.contexto_historico ||
-                            'Unknown Historical Context'
-                            : item.contexto_historico_pt ||
-                            item.contexto_historico ||
-                            'Contexto Histórico Desconhecido',
+                            ? item.anoPublicacao || 'Unknown Year'
+                            : item.anoPublicacao || 'Ano Desconhecido',
+                    genero: item.genero_pt || 'Gênero Desconhecido',
+                    generoEn: item.genero_en || 'Unknown Genre',
+                    descricao: item.descricao_pt || 'Descrição Desconhecida',
+                    descricaoEn: item.descricao_en || 'Unknown Description',
+                    sinopse: item.sinopse || 'Sinopse Desconhecida',
+                    contextoHistorico: item.contexto_pt || 'Contexto Histórico Desconhecido',
+                    contextoHistoricoEn: item.contexto_en || 'Unknown Historical Context',
+                    verossimilhanca: item.verossimilhanca_pt || 'Verossimilhança Desconhecida',
+                    verossimilhancaEn: item.verossimilhanca_en || 'Unknown Verisimilitude',
                     autor: item.autor
                         ? typeof item.autor === 'string'
                             ? item.autor
                             : item.autor.nome
                         : item.autores && item.autores.length > 0
-                            ? item.autores[0].nome
-                            : item.author || 'Autor Desconhecido',
+                          ? item.autores[0].nome
+                          : item.author || 'Autor Desconhecido',
                     origem: 'capitaes de areia',
                 }));
             }
@@ -223,13 +208,10 @@ export default function Biblioteca() {
                 'x-api-key': API_KEY_MEMORIAS,
             };
 
-            const memoriasResp = await fetch(
-                'https://projeto-clubyx.onrender.com/livros',
-                {
-                    method: 'GET',
-                    headers: headersMemorias,
-                },
-            );
+            const memoriasResp = await fetch('https://projeto-clubyx.onrender.com/livros', {
+                method: 'GET',
+                headers: headersMemorias,
+            });
 
             let livrosMemorias = [];
 
@@ -250,16 +232,23 @@ export default function Biblioteca() {
 
                 livrosMemorias = listaMemorias.map((item) => ({
                     id: item.id,
-                    titulo:
+                    titulo: item.nome || 'Sem Título',
+                    tituloEn: item.nomeIng|| 'Untitled',
+                    autor:
                         idioma === 'en'
-                            ? 'The Posthumous Memoirs of Brás Cubas' || 'Untitled'
-                            : item.nome || 'Sem Título',
-                    capa: idioma === 'en'
-                        ? item.foto || 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
-                        : item.foto || 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
+                            ? item.autor || 'Unknown Author'
+                            : item.autor || 'Autor Desconhecido',
+                    capa:
+                        idioma === 'en'
+                            ? item.foto ||
+                              'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                            : item.foto ||
+                              'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
                     ano: item.publicacao || 'Unknown Year',
-                    resumo: item.resumo,
-                    contextoHistorico: item.contextoHist,
+                    resumo: item.resumo || 'Resumo Desconhecido',
+                    resumoEn: item.resumoIng || 'Unknown Summary',
+                    contextoHistorico: item.contextoHist || 'Contexto Histórico Desconhecido',
+                    contextoHistoricoEn: item.contextoHistIng || 'Unknown Historical Context',
                     origem: 'Memórias Póstumas de Brás Cubas',
                 }));
             }
@@ -298,13 +287,14 @@ export default function Biblioteca() {
 
                 livrosQuartos = listaQuartos.map((item) => ({
                     id: item.id,
-                    titulo:
+                    titulo: item.tituloPT || 'Sem Título',
+                    tituloEn: item.tituloEN || 'Untitled',
+                    capa:
                         idioma === 'en'
-                            ? item.tituloEN || 'Untitled'
-                            : item.tituloPT || 'Sem Título',
-                    capa: idioma === 'en'
-                        ? item.capaURl || 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
-                        : item.capaURl || 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
+                            ? item.capaURl ||
+                              'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
+                            : item.capaURl ||
+                              'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
                     autor: item.autor || 'Unknown Author',
                     ano: item.anoPublicacao || 'Unknown Year',
                     genero: item.generoPT || 'Gênero Desconhecido',
@@ -392,7 +382,8 @@ export default function Biblioteca() {
                                                         params: { livroQuartoDeDespejo: livro },
                                                     });
                                                 } else if (
-                                                    livro.origem === 'Memórias Póstumas de Brás Cubas'
+                                                    livro.origem ===
+                                                    'Memórias Póstumas de Brás Cubas'
                                                 ) {
                                                     navigation.navigate('MemoriasPostumas', {
                                                         screen: 'MemoriasPostumasScreen',
