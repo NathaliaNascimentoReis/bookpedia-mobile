@@ -160,8 +160,8 @@ export default function Simulado() {
                                             ? 'Hide Answer'
                                             : 'Esconder Resposta'
                                         : idioma === 'en'
-                                          ? 'Discover the Answer by clicking here!'
-                                          : 'Descubra a Resposta clicando aqui!'}
+                                            ? 'Discover the Answer by clicking here!'
+                                            : 'Descubra a Resposta clicando aqui!'}
                                 </Text>
                                 <FontAwesome
                                     name={isOpen ? 'chevron-up' : 'chevron-down'}
