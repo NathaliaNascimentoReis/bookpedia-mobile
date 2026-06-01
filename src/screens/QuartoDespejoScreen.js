@@ -9,7 +9,7 @@ import {
     ImageBackground,
 } from 'react-native';
 import { useIdioma } from '../IdiomaContext.js';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -54,7 +54,7 @@ export default function QuartoDespejo() {
                             <Text style={styles.boldText}>
                                 {idioma === 'en' ? 'Genre: ' : 'Gênero: '}
                             </Text>
-                            {livro?.genero}
+                            {idioma === 'en' ? livro?.generoEn : livro?.genero}
                         </Text>
                     </View>
                 </View>
@@ -62,56 +62,12 @@ export default function QuartoDespejo() {
                 <View style={styles.livroSection}>
                     <View style={[styles.tituloSectionDiv, { backgroundColor: '#9e8569' }]}>
                         <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
-                            {idioma === 'en' ? 'Literary Movement' : 'Movimento Literário'}
+                            {idioma === 'en' ? 'Description' : 'Descrição'}
                         </Text>
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
                         <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
-                            {livro?.movimento}
-                        </Text>
-                    </View>
-                </View>
-
-                <View style={styles.enredo}>
-                    <ImageBackground
-                        source={{
-                            uri: 'https://i.pinimg.com/474x/88/fa/0c/88fa0cd1043046d01ce7ac20f77b73e1.jpg',
-                        }}
-                        style={styles.imageBackground}
-                        resizeMode="cover">
-                        <View style={styles.overlay}>
-                            <Text style={styles.textoOverlay}>{livro?.descricao}</Text>
-                        </View>
-                    </ImageBackground>
-                </View>
-
-                <View style={styles.livroSection}>
-                    <View style={[styles.tituloSectionDiv, { backgroundColor: '#839c73' }]}>
-                        <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
-                            {idioma === 'en' ? 'Story' : 'Enredo'}
-                        </Text>
-                    </View>
-                    <View style={[styles.sectionInfo, { backgroundColor: '#C0DE9E' }]}>
-                        <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
-                            {livro?.enredo}
-                        </Text>
-                    </View>
-                </View>
-
-                <View style={styles.livroSection}>
-                    <View
-                        style={[
-                            styles.tituloSectionDiv,
-                            { backgroundColor: '#9e8569', flexDirection: 'row', gap: 10 },
-                        ]}>
-                        <FontAwesome6 name="clock" size={22} color="white" />
-                        <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
-                            {idioma === 'en' ? 'Historical Context' : 'Contexto Histórico'}
-                        </Text>
-                    </View>
-                    <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
-                        <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
-                            {livro?.contextoHistorico}
+                            {idioma === 'en' ? livro?.descricaoEn : livro?.descricao}
                         </Text>
                     </View>
                 </View>
