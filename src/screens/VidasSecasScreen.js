@@ -40,7 +40,9 @@ export default function VidasSecas() {
                 <View style={styles.introLivro}>
                     <Image source={{ uri: livro.capa }} style={styles.capa} />
                     <View style={styles.introInfos}>
-                        <Text style={styles.livroTitulo}>{livro.titulo}</Text>
+                        <Text style={styles.livroTitulo}>
+                            {idioma === 'en' ? 'Barren Lives' : livro.titulo }
+                        </Text>
                         <Text style={styles.livroAutor}>{livro.autor}</Text>
 
                         <Text style={styles.infoTexto}>

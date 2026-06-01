@@ -31,7 +31,7 @@ export default function CapitaesDeAreia() {
                 <View style={styles.tituloDiv}>
                     <FontAwesome name="book" size={24} color="black" />
                     <Text style={styles.titulo}>
-                        {idioma === 'en' ? 'Sea of Swords' : 'Capitães de Areia'}
+                        {idioma === 'en' ? 'Captains of the Sands' : 'Capitães de Areia'}
                     </Text>
                 </View>
                 <View style={styles.linha}></View>
