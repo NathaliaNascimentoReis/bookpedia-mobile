@@ -52,50 +52,18 @@ export default function MemoriasPostumas() {
                             </Text>
                             {livro.ano}
                         </Text>
-                        <Text style={styles.infoTexto}>
-                            <Text style={styles.boldText}>
-                                {idioma === 'en' ? 'Genre: ' : 'Gênero: '}
-                            </Text>
-                            {livro.genero}
-                        </Text>
                     </View>
-                </View>
-
-                <View style={styles.livroSection}>
-                    <View style={[styles.tituloSectionDiv, { backgroundColor: '#9e8569' }]}>
-                        <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
-                            {idioma === 'en' ? 'Literary Movement' : 'Movimento Literário'}
-                        </Text>
-                    </View>
-                    <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
-                        <Text style={[styles.sectionTexto, { color: '#3A4A28' }]}>
-                            {livro.movimento}
-                        </Text>
-                    </View>
-                </View>
-
-                <View style={styles.enredo}>
-                    <ImageBackground
-                        source={{
-                            uri: 'https://i.pinimg.com/474x/88/fa/0c/88fa0cd1043046d01ce7ac20f77b73e1.jpg',
-                        }}
-                        style={styles.imageBackground}
-                        resizeMode="cover">
-                        <View style={styles.overlay}>
-                            <Text style={styles.textoOverlay}>{livro.descricao}</Text>
-                        </View>
-                    </ImageBackground>
                 </View>
 
                 <View style={styles.livroSection}>
                     <View style={[styles.tituloSectionDiv, { backgroundColor: '#839c73' }]}>
                         <Text style={[styles.sectionTitulo, { color: '#ffffff' }]}>
-                            {idioma === 'en' ? 'Story' : 'Enredo'}
+                            {idioma === 'en' ? 'Summary' : 'Resumo'}
                         </Text>
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#C0DE9E' }]}>
                         <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
-                            {livro.enredo}
+                            {idioma === 'en' ? livro.resumoEn : livro.resumo}
                         </Text>
                     </View>
                 </View>
@@ -114,6 +82,7 @@ export default function MemoriasPostumas() {
                     <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
                         <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
                             {livro.contextoHistorico}
+                            {idioma === 'en' ? livro.contextoHistoricoEn : livro.contextoHistorico}
                         </Text>
                     </View>
                 </View>

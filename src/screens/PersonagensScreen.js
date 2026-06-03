@@ -1,12 +1,4 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    ScrollView,
-    TouchableOpacity,
-    ActivityIndicator,
-} from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
@@ -24,16 +16,13 @@ export default function Personagens() {
         try {
             const API_KEY = 'bookpedia-backend-2026';
 
-            const response = await fetch(
-                'https://bookpedia-backend-4ab3.onrender.com/personagens',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': API_KEY,
-                    },
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/personagens', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
                 },
-            );
+            });
 
             if (!response.ok) {
                 throw new Error(`Erro na requisição: ${response.status}`);
@@ -44,7 +33,7 @@ export default function Personagens() {
             if (Array.isArray(json)) {
                 setData(json);
             } else if (json.personagens && Array.isArray(json.personagens)) {
-                setData(json.personagens); // Corrigido de json.personagem para json.personagens
+                setData(json.personagem);
             } else if (json.personagem) {
                 setData([json.personagem]);
             } else {
@@ -95,60 +84,50 @@ export default function Personagens() {
 
                         return (
                             <View key={personagem.id} style={styles.cardGeral}>
-                                {/* Mudança dinâmica de borderRadius acontecendo aqui através do array de estilos */}
-                                <TouchableOpacity
-                                    style={[
-                                        styles.personagemBox,
-                                        isOpen ? styles.boxAberto : styles.boxFechado,
-                                    ]}
-                                    activeOpacity={0.7}
-                                    onPress={() => togglePersonagem(personagem.id)}>
+                                <View style={styles.personagemBox}>
                                     <View style={styles.tituloPersonagem}>
-                                        <View
-                                            style={{
-                                                flexDirection: 'row',
-                                                gap: 10,
-                                                alignItems: 'center',
-                                            }}>
-                                            <Text style={styles.characterTexto}>
-                                                {personagem.nome}
-                                            </Text>
-                                            <Text style={styles.characterTexto}>
-                                                ({personagem.idade}{' '}
-                                                {idioma === 'en' ? 'years old' : 'anos'})
-                                            </Text>
-                                        </View>
-                                        <FontAwesome
-                                            name={isOpen ? 'chevron-up' : 'chevron-down'}
-                                            size={18}
-                                            color="#ffffff"
-                                            style={{ alignSelf: 'center', marginRight: 10 }}
-                                        />
+                                        <Text style={styles.characterTexto}>{personagem.nome}</Text>
+                                        <Text style={styles.characterTexto}>
+                                            {personagem.idade} anos
+                                        </Text>
                                     </View>
+
+                                    <View style={styles.corpoDescricao}>
+                                        <Text style={styles.descricaoTexto}>
+                                            {idioma === 'en' ? personagem.descricaoEn : personagem.descricao}
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                {/* Botão de Revelar/Esconder Personagem */}
+                                <TouchableOpacity
+                                    style={styles.botaoHistoria}
+                                    activeOpacity={0.8}
+                                    onPress={() => togglePersonagem(personagem.id)}>
+                                    <Text style={styles.botaoHistoriaTexto}>
+                                        {isOpen
+                                            ? idioma === 'en'
+                                                ? 'Hide story'
+                                                : 'Esconder história'
+                                            : idioma === 'en'
+                                                ? 'Learn more about this character story by clicking here!'
+                                                : 'Saiba mais sobre a história desse personagem clicando aqui!'}
+                                    </Text>
+                                    <FontAwesome
+                                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                                        size={22}
+                                        color="white"
+                                    />
                                 </TouchableOpacity>
 
+                                {/* Seção com a história */}
                                 {isOpen && (
-                                    <View style={styles.dropdownConteudo}>
-                                        {/* Seção da Descrição */}
-                                        <View style={styles.corpoDescricao}>
-                                            <Text style={styles.descricaoTexto}>
-                                                {idioma === 'en'
-                                                    ? personagem.descricaoEn
-                                                    : personagem.descricao}
-                                            </Text>
-                                        </View>
-
-                                        {/* Seção da História */}
-                                        <View style={styles.historiaBox}>
-                                            <Text style={styles.historiaTitulo}>
-                                                {idioma === 'en'
-                                                    ? personagem.historiaEn
-                                                    : undefined}
-                                            </Text>
-                                            <Text style={styles.historiaTextoEstilizado}>
-                                                {idioma === 'en' ? undefined : personagem.historia}
-                                            </Text>
-                                        </View>
+                                    <View style={styles.historiaBox}>
+                                        <Text style={styles.historiaTitulo}>
+                                            {idioma === 'en'
+                                                ? personagem.historiaEn
+                                                : personagem.historia}
+                                        </Text>
                                     </View>
                                 )}
                             </View>
@@ -223,19 +202,12 @@ const styles = StyleSheet.create({
     },
     personagemBox: {
         width: '100%',
-        overflow: 'hidden',
-    },
-    boxAberto: {
         borderTopLeftRadius: 12,
         borderTopRightRadius: 12,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-    },
-    boxFechado: {
-        borderRadius: 12,
+        overflow: 'hidden',
     },
     tituloPersonagem: {
-        backgroundColor: '#C2A88D',
+        backgroundColor: '#9e8569',
         paddingVertical: 12,
         paddingHorizontal: 20,
         flexDirection: 'row',
@@ -249,35 +221,43 @@ const styles = StyleSheet.create({
     },
     corpoDescricao: {
         padding: 18,
+        gap: 12,
         backgroundColor: '#E1D3C1',
-        borderBottomLeftRadius: 12,
-        borderBottomRightRadius: 12,
-        marginBottom: 20,
     },
     descricaoTexto: {
         fontSize: 16,
         color: '#453E34',
         lineHeight: 22,
         fontWeight: '600',
+        marginBottom: 6,
+    },
+    botaoHistoria: {
+        width: '100%',
+        backgroundColor: '#9e8569',
+        paddingVertical: 14,
+        paddingHorizontal: 20,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+        marginBottom: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    botaoHistoriaTexto: {
+        color: '#ffffff',
+        fontSize: 15,
+        fontWeight: '500',
+        maxWidth: '80%',
     },
     historiaBox: {
         backgroundColor: '#C2E799',
+        borderRadius: 12,
         paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 12,
-        alignItems: 'center',
+        gap: 10,
     },
     historiaTitulo: {
         fontWeight: 'bold',
         color: '#2B431E',
-    },
-    historiaTextoEstilizado: {
-        fontSize: 16,
-        color: '#2B431E',
-        lineHeight: 22,
-        fontWeight: '600',
-    },
-    dropdownConteudo: {
-        width: '100%',
     },
 });

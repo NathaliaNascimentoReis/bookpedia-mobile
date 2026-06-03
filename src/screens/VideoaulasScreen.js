@@ -6,6 +6,11 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 
 const { width } = Dimensions.get('window');
 
+const extrairYoutubeId = (url) => {
+    const match = url?.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+};
+
 export default function VideoaulasScreen() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -88,7 +93,7 @@ export default function VideoaulasScreen() {
                                         <YoutubePlayer
                                             height={width * 0.51}
                                             play={false}
-                                            videoId={'dQw4w9WgXcQ'}
+                                            videoId={extrairYoutubeId(video.url)}
                                         />
                                     </View>
                                 </View>
@@ -169,7 +174,7 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: '#E0D5C4',
         borderRadius: 15,
-        overflow: 'hidden', // Garante que o fundo do título não vaze pelas bordas
+        overflow: 'hidden',
         marginBottom: 20,
         elevation: 3,
         shadowColor: '#000',
