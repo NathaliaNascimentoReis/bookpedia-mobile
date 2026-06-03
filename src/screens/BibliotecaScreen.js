@@ -54,7 +54,7 @@ export default function Biblioteca() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.anoDeLancamento,
+                    ano: item.anoDeLancamento || 'Ano de lançamento desconhecido',
                     autor:
                         item.autores && item.autores.length > 0
                             ? item.autores[0].nome
@@ -112,7 +112,7 @@ export default function Biblioteca() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.ano,
+                    ano: item.ano || 'Ano de lançamento desconhecido',
                     genero: item.genero_pt || 'Gênero Desconhecido',
                     generoEn: item.genero_en || 'Unknown Genre',
                     descricao: item.descricao_pt || 'Descrição Desconhecida',
@@ -137,6 +137,7 @@ export default function Biblioteca() {
 
             // Requisição do novo livro (Readflow)
             const API_KEY_READFLOW = 'projetoamods';
+
             const headersReadflow = {
                 'Content-Type': 'application/json',
                 'x-api-key': API_KEY_READFLOW,
@@ -166,10 +167,7 @@ export default function Biblioteca() {
 
                 livrosReadflow = listaReadflow.map((item) => ({
                     id: item.id,
-                    titulo:
-                        idioma === 'en'
-                            ? item.titulo_en || item.titulo || item.title || 'Untitled'
-                            : item.titulo || item.title || item.titulo_pt || 'Sem Título',
+                    titulo: item.titulo,
                     capa:
                         (item.capa_url && item.capa_url.trim() !== '') ||
                         (item.capaURL && item.capaURL.trim() !== '') ||
@@ -178,31 +176,18 @@ export default function Biblioteca() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.ano || item.anoDeLancamento || item.year,
-                    genero:
-                        idioma === 'en'
-                            ? item.genero_en || item.genero || 'Unknown Genre'
-                            : item.genero_pt || item.genero || 'Gênero Desconhecido',
-                    descricao:
-                        idioma === 'en'
-                            ? item.descricao_en || item.descricao || 'Unknown Description'
-                            : item.descricao_pt || item.descricao || 'Descrição Desconhecida',
-                    enredo:
-                        idioma === 'en'
-                            ? item.enredo_en || item.enredo || 'Unknown Story'
-                            : item.enredo_pt || item.enredo || 'Enredo Desconhecido',
-                    movimento:
-                        idioma === 'en'
-                            ? item.movimento_en || item.movimento || 'Unknown Movement'
-                            : item.movimento_pt || item.movimento || 'Movimento Desconhecido',
+                    ano: item.anoDeLancamento || 'Ano de lançamento desconhecido',
+                    genero: item.genero_pt || 'Gênero Desconhecido',
+                    generoEn: item.genero_en || 'Unknown Genre',
+                    descricao: item.descricao_pt || 'Descrição Desconhecida',
+                    descricaoEn: item.descricao_en || 'Unknown Description',
+                    temas: item.temas_chave_pt || 'Temas Desconecidos',
+                    temasEn: item.temas_chave_en || 'Unknown Themes',
+                    movimento: item.simbolismo_pt || 'Movimento Desconhecido',
+                    movimentoEn: item.simbolismo_en || 'Unknown Movement',
                     contextoHistorico:
-                        idioma === 'en'
-                            ? item.contexto_historico_en ||
-                              item.contexto_historico ||
-                              'Unknown Historical Context'
-                            : item.contexto_historico_pt ||
-                              item.contexto_historico ||
-                              'Contexto Histórico Desconhecido',
+                        item.contexto_historico_pt || 'Contexto Histórico Desconhecido',
+                    contextoHistoricoEn: item.contexto_historico_en || 'Unknown Historical Context',
                     autor: item.autor
                         ? typeof item.autor === 'string'
                             ? item.autor
