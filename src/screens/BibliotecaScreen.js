@@ -54,7 +54,7 @@ export default function Biblioteca() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.anoDeLancamento,
+                    ano: item.anoDeLancamento || 'Ano de lançamento desconhecido',
                     autor:
                         item.autores && item.autores.length > 0
                             ? item.autores[0].nome
@@ -113,7 +113,7 @@ export default function Biblioteca() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.ano,
+                    ano: item.ano || 'Ano de lançamento desconhecido',
                     genero: item.genero_pt || 'Gênero Desconhecido',
                     generoEn: item.genero_en || 'Unknown Genre',
                     descricao: item.descricao_pt || 'Descrição Desconhecida',
@@ -138,6 +138,7 @@ export default function Biblioteca() {
 
             // Requisição do novo livro (Readflow)
             const API_KEY_READFLOW = 'projetoamods';
+
             const headersReadflow = {
                 'Content-Type': 'application/json',
                 'x-api-key': API_KEY_READFLOW,

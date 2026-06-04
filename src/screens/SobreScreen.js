@@ -5,6 +5,7 @@ import {
     ScrollView,
     ActivityIndicator,
     TouchableOpacity,
+    Image
 } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -116,6 +117,8 @@ export default function Sobre() {
                             </View>
 
                             <View style={styles.infoMembro}>
+                                <Image source={{ uri: membro.fotoURL }} style={styles.fotoMembro} />
+
                                 {/* Idade */}
                                 <View style={styles.div}>
                                     <Text style={styles.infoTexto}>
@@ -277,4 +280,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#332C24',
     },
+    fotoMembro: {
+        width: 180,
+        height: 180,
+        borderRadius: 12,
+        marginBottom: 10,
+        borderWidth: 5,
+        borderColor: '#ffffff',
+        alignSelf: 'center',
+    }
 });

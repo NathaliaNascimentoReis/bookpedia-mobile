@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
+    Image,
     ScrollView,
     ActivityIndicator,
     TouchableOpacity,
@@ -62,6 +63,8 @@ export default function EquipeAvaliacao() {
                     </View>
 
                     <View style={styles.infoMembro}>
+                        <Image source={{ uri: membro.fotoURL }} style={styles.fotoMembro} />
+
                         {/* Avaliação da obra */}
                         <View style={[styles.div, { alignItems: 'center', flexDirection: 'row' }]}>
                             <Text style={styles.infoTexto}>
@@ -249,5 +252,14 @@ const styles = StyleSheet.create({
     boldText: {
         fontWeight: 'bold',
         color: '#332C24',
+    },
+    fotoMembro: {
+        width: 180,
+        height: 180,
+        borderRadius: 12,
+        marginBottom: 10,
+        borderWidth: 5,
+        borderColor: '#ffffff',
+        alignSelf: 'center',
     },
 });
