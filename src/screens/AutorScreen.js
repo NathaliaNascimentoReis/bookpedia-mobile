@@ -7,7 +7,7 @@ import {
     useWindowDimensions,
     ActivityIndicator,
     Image,
-    TouchableOpacity, // 1. Importado para fazer o botão clicável
+    TouchableOpacity,
 } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';

@@ -12,10 +12,36 @@ import {
     FlatList,
 } from 'react-native';
 import { useEffect, useState } from 'react';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useIdioma } from '../IdiomaContext.js';
 import { useNavigation } from '@react-navigation/native';
+
+function TextoProjeto({ texto, idioma }) {
+    const [expandido, setExpandido] = useState(false);
+
+    const limiteLinhas = expandido ? undefined : 8;
+
+    return (
+        <View>
+            <Text numberOfLines={limiteLinhas} style={styles.textoEscuro}>
+                {texto}
+            </Text>
+            <TouchableOpacity onPress={() => setExpandido(!expandido)} style={styles.botaoLerMais}>
+                <Text style={styles.textoBotaoLerMais}>
+                    {expandido
+                        ? idioma === 'en'
+                            ? 'Show less'
+                            : 'Ler menos...'
+                        : idioma === 'en'
+                          ? 'Read more...'
+                          : 'Ler mais...'}
+                </Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
 
 export default function PaginaInicial() {
     const { width } = useWindowDimensions();
@@ -24,8 +50,12 @@ export default function PaginaInicial() {
     const [isLoading, setLoading] = useState(true);
     const [livroDestaque, setLivroDestaque] = useState(null);
     const [outrosLivros, setOutrosLivros] = useState([]);
+    const [projeto, setProjeto] = useState([]);
+    const [data, setData] = useState([]);
 
     const { idioma } = useIdioma();
+
+    const [expandido, setExpandido] = useState(false);
 
     const getLivroDestaque = async () => {
         try {
@@ -95,21 +125,10 @@ export default function PaginaInicial() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.anoDeLancamento,
                     autor:
                         item.autores && item.autores.length > 0
                             ? item.autores[0].nome
                             : 'Autor Desconhecido',
-                    descricao: item.descricao || 'Descrição Indisponível',
-                    descricaoEn: item.descricaoEn || 'Unavailable Description',
-                    resumo: item.resumo || 'Resumo da obra indisponível',
-                    resumoEn: item.resumoEn || 'Unavailable Summary',
-                    analise: item.analise || 'Análise Desconhecida',
-                    analiseEn: item.analiseEn || 'Unavailable Analysis',
-                    contextoHistorico: item.contextoHistorico || 'Contexto Histórico Desconhecido',
-                    contextoHistoricoEn: item.contextoHistoricoEn || 'Unknown Historical Context',
-                    rating: Math.floor(Math.random() * 5) + 1,
-                    origem: 'oGuarani',
                 }));
             }
 
@@ -154,18 +173,6 @@ export default function PaginaInicial() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.ano,
-                    genero: item.genero_pt || 'Gênero Desconhecido',
-                    generoEn: item.genero_en || 'Unknown Genre',
-                    descricao: item.descricao_pt || 'Descrição Desconhecida',
-                    descricaoEn: item.descricao_en || 'Unknown Description',
-                    enredo: item.enredo_pt || 'Enredo Desconhecido',
-                    enredoEn: item.enredo_en || 'Unknown Story',
-                    movimento: item.movimento_pt || 'Movimento Desconhecido',
-                    movimentoEn: item.movimento_en || 'Unknown Movement',
-                    contextoHistorico:
-                        item.contexto_historico_pt || 'Contexto Histórico Desconhecido',
-                    contextoHistoricoEn: item.contexto_historico_en || 'Unknown Historical Context',
                     autor: item.autor
                         ? typeof item.autor === 'string'
                             ? item.autor
@@ -173,8 +180,6 @@ export default function PaginaInicial() {
                         : item.autores && item.autores.length > 0
                           ? item.autores[0].nome
                           : 'Autor Desconhecido',
-                    rating: Math.floor(Math.random() * 5) + 1,
-                    origem: 'vidasSecas',
                 }));
             }
 
@@ -221,34 +226,6 @@ export default function PaginaInicial() {
                             : idioma === 'en'
                               ? 'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                               : 'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano:
-                        idioma === 'en'
-                            ? item.anoPublicacao || 'Unknown Year'
-                            : item.anoPublicacao || 'Ano Desconhecido',
-                    genero:
-                        idioma === 'en'
-                            ? item.genero_en || item.genero || 'Unknown Genre'
-                            : item.genero_pt || item.genero || 'Gênero Desconhecido',
-                    descricao:
-                        idioma === 'en'
-                            ? item.descricao_en || item.descricao || 'Unknown Description'
-                            : item.descricao_pt || item.descricao || 'Descrição Desconhecida',
-                    enredo:
-                        idioma === 'en'
-                            ? item.enredo_en || item.enredo || 'Unknown Story'
-                            : item.enredo_pt || item.enredo || 'Enredo Desconhecido',
-                    movimento:
-                        idioma === 'en'
-                            ? item.movimento_en || item.movimento || 'Unknown Movement'
-                            : item.movimento_pt || item.movimento || 'Movimento Desconhecido',
-                    contextoHistorico:
-                        idioma === 'en'
-                            ? item.contexto_historico_en ||
-                              item.contexto_historico ||
-                              'Unknown Historical Context'
-                            : item.contexto_historico_pt ||
-                              item.contexto_historico ||
-                              'Contexto Histórico Desconhecido',
                     autor: item.autor
                         ? typeof item.autor === 'string'
                             ? item.autor
@@ -256,8 +233,6 @@ export default function PaginaInicial() {
                         : item.autores && item.autores.length > 0
                           ? item.autores[0].nome
                           : item.author || 'Autor Desconhecido',
-                    rating: Math.floor(Math.random() * 5) + 1,
-                    origem: 'capitaes de areia',
                 }));
             }
 
@@ -302,11 +277,10 @@ export default function PaginaInicial() {
                               'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                             : item.foto ||
                               'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    ano: item.publicacao || 'Unknown Year',
-                    resumo: item.resumo,
-                    contextoHistorico: item.contextoHist,
-                    rating: Math.floor(Math.random() * 5) + 1,
-                    origem: 'Memórias Póstumas de Brás Cubas',
+                    autor:
+                        idioma === 'en'
+                            ? item.autor || 'Unknown Author'
+                            : item.autor || 'Autor Desconhecido',
                 }));
             }
 
@@ -354,14 +328,10 @@ export default function PaginaInicial() {
                               'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                             : item.capaURl ||
                               'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    autor: item.autor || 'Unknown Author',
-                    ano: item.anoPublicacao || 'Unknown Year',
-                    genero: item.generoPT || 'Gênero Desconhecido',
-                    generoEn: item.generoEN || 'Unknown Genre',
-                    descricao: item.descricaoPT || 'Descrição Desconhecida',
-                    descricaoEn: item.descricaoEN || 'Unknown Description',
-                    rating: Math.floor(Math.random() * 5) + 1,
-                    origem: 'Quarto de Despejo',
+                    autor:
+                        idioma === 'en'
+                            ? item.autor || 'Unknown Author'
+                            : item.autor || 'Autor Desconhecido',
                 }));
             }
 
@@ -382,34 +352,90 @@ export default function PaginaInicial() {
         }
     };
 
-    const renderStars = (rating) => {
-        const stars = [];
-        for (let i = 1; i <= 5; i++) {
-            stars.push(
-                <FontAwesome
-                    key={i}
-                    name={i <= rating ? 'star' : 'star-o'}
-                    size={14}
-                    color="#FFD700"
-                    style={{ marginRight: 3 }}
-                />,
-            );
+    const getProjeto = async () => {
+        try {
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/projetos', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const json = await response.json();
+
+            let projeto = null;
+
+            if (Array.isArray(json) && json.length > 0) {
+                projeto = json[0];
+            } else if (json.projetos && Array.isArray(json.projetos) && json.projetos.length > 0) {
+                projeto = json.projetos[0];
+            } else if (json.projeto) {
+                projeto = json.projeto;
+            } else if (!Array.isArray(json)) {
+                projeto = json;
+            }
+
+            setProjeto(projeto);
+        } catch (error) {
+            console.error('Erro ao buscar projeto: ' + error.message);
+            setProjeto(null);
         }
-        return stars;
+    };
+
+    const getEquipe = async () => {
+        try {
+            const API_KEY = 'bookpedia-backend-2026';
+
+            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/membros', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const json = await response.json();
+
+            if (Array.isArray(json)) {
+                setData(json);
+            } else if (json.membros && Array.isArray(json.membros)) {
+                setData(json.membros);
+            } else if (json.membro) {
+                setData([json.membro]);
+            } else {
+                setData([json]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar membros: ' + error.message);
+            setData([]);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        getLivroDestaque();
-        carregarTodosOsLivros();
+        setLoading(true);
+        Promise.all([
+            getLivroDestaque(),
+            carregarTodosOsLivros(),
+            getProjeto(),
+            getEquipe(),
+        ]).finally(() => setLoading(false));
     }, [idioma]);
 
     return (
-        <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.container}
-            showsVerticalScrollIndicator
-            nestedScrollEnabled
-            bounces={false}>
+        <ScrollView style={styles.background} contentContainerStyle={styles.container}>
             <View style={styles.tituloSection}>
                 <View style={styles.tituloDiv}>
                     <FontAwesome5 name="home" size={24} color="black" />
@@ -418,108 +444,193 @@ export default function PaginaInicial() {
                 <View style={styles.linha}></View>
             </View>
 
-            <View style={styles.intro}>
-                <Text style={styles.introTexto}>
+            <View style={[styles.intro, { backgroundColor: '#C2E799', marginBottom: 10 }]}>
+                <Text style={[styles.introTexto, { color: '#2B431E', fontSize: 16 }]}>
                     {idioma === 'en' ? 'Discover the featured book!' : 'Conheça o livro destaque!'}
                 </Text>
             </View>
 
-            {isLoading && !livroDestaque ? (
-                <ActivityIndicator size="large" color="#caad92" />
-            ) : (
-                livroDestaque && (
-                    <View style={styles.livroDestaque}>
-                        <ImageBackground
-                            source={{ uri: livroDestaque.capaURL }}
-                            style={styles.imageBackground}
-                            resizeMode="cover">
-                            <View style={styles.overlay}>
-                                <Text style={styles.textoOverlay}>
-                                    {idioma === 'en'
-                                        ? livroDestaque.tituloEn || livroDestaque.titulo
-                                        : livroDestaque.titulo}
-                                    {idioma === 'en'
-                                        ? livroDestaque.descricaoEn || livroDestaque.descricao
-                                        : livroDestaque.descricao}
-                                </Text>
-                            </View>
-                        </ImageBackground>
+            <View style={styles.main}>
+                {isLoading && !livroDestaque ? (
+                    <ActivityIndicator size="large" color="#caad92" />
+                ) : (
+                    livroDestaque && (
+                        <View style={styles.livroDestaque}>
+                            <ImageBackground
+                                source={{ uri: livroDestaque.capaURL }}
+                                style={styles.imageBackground}
+                                resizeMode="cover">
+                                <View style={styles.overlay}>
+                                    <Text style={styles.textoOverlay}>
+                                        {idioma === 'en'
+                                            ? livroDestaque.tituloEn || livroDestaque.titulo
+                                            : livroDestaque.titulo}
+                                        {idioma === 'en'
+                                            ? livroDestaque.descricaoEn || livroDestaque.descricao
+                                            : livroDestaque.descricao}
+                                    </Text>
+                                </View>
+                            </ImageBackground>
+                        </View>
+                    )
+                )}
+
+                <View
+                    style={[
+                        styles.tituloSection,
+                        {
+                            marginTop: 20,
+                            justifyContent: 'flex-start',
+                            alignSelf: 'flex-start',
+                        },
+                    ]}>
+                    <View style={styles.tituloDiv}>
+                        <FontAwesome name="book" size={24} color="#1E1E1E" />
+                        <Text style={styles.titulo}>
+                            {idioma === 'en' ? 'Library' : 'Biblioteca'}
+                        </Text>
                     </View>
-                )
-            )}
+                </View>
 
-            <View style={styles.secaoOutrosLivros}>
-                <Text style={styles.tituloOutrosLivros}>
-                    {idioma === 'en' ? 'More Books' : 'Mais Livros'}
-                </Text>
-            </View>
-
-            {isLoading ? (
-                <ActivityIndicator size="large" color="#caad92" />
-            ) : (
-                <FlatList
-                    data={outrosLivros}
-                    renderItem={({ item: livro, index }) => (
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('Biblioteca');
-                            }}
-                            activeOpacity={0.7}>
-                            <View style={styles.livroCard}>
-                                <Image
-                                    source={{ uri: livro.capa }}
-                                    style={styles.capaImage}
-                                    resizeMode="cover"
-                                />
-                                <View style={styles.infoCard}>
-                                    <Text style={styles.tituloLivro} numberOfLines={2}>
-                                        {livro.titulo}
-                                    </Text>
-                                    <Text style={styles.autorLivro} numberOfLines={1}>
-                                        {livro.autor}
-                                    </Text>
-                                    <View style={styles.starsContainer}>
-                                        {renderStars(livro.rating)}
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#caad92" />
+                ) : (
+                    <FlatList
+                        data={outrosLivros}
+                        renderItem={({ item: livro, index }) => (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigation.navigate('Biblioteca');
+                                }}
+                                activeOpacity={0.7}>
+                                <View style={styles.livroCard}>
+                                    <Image
+                                        source={{ uri: livro.capa }}
+                                        style={styles.capaImage}
+                                        resizeMode="cover"
+                                    />
+                                    <View style={styles.infoCard}>
+                                        <Text style={styles.tituloLivro} numberOfLines={2}>
+                                            {livro.titulo}
+                                        </Text>
+                                        <Text style={styles.autorLivro} numberOfLines={1}>
+                                            {livro.autor}
+                                        </Text>
                                     </View>
                                 </View>
-                            </View>
-                        </TouchableOpacity>
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={(item, index) => `${item.origem}-${item.id}-${index}`}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        scrollEventThrottle={16}
+                        contentContainerStyle={styles.flatListContent}
+                        snapToInterval={162}
+                        decelerationRate="fast"
+                    />
+                )}
+
+                <View
+                    style={[
+                        styles.tituloSection,
+                        {
+                            marginTop: 20,
+                            justifyContent: 'flex-start',
+                            alignSelf: 'flex-start',
+                        },
+                    ]}>
+                    <View style={styles.tituloDiv}>
+                        <FontAwesome6 name="circle-info" size={22} color="#1E1E1E" />
+                        <Text style={styles.titulo}>
+                            {idioma === 'en'
+                                ? 'About the project and team'
+                                : 'Sobre o Projeto e Equipe'}
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={styles.projetosColuna}>
+                    {projeto ? (
+                        <View key={projeto.id}>
+                            {(projeto.introducao || projeto.introducaoEn) && (
+                                <View style={styles.projetoTextoCard}>
+                                    <TextoProjeto
+                                        idioma={idioma}
+                                        texto={
+                                            idioma === 'en'
+                                                ? projeto.introducaoEn || projeto.introducao
+                                                : projeto.introducao
+                                        }
+                                    />
+                                </View>
+                            )}
+                            {(projeto.objetivoProjeto || projeto.objetivoProjetoEn) && (
+                                <View style={styles.projetoTextoCard}>
+                                    <TextoProjeto
+                                        idioma={idioma}
+                                        texto={
+                                            idioma === 'en'
+                                                ? projeto.objetivoProjetoEn || projeto.objetivoProjeto
+                                                : projeto.objetivoProjeto
+                                        }
+                                    />
+                                </View>
+                            )}
+                        </View>
+                    ) : (
+                        <View style={styles.projetoTextoCard}>
+                            <Text style={styles.projetoTexto}>
+                                {idioma === 'en'
+                                    ? 'Loading project information...'
+                                    : 'Carregando informações do projeto...'}
+                            </Text>
+                        </View>
                     )}
-                    keyExtractor={(item, index) => `${item.origem}-${item.id}-${index}`}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    scrollEventThrottle={16}
-                    contentContainerStyle={styles.flatListContent}
-                    snapToInterval={180}
-                    decelerationRate="fast"
-                />
-            )}
+                </View>
+
+                <View
+                    style={[
+                        styles.tituloSection,
+                        {
+                            marginTop: 20,
+                            justifyContent: 'flex-start',
+                            alignSelf: 'flex-start',
+                        },
+                    ]}>
+                    <View style={styles.tituloDiv}>
+                        <FontAwesome name="users" size={24} color="#1E1E1E" />
+                        <Text style={styles.titulo}>{idioma === 'en' ? 'Team' : 'Equipe'}</Text>
+                    </View>
+                </View>
+
+                {/* Fotos dos Membros */}
+                <View style={styles.membros}>
+                    {data.map((membro, index) => (
+                        <View key={membro.id || index.toString()} style={styles.membroFotoCard}>
+                            <Image
+                                source={{ uri: membro.fotoURL || membro.foto }}
+                                style={styles.membroFoto}
+                                resizeMode="cover"
+                            />
+                        </View>
+                    ))}
+                </View>
+            </View>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    scrollView: {
+    background: {
         flex: 1,
-        backgroundColor: '#E7F0DB',
-        ...(Platform.OS === 'web'
-            ? {
-                  height: '100%',
-                  overflowY: 'auto',
-              }
-            : null),
+        backgroundColor: '#EFF3E7',
     },
     container: {
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        flexGrow: 1,
         paddingVertical: 20,
-        paddingBottom: 32,
-        paddingHorizontal: 10,
-        ...(Platform.OS === 'web'
-            ? {
-                  minHeight: '100%',
-              }
-            : null),
+        paddingHorizontal: 20,
+        paddingBottom: 40,
     },
     tituloSection: {
         gap: 5,
@@ -541,18 +652,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#9B6737',
         marginBottom: 10,
     },
+    main: {
+        flex: 1,
+        width: '100%',
+        marginTop: 20,
+    },
     intro: {
-        backgroundColor: '#839c73',
-        padding: 10,
-        paddingHorizontal: 20,
-        marginHorizontal: 20,
-        marginBottom: 15,
-        borderRadius: 15,
+        backgroundColor: '#C0DE9E',
+        width: '100%',
+        paddingVertical: 14,
+        paddingHorizontal: 15,
+        borderRadius: 12,
+        marginBottom: 20,
+        alignItems: 'center',
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     introTexto: {
-        color: '#ffffff',
-        fontSize: 15,
-        fontWeight: '500',
+        color: '#3A4A28',
+        fontSize: 16.5,
+        fontWeight: '700',
         textAlign: 'center',
     },
     livroDestaque: {
@@ -562,6 +684,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         marginTop: 5,
         marginBottom: 30,
+        alignSelf: 'center',
     },
     imageBackground: {
         width: '100%',
@@ -585,7 +708,8 @@ const styles = StyleSheet.create({
     },
     tituloOutrosLivros: {
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 17,
+        fontWeight: '500',
         color: '#453E34',
     },
     flatListContent: {
@@ -601,10 +725,11 @@ const styles = StyleSheet.create({
     },
     livroCard: {
         width: 150,
+        height: 250,
         backgroundColor: '#D4EBBA',
         borderRadius: 12,
         overflow: 'hidden',
-        marginRight: 12,
+        marginRight: 10,
         marginBottom: 20,
         borderWidth: 2,
         borderColor: '#C0DE9E',
@@ -616,29 +741,82 @@ const styles = StyleSheet.create({
     },
     capaImage: {
         width: '100%',
-        height: 120,
+        height: 150,
     },
     infoCard: {
+        flex: 1,
         padding: 8,
+        justifyContent: 'space-between',
         alignItems: 'flex-start',
     },
     tituloLivro: {
-        fontSize: 12,
+        fontSize: 15,
         fontWeight: 'bold',
         color: '#2B431E',
         marginBottom: 3,
         width: '100%',
     },
     autorLivro: {
-        fontSize: 10,
+        fontSize: 14,
         fontWeight: '500',
         color: '#555555',
-        marginBottom: 5,
+        marginTop: 'auto',
         width: '100%',
     },
-    starsContainer: {
+    membros: {
         flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
+        width: '100%',
+        marginTop: 20,
+        justifyContent: 'space-around',
+    },
+    projetosColuna: {
+        flex: 1,
+        flexDirection: 'column',
+        gap: 15,
+    },
+    membroFotoCard: {
+        width: 90,
+        height: 80,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 12,
+        padding: 4,
         alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+    },
+    membroFoto: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 12,
+    },
+    projetoTextoCard: {
+        backgroundColor: '#E1D3C1',
+        borderRadius: 12,
+        padding: 12,
+        justifyContent: 'center',
+        marginBottom: 15,
+        marginTop: 15,
+    },
+    projetoTexto: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#453E34',
+        lineHeight: 22,
+    },
+    botaoLerMais: {
+        alignSelf: 'flex-start',
         marginTop: 5,
+        paddingVertical: 5,
+    },
+    textoBotaoLerMais: {
+        color: '#2B431E',
+        fontWeight: 'bold',
+        fontSize: 15,
     },
 });

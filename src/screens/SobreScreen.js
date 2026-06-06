@@ -5,7 +5,7 @@ import {
     ScrollView,
     ActivityIndicator,
     TouchableOpacity,
-    Image
+    Image,
 } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -288,5 +288,5 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderColor: '#ffffff',
         alignSelf: 'center',
-    }
+    },
 });

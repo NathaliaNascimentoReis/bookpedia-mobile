@@ -167,8 +167,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
+        width: '100%',
     },
     titulo: {
+        flex: 1,
+        flexWrap: 'wrap',
         fontWeight: 'bold',
         fontSize: 19,
         color: '#453E34',

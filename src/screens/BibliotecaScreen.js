@@ -234,7 +234,7 @@ export default function Biblioteca() {
                 livrosMemorias = listaMemorias.map((item) => ({
                     id: item.id,
                     titulo: item.nome || 'Sem Título',
-                    tituloEn: item.nomeIng|| 'Untitled',
+                    tituloEn: item.nomeIng || 'Untitled',
                     autor:
                         idioma === 'en'
                             ? item.autor || 'Unknown Author'
@@ -296,7 +296,10 @@ export default function Biblioteca() {
                               'https://i.pinimg.com/736x/94/d8/43/94d843e8a5152bbf5a025a1d12df8715.jpg'
                             : item.capaURl ||
                               'https://i.pinimg.com/736x/f3/1f/3d/f31f3dbb229686dee4ed693fbbdf3e7d.jpg',
-                    autor: item.autor || 'Unknown Author',
+                    autor:
+                        idioma === 'en'
+                            ? item.autor || 'Unknown Author'
+                            : item.autor || 'Autor Desconhecido',
                     ano: item.anoPublicacao || 'Unknown Year',
                     genero: item.generoPT || 'Gênero Desconhecido',
                     generoEn: item.generoEN || 'Unknown Genre',
