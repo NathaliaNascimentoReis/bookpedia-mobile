@@ -70,6 +70,7 @@ export default function Enredos() {
                 </View>
                 <View style={styles.linha}></View>
             </View>
+
             <View style={[styles.intro, { backgroundColor: '#C2E799', marginBottom: 10 }]}>
                 <Text style={[styles.introTexto, { color: '#2B431E', fontSize: 16 }]}>
                     {idioma === 'en' ? 'Get to know the team too!' : 'Conheça a equipe também!'}
