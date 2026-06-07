@@ -363,7 +363,9 @@ export default function Biblioteca() {
                                     <Image source={{ uri: livro.capa }} style={styles.capa} />
                                     <View style={styles.infoLivro}>
                                         <Text style={styles.livroTexto} numberOfLines={2}>
-                                            {livro.titulo}
+                                            {idioma === 'en'
+                                                ? livro.tituloEn || livro.titulo
+                                                : livro.titulo}
                                         </Text>
                                         <Text style={styles.autorTexto} numberOfLines={1}>
                                             {livro.autor}

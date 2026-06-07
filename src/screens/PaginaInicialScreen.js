@@ -117,7 +117,7 @@ export default function PaginaInicial() {
                 livrosGuarani = listaGuarani.map((item) => ({
                     id: item.id,
                     titulo: item.tituloDoLivro || 'Título Desconhecido',
-                    tituloEn: item.tituloDoLivroEn,
+                    tituloEn: item.tituloDoLivroEn || 'Unknown Title',
                     capa:
                         item.capaURL && item.capaURL.trim() !== ''
                             ? item.capaURL
@@ -165,7 +165,10 @@ export default function PaginaInicial() {
 
                 livrosVidasSecas = listaVidasSecas.map((item) => ({
                     id: item.id,
-                    titulo: item.titulo,
+                    titulo:
+                        idioma === 'en'
+                            ? 'Barren Lives' || 'Untitled'
+                            : item.titulo || 'Sem Título',
                     capa:
                         item.capa_url && item.capa_url.trim() !== ''
                             ? item.capa_url
@@ -215,8 +218,8 @@ export default function PaginaInicial() {
                     id: item.id,
                     titulo:
                         idioma === 'en'
-                            ? item.titulo || 'Untitled'
-                            : 'Captains of the Sands' || 'Sem Título',
+                            ? 'Captains of the Sands' || 'Untitled'
+                            : item.titulo || 'Sem Título',
                     capa:
                         (item.capa_url && item.capa_url.trim() !== '') ||
                         (item.capaURL && item.capaURL.trim() !== '') ||
@@ -517,7 +520,9 @@ export default function PaginaInicial() {
                                     />
                                     <View style={styles.infoCard}>
                                         <Text style={styles.tituloLivro} numberOfLines={2}>
-                                            {livro.titulo}
+                                            {idioma === 'en'
+                                                ? livro.tituloEn || livro.titulo
+                                                : livro.titulo}
                                         </Text>
                                         <Text style={styles.autorLivro} numberOfLines={1}>
                                             {livro.autor}
