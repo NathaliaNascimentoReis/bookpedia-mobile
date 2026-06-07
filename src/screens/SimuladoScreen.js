@@ -83,7 +83,9 @@ export default function Simulado() {
             </View>
 
             {loading ? (
-                <ActivityIndicator size="large" color="#94B97B" style={{ marginTop: 20 }} />
+                <View style={styles.loaderContainer}>
+                    <ActivityIndicator size="large" color="#453E34" />
+                </View>
             ) : (
                 questoes.map((questao) => {
                     const isOpen = !!respostasVisiveis[questao.id];
@@ -160,8 +162,8 @@ export default function Simulado() {
                                             ? 'Hide Answer'
                                             : 'Esconder Resposta'
                                         : idioma === 'en'
-                                            ? 'Discover the Answer by clicking here!'
-                                            : 'Descubra a Resposta clicando aqui!'}
+                                          ? 'Discover the Answer by clicking here!'
+                                          : 'Descubra a Resposta clicando aqui!'}
                                 </Text>
                                 <FontAwesome
                                     name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -224,6 +226,11 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#9B6737',
         marginBottom: 20,
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     subtituloContainer: {
         backgroundColor: '#C0DE9E',

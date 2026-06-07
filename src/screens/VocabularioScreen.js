@@ -91,7 +91,7 @@ export default function Vocabularios() {
 
                 {isLoading ? (
                     <View style={styles.loaderContainer}>
-                        <ActivityIndicator size="large" color="#7A8C66" />
+                        <ActivityIndicator size="large" color="#453E34" />
                     </View>
                 ) : (
                     data?.map((vocabulario, index) => {
@@ -171,6 +171,11 @@ const styles = StyleSheet.create({
     },
     main: {
         width: '100%',
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     subtituloContainer: {
         backgroundColor: '#C0DE9E',

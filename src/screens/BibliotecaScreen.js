@@ -350,7 +350,9 @@ export default function Biblioteca() {
 
             <View style={styles.main}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" color="#caad92" />
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#453E34" />
+                    </View>
                 ) : (
                     <View style={styles.livros}>
                         {data?.map((livro, index) => (
@@ -474,6 +476,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 20,
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     livros: {
         flexDirection: 'row',

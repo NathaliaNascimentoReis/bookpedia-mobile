@@ -35,7 +35,7 @@ const relatedItems = [
     },
     {
         label: 'Simulado',
-        labelEn: 'Quiz',
+        labelEn: 'Quizzes',
         route: 'Simulado',
         icon: () => <FontAwesome name="check-square" size={18} color="#1E1E1E" />,
     },

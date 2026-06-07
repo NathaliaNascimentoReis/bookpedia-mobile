@@ -72,7 +72,9 @@ export default function DicasVestibular() {
 
             <View style={styles.main}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" color="#caad92" />
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#453E34" />
+                    </View>
                 ) : (
                     data?.map((dica) => (
                         <View key={dica.id} style={styles.dicaCard}>
@@ -152,6 +154,11 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         marginBottom: 20,
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     dicaCard: {
         backgroundColor: '#E0D5C4',

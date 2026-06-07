@@ -75,7 +75,9 @@ export default function Curiosidades() {
 
             <View style={styles.main}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" color="#caad92" />
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#453E34" />
+                    </View>
                 ) : (
                     data?.map((curiosidade) => (
                         <View key={curiosidade.id} style={styles.curiosidadeCard}>
@@ -135,6 +137,11 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#9B6737',
         marginBottom: 20,
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     div: {
         alignItems: 'center',
