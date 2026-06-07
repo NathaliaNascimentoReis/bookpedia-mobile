@@ -14,6 +14,31 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
+function TextoLongo({ texto, idioma, style }) {
+    const [expandido, setExpandido] = useState(false);
+
+    const limiteLinhas = expandido ? undefined : 8;
+
+    return (
+        <View>
+            <Text numberOfLines={limiteLinhas} style={style}>
+                {texto}
+            </Text>
+            <TouchableOpacity onPress={() => setExpandido(!expandido)} style={styles.botaoLerMais}>
+                <Text style={styles.textoBotaoLerMais}>
+                    {expandido
+                        ? idioma === 'en'
+                            ? 'Show less'
+                            : 'Ler menos...'
+                        : idioma === 'en'
+                          ? 'Read more...'
+                          : 'Ler mais...'}
+                </Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
 export default function MemoriasPostumas() {
     const route = useRoute();
     const navigation = useNavigation();
@@ -80,10 +105,15 @@ export default function MemoriasPostumas() {
                         </Text>
                     </View>
                     <View style={[styles.sectionInfo, { backgroundColor: '#E1D3C1' }]}>
-                        <Text style={[styles.sectionTexto, { color: '#453E34' }]}>
-                            {livro.contextoHistorico}
-                            {idioma === 'en' ? livro.contextoHistoricoEn : livro.contextoHistorico}
-                        </Text>
+                        <TextoLongo
+                            idioma={idioma}
+                            style={[styles.sectionTexto, { color: '#453E34' }]}
+                            texto={
+                                idioma === 'en'
+                                    ? livro.contextoHistoricoEn
+                                    : livro.contextoHistorico
+                            }
+                        />
                     </View>
                 </View>
             </View>
@@ -251,5 +281,15 @@ const styles = StyleSheet.create({
     textoOverlay: {
         fontWeight: 'bold',
         color: '#453E34',
+    },
+    botaoLerMais: {
+        alignSelf: 'flex-start',
+        marginTop: 5,
+        paddingVertical: 5,
+    },
+    textoBotaoLerMais: {
+        color: '#453E34',
+        fontWeight: 'bold',
+        fontSize: 15,
     },
 });
