@@ -67,8 +67,8 @@ export default function Curiosidades() {
                 <View style={styles.subtituloContainer}>
                     <Text style={styles.subtituloTexto}>
                         {idioma === 'en'
-                            ? 'Quer conhecer fatos interessantes? Explore o que as páginas não contam, mas o BookPedia sim!'
-                            : "Want to discover interesting facts? Explore what the pages don't tell you, but BookPedia does!"}
+                            ? "Want to discover interesting facts? Explore what the pages don't tell you, but BookPedia does!"
+                            : "Quer conhecer fatos interessantes? Explore o que as páginas não contam, mas o BookPedia sim!"}
                     </Text>
                 </View>
             </View>
