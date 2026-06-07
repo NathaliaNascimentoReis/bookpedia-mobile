@@ -18,14 +18,14 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useIdioma } from '../IdiomaContext.js';
 import { useNavigation } from '@react-navigation/native';
 
-function TextoProjeto({ texto, idioma }) {
+function TextoProjeto({ texto, idioma, style }) {
     const [expandido, setExpandido] = useState(false);
 
     const limiteLinhas = expandido ? undefined : 8;
 
     return (
         <View>
-            <Text numberOfLines={limiteLinhas} style={styles.textoEscuro}>
+            <Text numberOfLines={limiteLinhas} style={style}>
                 {texto}
             </Text>
             <TouchableOpacity onPress={() => setExpandido(!expandido)} style={styles.botaoLerMais}>
@@ -44,7 +44,6 @@ function TextoProjeto({ texto, idioma }) {
 }
 
 export default function PaginaInicial() {
-    const { width } = useWindowDimensions();
     const navigation = useNavigation();
 
     const [isLoading, setLoading] = useState(true);
@@ -452,7 +451,9 @@ export default function PaginaInicial() {
 
             <View style={styles.main}>
                 {isLoading && !livroDestaque ? (
-                    <ActivityIndicator size="large" color="#caad92" />
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#453E34" />
+                    </View>
                 ) : (
                     livroDestaque && (
                         <View style={styles.livroDestaque}>
@@ -461,10 +462,13 @@ export default function PaginaInicial() {
                                 style={styles.imageBackground}
                                 resizeMode="cover">
                                 <View style={styles.overlay}>
-                                    <Text style={styles.textoOverlay}>
+                                    <Text style={[styles.textoOverlay, { fontSize: 16 }]}>
                                         {idioma === 'en'
-                                            ? livroDestaque.tituloEn || livroDestaque.titulo
-                                            : livroDestaque.titulo}
+                                            ? livroDestaque.tituloDoLivroEn ||
+                                              livroDestaque.tituloDoLivro
+                                            : livroDestaque.tituloDoLivro}
+                                    </Text>
+                                    <Text style={styles.textoOverlay}>
                                         {idioma === 'en'
                                             ? livroDestaque.descricaoEn || livroDestaque.descricao
                                             : livroDestaque.descricao}
@@ -493,7 +497,9 @@ export default function PaginaInicial() {
                 </View>
 
                 {isLoading ? (
-                    <ActivityIndicator size="large" color="#caad92" />
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#453E34" />
+                    </View>
                 ) : (
                     <FlatList
                         data={outrosLivros}
@@ -550,41 +556,103 @@ export default function PaginaInicial() {
                 </View>
 
                 <View style={styles.projetosColuna}>
-                    {projeto ? (
-                        <View key={projeto.id}>
-                            {(projeto.introducao || projeto.introducaoEn) && (
-                                <View style={styles.projetoTextoCard}>
-                                    <TextoProjeto
-                                        idioma={idioma}
-                                        texto={
-                                            idioma === 'en'
-                                                ? projeto.introducaoEn || projeto.introducao
-                                                : projeto.introducao
-                                        }
-                                    />
-                                </View>
-                            )}
-                            {(projeto.objetivoProjeto || projeto.objetivoProjetoEn) && (
-                                <View style={styles.projetoTextoCard}>
-                                    <TextoProjeto
-                                        idioma={idioma}
-                                        texto={
-                                            idioma === 'en'
-                                                ? projeto.objetivoProjetoEn || projeto.objetivoProjeto
-                                                : projeto.objetivoProjeto
-                                        }
-                                    />
-                                </View>
-                            )}
+                    {isLoading ? (
+                        <View style={styles.loaderContainer}>
+                            <ActivityIndicator size="large" color="#453E34" />
                         </View>
                     ) : (
-                        <View style={styles.projetoTextoCard}>
-                            <Text style={styles.projetoTexto}>
-                                {idioma === 'en'
-                                    ? 'Loading project information...'
-                                    : 'Carregando informações do projeto...'}
-                            </Text>
-                        </View>
+                        <>
+                            {projeto && (
+                                <View style={styles.dadosContainer}>
+                                    <View style={styles.card}>
+                                        <View
+                                            style={[
+                                                styles.cardHeader,
+                                                { backgroundColor: '#C2A88D' },
+                                            ]}>
+                                            <Text style={styles.cardHeaderTextoBranco}>
+                                                {idioma === 'en' ? 'Introduction' : 'Introdução'}
+                                            </Text>
+                                        </View>
+                                        <View
+                                            style={[
+                                                styles.cardBody,
+                                                { backgroundColor: '#E1D3C1' },
+                                            ]}>
+                                            <TextoProjeto
+                                                idioma={idioma}
+                                                style={styles.textoBege}
+                                                texto={
+                                                    idioma === 'en'
+                                                        ? projeto.introducaoEn || projeto.introducao
+                                                        : projeto.introducao
+                                                }
+                                            />
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.card}>
+                                        <View
+                                            style={[
+                                                styles.cardHeader,
+                                                { backgroundColor: '#7A8C66' },
+                                            ]}>
+                                            <Text style={styles.cardHeaderTextoBranco}>
+                                                {idioma === 'en'
+                                                    ? 'Project Objective'
+                                                    : 'Objetivo do Projeto'}
+                                            </Text>
+                                        </View>
+                                        <View
+                                            style={[
+                                                styles.cardBody,
+                                                { backgroundColor: '#D1E6BA' },
+                                            ]}>
+                                            <TextoProjeto
+                                                idioma={idioma}
+                                                style={styles.textoVerde}
+                                                texto={
+                                                    idioma === 'en'
+                                                        ? projeto.objetivoProjetoEn ||
+                                                          projeto.objetivoProjeto
+                                                        : projeto.objetivoProjeto
+                                                }
+                                            />
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.card}>
+                                        <View
+                                            style={[
+                                                styles.cardHeader,
+                                                { backgroundColor: 'rgba(158, 133, 105, 0.85)' },
+                                            ]}>
+                                            <Text style={styles.cardHeaderTextoBranco}>
+                                                {idioma === 'en'
+                                                    ? 'About The Team'
+                                                    : 'Sobre A Equipe'}
+                                            </Text>
+                                        </View>
+                                        <View
+                                            style={[
+                                                styles.cardBody,
+                                                { backgroundColor: '#E1D3C1' },
+                                            ]}>
+                                            <TextoProjeto
+                                                idioma={idioma}
+                                                style={styles.textoBege}
+                                                texto={
+                                                    idioma === 'en'
+                                                        ? projeto.sobreAEquipeEn ||
+                                                          projeto.sobreAEquipe
+                                                        : projeto.sobreAEquipe
+                                                }
+                                            />
+                                        </View>
+                                    </View>
+                                </View>
+                            )}
+                        </>
                     )}
                 </View>
 
@@ -657,6 +725,11 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 20,
     },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     intro: {
         backgroundColor: '#C0DE9E',
         width: '100%',
@@ -678,8 +751,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     livroDestaque: {
-        width: 280,
-        height: 300,
+        width: '100%',
+        height: 320,
         borderRadius: 15,
         overflow: 'hidden',
         marginTop: 5,
@@ -815,8 +888,52 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     textoBotaoLerMais: {
-        color: '#2B431E',
+        color: '#453E34',
         fontWeight: 'bold',
         fontSize: 15,
+    },
+    dadosContainer: {
+        gap: 10,
+        marginBottom: 20,
+    },
+    card: {
+        marginTop: 10,
+        borderRadius: 12,
+        width: '100%',
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 4,
+    },
+    cardHeader: {
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+        flexDirection: 'row',
+        gap: 10,
+    },
+    cardHeaderTextoBranco: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    cardBody: {
+        padding: 15,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+    },
+    textoVerde: {
+        fontSize: 16,
+        color: '#3A4A28',
+        fontWeight: '500',
+        lineHeight: 20,
+    },
+    textoBege: {
+        fontSize: 16,
+        color: '#453E34',
+        fontWeight: '500',
+        lineHeight: 20,
     },
 });

@@ -7,11 +7,37 @@ import {
     useWindowDimensions,
     ImageBackground,
     ActivityIndicator,
+    TouchableOpacity,
 } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState, useEffect } from 'react';
+
+function TextoLongo({ texto, idioma, style }) {
+    const [expandido, setExpandido] = useState(false);
+
+    const limiteLinhas = expandido ? undefined : 8;
+
+    return (
+        <View>
+            <Text numberOfLines={limiteLinhas} style={style}>
+                {texto}
+            </Text>
+            <TouchableOpacity onPress={() => setExpandido(!expandido)}>
+                <Text style={styles.textoBotaoLerMais}>
+                    {expandido
+                        ? idioma === 'en'
+                            ? 'Show less'
+                            : 'Ler menos...'
+                        : idioma === 'en'
+                          ? 'Read more...'
+                          : 'Ler mais...'}
+                </Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
 
 export default function Enredos() {
     const { width } = useWindowDimensions();
@@ -88,11 +114,15 @@ export default function Enredos() {
                             </View>
 
                             <View style={styles.enredoBody}>
-                                <Text style={[styles.enredoTexto, { color: '#453E34' }]}>
-                                    {idioma === 'en'
-                                        ? enredo.introducaoEn || enredo.introducao
-                                        : enredo.introducao}
-                                </Text>
+                                <TextoLongo
+                                    idioma={idioma}
+                                    style={[styles.enredoTexto, { color: '#453E34' }]}
+                                    texto={
+                                        idioma === 'en'
+                                            ? enredo.introducaoEn || enredo.introducao
+                                            : enredo.introducao
+                                    }
+                                />
                             </View>
                         </View>
 
@@ -104,11 +134,15 @@ export default function Enredos() {
                             </View>
 
                             <View style={styles.enredoBody}>
-                                <Text style={[styles.enredoTexto, { color: '#3A4A28' }]}>
-                                    {idioma === 'en'
-                                        ? enredo.conflitoEn || enredo.conflito
-                                        : enredo.conflito}
-                                </Text>
+                                <TextoLongo
+                                    idioma={idioma}
+                                    style={[styles.enredoTexto, { color: '#3A4A28' }]}
+                                    texto={
+                                        idioma === 'en'
+                                            ? enredo.conflitoEn || enredo.conflito
+                                            : enredo.conflito
+                                    }
+                                />
                             </View>
                         </View>
 
@@ -131,11 +165,15 @@ export default function Enredos() {
                                     </View>
 
                                     <View style={styles.enredoBody}>
-                                        <Text style={styles.textoOverlay}>
-                                            {idioma === 'en'
-                                                ? enredo.climaxEn || enredo.climax
-                                                : enredo.climax}
-                                        </Text>
+                                        <TextoLongo
+                                            idioma={idioma}
+                                            style={styles.textoOverlay}
+                                            texto={
+                                                idioma === 'en'
+                                                    ? enredo.climaxEn || enredo.climax
+                                                    : enredo.climax
+                                            }
+                                        />
                                     </View>
                                 </View>
                             </ImageBackground>
@@ -149,11 +187,15 @@ export default function Enredos() {
                             </View>
 
                             <View style={styles.enredoBody}>
-                                <Text style={[styles.enredoTexto, { color: '#2B431E' }]}>
-                                    {idioma === 'en'
-                                        ? enredo.desfechoEn || enredo.desfecho
-                                        : enredo.desfecho}
-                                </Text>
+                                <TextoLongo
+                                    idioma={idioma}
+                                    style={[styles.enredoTexto, { color: '#2B431E' }]}
+                                    texto={
+                                        idioma === 'en'
+                                            ? enredo.desfechoEn || enredo.desfecho
+                                            : enredo.desfecho
+                                    }
+                                />
                             </View>
                         </View>
                     </View>
@@ -220,9 +262,14 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 20,
     },
+    textoBotaoLerMais: {
+        color: '#453E34',
+        fontWeight: 'bold',
+        fontSize: 15,
+    },
     enredoCard: {
         borderRadius: 15,
-        overflow: 'hidden', // Garante que o fundo do título não vaze pelas bordas
+        overflow: 'hidden',
         elevation: 3,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -243,7 +290,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     enredoTexto: {
-        fontSize: 15.5,
+        fontSize: 16,
         fontWeight: '500',
         lineHeight: 20,
     },

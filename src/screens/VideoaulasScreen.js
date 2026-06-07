@@ -76,7 +76,9 @@ export default function VideoaulasScreen() {
 
             <View style={styles.main}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" color="#caad92" />
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#453E34" />
+                    </View>
                 ) : (
                     data?.map((video) => (
                         <View key={video.id} style={styles.card}>
@@ -170,6 +172,11 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         marginBottom: 20,
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     card: {
         backgroundColor: '#E0D5C4',

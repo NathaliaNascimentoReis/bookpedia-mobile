@@ -13,14 +13,14 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
 import { useState, useEffect } from 'react';
 
-function TextoBiografia({ texto, idioma }) {
+function TextoLongo({ texto, idioma, style }) {
     const [expandido, setExpandido] = useState(false);
 
-    const limiteLinhas = expandido ? undefined : 3;
+    const limiteLinhas = expandido ? undefined : 8;
 
     return (
         <View>
-            <Text numberOfLines={limiteLinhas} style={styles.textoEscuro}>
+            <Text numberOfLines={limiteLinhas} style={style}>
                 {texto}
             </Text>
             <TouchableOpacity onPress={() => setExpandido(!expandido)} style={styles.botaoLerMais}>
@@ -101,7 +101,7 @@ export default function Autores() {
 
             {isLoading ? (
                 <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color="#7A8C66" />
+                    <ActivityIndicator size="large" color="#453E34" />
                 </View>
             ) : (
                 data?.map((autor) => (
@@ -153,11 +153,15 @@ export default function Autores() {
                                 </Text>
                             </View>
                             <View style={[styles.cardBody, { backgroundColor: '#D1E6BA' }]}>
-                                <Text style={styles.textoEscuro}>
-                                    {idioma === 'en'
-                                        ? autor.contextoHistoricoEn || autor.contextoHistorico
-                                        : autor.contextoHistorico}
-                                </Text>
+                                <TextoLongo
+                                    idioma={idioma}
+                                    style={styles.textoEscuro}
+                                    texto={
+                                        idioma === 'en'
+                                            ? autor.contextoHistoricoEn || autor.contextoHistorico
+                                            : autor.contextoHistorico
+                                    }
+                                />
                             </View>
                         </View>
 
@@ -173,7 +177,9 @@ export default function Autores() {
                                 </Text>
                             </View>
                             <View style={[styles.cardBody, { backgroundColor: '#E1D3C1' }]}>
-                                <TextoBiografia
+                                <TextoLongo
+                                    idioma={idioma}
+                                    style={styles.cardHeaderTextoEscuro}
                                     texto={
                                         idioma === 'en'
                                             ? autor.biografiaEn || autor.biografia
@@ -185,7 +191,6 @@ export default function Autores() {
                     </View>
                 ))
             )}
-
             <StatusBar style="dark" />
         </ScrollView>
     );
@@ -246,7 +251,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: 200,
     },
     dadosContainer: {
         width: '100%',
@@ -273,7 +277,7 @@ const styles = StyleSheet.create({
     cardHeaderTextoEscuro: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#2B3820',
+        color: '#453E34',
         lineHeight: 24,
     },
     cardHeaderTextoBranco: {
@@ -293,14 +297,15 @@ const styles = StyleSheet.create({
         borderColor: '#FFFFFF',
     },
     textoEscuro: {
-        fontSize: 15.5,
+        fontSize: 16,
         color: '#2B3820',
         lineHeight: 24,
-        fontWeight: '500',
+        fontWeight: 'bold',
     },
-    botaoLerMais: {
-        marginTop: 10,
-        alignSelf: 'flex-start',
+    textoBotaoLerMais: {
+        color: '#453E34',
+        fontWeight: 'bold',
+        fontSize: 15,
     },
     textoBotaoLerMais: {
         color: '#453E34',

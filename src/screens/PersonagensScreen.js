@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    ActivityIndicator,
+} from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useIdioma } from '../IdiomaContext.js';
@@ -16,13 +24,16 @@ export default function Personagens() {
         try {
             const API_KEY = 'bookpedia-backend-2026';
 
-            const response = await fetch('https://bookpedia-backend-4ab3.onrender.com/personagens', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': API_KEY,
+            const response = await fetch(
+                'https://bookpedia-backend-4ab3.onrender.com/personagens',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': API_KEY,
+                    },
                 },
-            });
+            );
 
             if (!response.ok) {
                 throw new Error(`Erro na requisição: ${response.status}`);
@@ -77,7 +88,9 @@ export default function Personagens() {
 
             <View style={styles.main}>
                 {loading ? (
-                    <ActivityIndicator size="large" color="#94B97B" style={{ marginTop: 20 }} />
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#453E34" />
+                    </View>
                 ) : (
                     data.map((personagem) => {
                         const isOpen = !!personagemVisivel[personagem.id];
@@ -94,7 +107,9 @@ export default function Personagens() {
 
                                     <View style={styles.corpoDescricao}>
                                         <Text style={styles.descricaoTexto}>
-                                            {idioma === 'en' ? personagem.descricaoEn : personagem.descricao}
+                                            {idioma === 'en'
+                                                ? personagem.descricaoEn
+                                                : personagem.descricao}
                                         </Text>
                                     </View>
                                 </View>
@@ -110,8 +125,8 @@ export default function Personagens() {
                                                 ? 'Hide story'
                                                 : 'Esconder história'
                                             : idioma === 'en'
-                                                ? 'Learn more about this character story by clicking here!'
-                                                : 'Saiba mais sobre a história desse personagem clicando aqui!'}
+                                              ? 'Learn more about this character story by clicking here!'
+                                              : 'Saiba mais sobre a história desse personagem clicando aqui!'}
                                     </Text>
                                     <FontAwesome
                                         name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -195,6 +210,11 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 20,
     },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     cardGeral: {
         width: '100%',
         marginBottom: 25,
@@ -233,7 +253,7 @@ const styles = StyleSheet.create({
     },
     botaoHistoria: {
         width: '100%',
-        backgroundColor: '#9e8569',
+        backgroundColor: '#C2A88D',
         paddingVertical: 14,
         paddingHorizontal: 20,
         borderBottomLeftRadius: 12,
